@@ -69,6 +69,7 @@ export function FoundationCardSwap() {
       delay={3800}
       pauseOnHover
       skewAmount={5}
+      easing="linear"
     >
       {foundation.map((f, i) => (
         <Card

@@ -99,14 +99,16 @@ const CardSwap = ({
           durReturn: 2,
           promoteOverlap: 0.9,
           returnDelay: 0.05,
+          drop: 500,
         }
       : {
-          ease: "power1.inOut",
-          durDrop: 0.8,
-          durMove: 0.8,
-          durReturn: 0.8,
-          promoteOverlap: 0.45,
-          returnDelay: 0.2,
+          ease: "power2.inOut",
+          durDrop: 0.9,
+          durMove: 0.9,
+          durReturn: 0.9,
+          promoteOverlap: 0.6,
+          returnDelay: 0.1,
+          drop: 240,
         };
 
   const childArr = useMemo(
@@ -149,7 +151,7 @@ const CardSwap = ({
       tlRef.current = tl;
 
       tl.to(elFront, {
-        y: "+=500",
+        y: `+=${config.drop}`,
         duration: config.durDrop,
         ease: config.ease,
       });
