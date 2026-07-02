@@ -18,7 +18,7 @@ export function NextPage({ current }: { current: string }) {
   return (
     <Link
       href={next.href}
-      className="group mt-8 flex items-center justify-between gap-6 rounded-3xl border border-black/5 bg-black/[0.02] px-7 py-7 transition duration-300 hover:-translate-y-0.5 hover:border-indigo-500/30 hover:bg-black/[0.04] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
+      className="group mt-16 flex items-center justify-between gap-6 rounded-3xl border border-black/5 bg-black/[0.02] px-7 py-7 transition duration-300 hover:-translate-y-0.5 hover:border-indigo-500/30 hover:bg-black/[0.04] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
     >
       <div>
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-500/70">

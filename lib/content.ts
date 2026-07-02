@@ -175,6 +175,232 @@ export type Product = {
   metrics?: { label: string; value: string; bar: number }[];
 };
 
+// Representative (illustrative) case studies, keyed by product slug.
+export type CaseStudy = {
+  industry: string;
+  client: string;
+  challenge: string;
+  approach: string;
+  results: { value: string; label: string }[];
+  quote: string;
+  attribution: string;
+};
+
+export const productCaseStudies: Record<string, CaseStudy> = {
+  dataforge: {
+    industry: "Retail analytics",
+    client: "A national grocery retailer",
+    challenge:
+      "Analysts spent days writing SQL and stitching dashboards together; business teams waited a week for answers that were already stale by the time they arrived.",
+    approach:
+      "DataForge connected their warehouse, POS and supply-chain feeds behind a governed natural-language interface — so anyone could ask a question and get a real-time, trustworthy answer.",
+    results: [
+      { value: "85%", label: "less time to insight" },
+      { value: "6", label: "data sources unified" },
+      { value: "3×", label: "more self-serve queries" },
+    ],
+    quote:
+      "Our merchandisers stopped filing ticket requests and just started asking. Decisions that took a week now take minutes.",
+    attribution: "VP of Analytics, national grocery retailer",
+  },
+  "predictive-demand-intelligence": {
+    industry: "Consumer goods",
+    client: "A mid-market CPG manufacturer",
+    challenge:
+      "Flat, spreadsheet-based forecasts left them oscillating between stockouts on hot SKUs and warehouses full of dead inventory.",
+    approach:
+      "We deployed SKU-level demand models that fold in seasonality, promotions and external signals, feeding directly into their replenishment system.",
+    results: [
+      { value: "32%", label: "fewer stockouts" },
+      { value: "21%", label: "less excess inventory" },
+      { value: "12pts", label: "forecast accuracy gain" },
+    ],
+    quote:
+      "For the first time, our supply plan actually matches what the market does.",
+    attribution: "Head of Supply Chain, CPG manufacturer",
+  },
+  "document-intelligence-suite": {
+    industry: "Financial services",
+    client: "A regional lender",
+    challenge:
+      "Loan onboarding meant staff keying data from PDFs by hand — slow, error-prone, and impossible to scale during rate-driven application surges.",
+    approach:
+      "The suite auto-classifies incoming documents, extracts and validates every field, and routes only true exceptions to a human — with a full audit trail for compliance.",
+    results: [
+      { value: "90%", label: "faster processing" },
+      { value: "99.2%", label: "extraction accuracy" },
+      { value: "70%", label: "less manual keying" },
+    ],
+    quote: "We cleared our loan backlog without adding a single headcount.",
+    attribution: "Director of Operations, regional lender",
+  },
+  "predictive-maintenance-ai": {
+    industry: "Manufacturing",
+    client: "A multi-plant industrial manufacturer",
+    challenge:
+      "Unplanned equipment failures halted lines without warning, while calendar-based servicing wasted labor on machines that were perfectly fine.",
+    approach:
+      "Sensor streams feed failure-prediction models that flag anomalies days ahead and schedule maintenance only when it's genuinely needed.",
+    results: [
+      { value: "40%", label: "less downtime" },
+      { value: "25%", label: "longer asset life" },
+      { value: "18%", label: "lower maintenance cost" },
+    ],
+    quote:
+      "We went from firefighting breakdowns to scheduling them out of existence.",
+    attribution: "Plant Operations Lead, industrial manufacturer",
+  },
+  "enterprise-content-studio": {
+    industry: "E-commerce",
+    client: "A fast-growing online marketplace",
+    challenge:
+      "A three-person content team couldn't keep up with tens of thousands of product listings, each needing on-brand, localized copy.",
+    approach:
+      "Content Studio generates brand-aligned descriptions at scale across languages, with the team reviewing and approving rather than writing from scratch.",
+    results: [
+      { value: "10×", label: "content output" },
+      { value: "8", label: "languages localized" },
+      { value: "60%", label: "lower cost per asset" },
+    ],
+    quote:
+      "We localized our entire catalog in a quarter — something we'd deferred for years.",
+    attribution: "Head of Growth, online marketplace",
+  },
+  "whatsapp-ai-reach": {
+    industry: "Insurance",
+    client: "A digital insurance broker",
+    challenge:
+      "Leads went cold waiting for callbacks, and agents burned hours qualifying prospects who were never a fit.",
+    approach:
+      "An AI agent engages every inbound lead on WhatsApp instantly, qualifies them conversationally in their own language, and books only the ones worth an agent's time.",
+    results: [
+      { value: "2.4×", label: "qualified leads" },
+      { value: "24/7", label: "instant response" },
+      { value: "38%", label: "lower cost per acquisition" },
+    ],
+    quote:
+      "Our agents now spend their day on people ready to buy, not chasing dead ends.",
+    attribution: "VP of Sales, digital insurance broker",
+  },
+  "agentic-ai-platform": {
+    industry: "B2B software",
+    client: "A scaling SaaS company",
+    challenge:
+      "Rising ticket volume forced a choice between ballooning support costs and slipping response times.",
+    approach:
+      "Autonomous agents resolve routine tickets end-to-end — pulling from internal systems, taking action, and escalating only what genuinely needs a human.",
+    results: [
+      { value: "62%", label: "tickets auto-resolved" },
+      { value: "70%", label: "faster resolution" },
+      { value: "24/7", label: "coverage" },
+    ],
+    quote:
+      "Support stopped being a headcount problem and became a product feature.",
+    attribution: "Director of Customer Experience, B2B SaaS",
+  },
+};
+
+// Representative (illustrative) case studies, keyed by sector slug.
+// Reuses the CaseStudy shape so the industry pages render like the product pages.
+export const sectorCaseStudies: Record<string, CaseStudy> = {
+  retail: {
+    industry: "Retail & E-commerce",
+    client: "A national fashion & lifestyle retailer",
+    challenge:
+      "Seasonal swings left best-sellers out of stock while slow movers piled up in the warehouse, and generic product pages converted a fraction of the traffic they drew.",
+    approach:
+      "We layered SKU-level demand forecasting over their POS and web data, wired real-time personalization into the storefront, and fed both into an inventory engine that rebalances stock across stores automatically.",
+    results: [
+      { value: "30%", label: "fewer stockouts" },
+      { value: "15%", label: "higher conversion" },
+      { value: "22%", label: "less overstock" },
+    ],
+    quote:
+      "We finally buy what actually sells, and the site sells it harder. Two problems we'd fought for years, solved together.",
+    attribution: "Chief Merchandising Officer, national retailer",
+  },
+  logistics: {
+    industry: "Logistics",
+    client: "A regional third-party logistics carrier",
+    challenge:
+      "Fuel and labor costs climbed on every lane, demand spikes routinely outran capacity planning, and reactive repairs kept pulling trucks off the road at the worst moments.",
+    approach:
+      "Dynamic routing now adapts to traffic, weather and load in real time, lane-level demand models size capacity ahead of the surge, and sensor-driven maintenance flags failures before they strand a vehicle.",
+    results: [
+      { value: "18%", label: "lower fuel cost" },
+      { value: "99%", label: "on-time delivery" },
+      { value: "25%", label: "less unplanned downtime" },
+    ],
+    quote:
+      "Our trucks run fuller, cheaper and on schedule — and they stay on the road because we service them before they break.",
+    attribution: "VP of Operations, regional 3PL carrier",
+  },
+  banking: {
+    industry: "Banking & Financial Services",
+    client: "A mid-sized commercial bank",
+    challenge:
+      "Fraud moved faster than manual review could catch, loan and KYC paperwork bottlenecked onboarding, and broad marketing spend showed little measurable return.",
+    approach:
+      "Real-time anomaly detection scores every transaction in milliseconds, automated extraction turns loan and KYC documents into decision-ready data, and next-best-action models put the right product in front of the right customer.",
+    results: [
+      { value: "90%", label: "faster document processing" },
+      { value: "60%", label: "faster fraud detection" },
+      { value: "3×", label: "marketing ROI" },
+    ],
+    quote:
+      "We catch fraud in real time, approve loans in a day, and finally know which offers actually land.",
+    attribution: "Head of Digital Banking, commercial bank",
+  },
+  healthcare: {
+    industry: "Healthcare",
+    client: "A multi-site hospital network",
+    challenge:
+      "Clinicians drowned in unstructured notes and forms, patient insight sat trapped across disconnected systems, and operational bottlenecks pushed wait times ever longer.",
+    approach:
+      "We turned clinical notes, forms and claims into structured, searchable data, layered risk-stratification analytics over the unified record, and used demand forecasting to optimize scheduling — all HIPAA-compliant by design.",
+    results: [
+      { value: "90%", label: "faster record processing" },
+      { value: "30%", label: "shorter wait times" },
+      { value: "HIPAA", label: "compliant by design" },
+    ],
+    quote:
+      "Our clinicians spend their time on patients, not paperwork — and the data they need is finally in one place.",
+    attribution: "Chief Medical Information Officer, hospital network",
+  },
+  manufacturing: {
+    industry: "Manufacturing",
+    client: "A precision-parts manufacturer",
+    challenge:
+      "Unplanned equipment failures halted production without warning, supply-chain blind spots caused scramble after scramble, and defects were caught only after they'd already shipped.",
+    approach:
+      "Sensor-driven models now predict failures days ahead and extend asset life, end-to-end supply-chain forecasting absorbs shocks before they reach the line, and computer-vision inspection catches defects in real time.",
+    results: [
+      { value: "40%", label: "less downtime" },
+      { value: "40%", label: "fewer defects" },
+      { value: "15%", label: "lower inventory cost" },
+    ],
+    quote:
+      "We schedule maintenance out of existence, catch defects before they leave the floor, and hold far less stock doing it.",
+    attribution: "Director of Plant Operations, precision manufacturer",
+  },
+  insurance: {
+    industry: "Insurance",
+    client: "A property & casualty insurer",
+    challenge:
+      "Manual claims handling dragged settlements out for weeks, risk was priced on too little signal, and policyholders drifted away between renewals.",
+    approach:
+      "Automated intake, triage and fraud checks settle valid claims fast, richer models price risk with far more signal and less bias, and proactive, personalized outreach keeps policyholders engaged across the lifecycle.",
+    results: [
+      { value: "50%", label: "faster claims" },
+      { value: "20%", label: "better loss ratio" },
+      { value: "2×", label: "policyholder engagement" },
+    ],
+    quote:
+      "Valid claims settle in days, we price risk with our eyes open, and customers actually hear from us before renewal.",
+    attribution: "Chief Underwriting Officer, P&C insurer",
+  },
+};
+
 export const products: Product[] = [
   {
     slug: "dataforge",
@@ -646,42 +872,237 @@ export const blogPosts: BlogPost[] = [
 ];
 
 // ⑫ Target Sectors
-export const sectors = [
+export type Sector = {
+  slug: string;
+  name: string;
+  short: string;
+  icon: string;
+  accent: string; // serif-italic accent word in the headline
+  tagline: string;
+  overview: string;
+  points: string[];
+  challenges: string[];
+  solutions: { title: string; body: string }[];
+  metrics: { value: string; label: string }[];
+  gradient: string;
+};
+
+export const sectors: Sector[] = [
   {
     slug: "retail",
     name: "Retail & E-commerce",
+    short: "Retail",
     icon: "🛍️",
+    accent: "everything",
+    tagline: "Sell more, waste less, personalize everything.",
+    overview:
+      "Retail runs on thin margins and fickle demand. We forecast what sells, personalize every touchpoint, and keep inventory lean — from the warehouse to the product page.",
     points: ["Demand forecasting", "Personalization", "Inventory optimization"],
+    challenges: [
+      "Volatile, seasonal demand that's hard to plan for",
+      "Generic experiences that don't convert browsers into buyers",
+      "Overstock and stockouts quietly eroding margin",
+    ],
+    solutions: [
+      {
+        title: "Demand forecasting",
+        body: "SKU-level forecasts that factor in seasonality, promotions and trends — so you buy what actually sells.",
+      },
+      {
+        title: "Personalization",
+        body: "Real-time recommendations and tailored journeys that lift conversion and basket size.",
+      },
+      {
+        title: "Inventory optimization",
+        body: "The right product in the right place at the right time — cutting stockouts and dead stock together.",
+      },
+    ],
+    metrics: [
+      { value: "30%", label: "Fewer stockouts" },
+      { value: "10×", label: "Faster product copy" },
+      { value: "15%", label: "Higher conversion" },
+    ],
+    gradient: "from-[#3F56A4] to-[#14284E]",
   },
   {
     slug: "logistics",
     name: "Logistics",
+    short: "Logistics",
     icon: "🚚",
+    accent: "mile",
+    tagline: "Every mile, optimized.",
+    overview:
+      "Fuel, time and reliability define logistics. We plan smarter routes, predict demand by lane, and keep fleets on the road with predictive maintenance.",
     points: ["Route optimization", "Demand prediction", "Fleet management"],
+    challenges: [
+      "Rising fuel and labor costs on every route",
+      "Demand spikes that outpace capacity planning",
+      "Reactive maintenance that pulls vehicles off the road",
+    ],
+    solutions: [
+      {
+        title: "Route optimization",
+        body: "Dynamic routing that adapts to traffic, weather and load — cutting miles and fuel burn.",
+      },
+      {
+        title: "Demand prediction",
+        body: "Forecast volumes by lane and day so capacity is in place before the surge.",
+      },
+      {
+        title: "Fleet management",
+        body: "Predictive maintenance and utilization analytics that maximize uptime.",
+      },
+    ],
+    metrics: [
+      { value: "18%", label: "Lower fuel cost" },
+      { value: "25%", label: "Less downtime" },
+      { value: "99%", label: "On-time delivery" },
+    ],
+    gradient: "from-[#33A5DB] to-[#2A3E77]",
   },
   {
     slug: "banking",
     name: "Banking & Financial Services",
+    short: "Banking",
     icon: "🏦",
-    points: ["Product marketing", "Fraud detection", "Analytics"],
+    accent: "trust",
+    tagline: "Trust, automated.",
+    overview:
+      "Banks balance growth, risk and regulation. We catch fraud in real time, turn paperwork into decisions, and put the right offer in front of the right customer.",
+    points: ["Fraud detection", "Document processing", "Analytics"],
+    challenges: [
+      "Fraud that moves faster than manual review",
+      "Loan and KYC paperwork that slows everything down",
+      "Generic outreach with little measurable return",
+    ],
+    solutions: [
+      {
+        title: "Fraud detection",
+        body: "Real-time anomaly detection that flags fraud in milliseconds, with explainable scores.",
+      },
+      {
+        title: "Document & loan processing",
+        body: "Automated extraction and validation that turns loan and KYC paperwork into clean, decision-ready data.",
+      },
+      {
+        title: "Analytics & marketing",
+        body: "Next-best-action models that target the right customer with the right product.",
+      },
+    ],
+    metrics: [
+      { value: "90%", label: "Faster document processing" },
+      { value: "60%", label: "Faster fraud detection" },
+      { value: "3×", label: "Marketing ROI" },
+    ],
+    gradient: "from-[#2A3E77] to-[#14284E]",
   },
   {
     slug: "healthcare",
     name: "Healthcare",
+    short: "Healthcare",
     icon: "🩺",
+    accent: "care",
+    tagline: "More care, less paperwork.",
+    overview:
+      "Healthcare drowns in documents and data. We extract what matters from clinical records, surface patient insight, and streamline operations — safely and compliantly.",
     points: ["Document processing", "Patient analytics", "Operations"],
+    challenges: [
+      "Mountains of unstructured clinical records",
+      "Insight trapped across disconnected systems",
+      "Operational bottlenecks and long wait times",
+    ],
+    solutions: [
+      {
+        title: "Document processing",
+        body: "Turn clinical notes, forms and claims into structured, searchable data — up to 90% faster.",
+      },
+      {
+        title: "Patient analytics",
+        body: "Risk stratification and outcome prediction that support better clinical decisions.",
+      },
+      {
+        title: "Operations",
+        body: "Forecast demand and optimize scheduling to cut wait times.",
+      },
+    ],
+    metrics: [
+      { value: "90%", label: "Faster record processing" },
+      { value: "30%", label: "Shorter wait times" },
+      { value: "HIPAA", label: "Compliant by design" },
+    ],
+    gradient: "from-[#33A5DB] to-[#3F56A4]",
   },
   {
     slug: "manufacturing",
     name: "Manufacturing",
+    short: "Manufacturing",
     icon: "🏭",
+    accent: "line",
+    tagline: "Zero surprises on the line.",
+    overview:
+      "Downtime and defects are expensive. We predict equipment failures before they happen, optimize the supply chain, and catch defects before they ship.",
     points: ["Predictive maintenance", "Supply chain", "Quality control"],
+    challenges: [
+      "Unplanned equipment downtime halting production",
+      "Fragile, low-visibility supply chains",
+      "Defects caught too late, after they've shipped",
+    ],
+    solutions: [
+      {
+        title: "Predictive maintenance",
+        body: "Sensor-driven models that flag failures before they happen and extend asset life.",
+      },
+      {
+        title: "Supply chain",
+        body: "End-to-end visibility and forecasting that absorb shocks before they hit the line.",
+      },
+      {
+        title: "Quality control",
+        body: "Computer-vision inspection that catches defects in real time.",
+      },
+    ],
+    metrics: [
+      { value: "40%", label: "Less downtime" },
+      { value: "40%", label: "Fewer defects" },
+      { value: "15%", label: "Lower inventory cost" },
+    ],
+    gradient: "from-[#597CBD] to-[#14284E]",
   },
   {
     slug: "insurance",
     name: "Insurance",
+    short: "Insurance",
     icon: "🛡️",
+    accent: "claims",
+    tagline: "Faster claims, smarter risk.",
+    overview:
+      "Insurers win on speed and accuracy. We automate claims, sharpen risk models, and keep policyholders engaged across the lifecycle.",
     points: ["Claims processing", "Risk assessment", "Engagement"],
+    challenges: [
+      "Slow, manual claims handling",
+      "Risk priced with too little signal",
+      "Low policyholder engagement and retention",
+    ],
+    solutions: [
+      {
+        title: "Claims processing",
+        body: "Automated intake, triage and fraud checks that settle valid claims faster.",
+      },
+      {
+        title: "Risk assessment",
+        body: "Richer models that price risk with more signal and less bias.",
+      },
+      {
+        title: "Engagement",
+        body: "Personalized, proactive outreach across the policy lifecycle.",
+      },
+    ],
+    metrics: [
+      { value: "50%", label: "Faster claims" },
+      { value: "20%", label: "Better loss ratio" },
+      { value: "2×", label: "Policyholder engagement" },
+    ],
+    gradient: "from-[#3F56A4] to-[#33A5DB]",
   },
 ];
 

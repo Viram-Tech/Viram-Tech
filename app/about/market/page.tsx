@@ -26,15 +26,6 @@ export default function Market() {
 
       <MarketInsights />
 
-      <div className="mt-16 flex flex-wrap items-center gap-4 rounded-3xl border border-black/5 bg-black/[0.02] p-7 dark:border-white/10 dark:bg-white/[0.03]">
-        <p className="flex-1 text-base font-semibold">Get ahead of the shift.</p>
-        <Link
-          href="/contact"
-          className="rounded-full bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:bg-indigo-500"
-        >
-          Book a consultation
-        </Link>
-      </div>
       <NextPage current="/about/market" />
     </section>
   );

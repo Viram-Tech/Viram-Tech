@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui";
 import { foundation } from "@/lib/content";
 import { FoundationCardSwap } from "@/components/FoundationCardSwap";
 import { CapabilityDeepDive } from "@/components/CapabilityDeepDive";
-import { InfrastructureDeepDive } from "@/components/InfrastructureDeepDive";
+import { RelatedArticles } from "@/components/RelatedArticles";
 
 export const metadata = {
   title: "Technology — ViramTech",
@@ -15,6 +15,7 @@ const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
 
 export default function Technology() {
   return (
+    <>
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
       <Eyebrow>Technology</Eyebrow>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -93,25 +94,22 @@ export default function Technology() {
       {/* AI / ML capabilities — half-page deep dives */}
       <CapabilityDeepDive />
 
-      {/* Infrastructure — half-page deep dives */}
-      <InfrastructureDeepDive />
-
-      {/* Smooth transition → AI Frameworks & technical architecture page */}
+      {/* Infrastructure → dedicated page (blue deep-dive CTA) */}
       <Link
-        href="/technology/architecture"
-        className="group relative mt-20 flex items-center justify-between gap-6 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600 to-violet-600 px-8 py-10 text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/25"
+        href="/technology/infrastructure"
+        className="group relative mt-24 flex items-center justify-between gap-6 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600 to-violet-600 px-8 py-10 text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/25"
       >
         <span className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl transition-transform duration-500 group-hover:scale-125" />
         <div className="relative">
           <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
-            Next · The tooling layer
+            Deep dive · Infrastructure
           </span>
           <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
-            AI frameworks &amp; technical architecture
+            Infrastructure that scales with you
           </h2>
           <p className="mt-2 max-w-xl text-white/80">
-            See how it all comes together — the frameworks that orchestrate your
-            models and the layered stack that runs them in production.
+            The backbone that keeps every solution running — portable, automated
+            and secure enough for real production load.
           </p>
         </div>
         <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-1.5">
@@ -119,5 +117,7 @@ export default function Technology() {
         </span>
       </Link>
     </section>
+      <RelatedArticles />
+    </>
   );
 }

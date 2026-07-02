@@ -26,17 +26,6 @@ export default function Why() {
 
       <WhyGrid />
 
-      <div className="mt-16 flex flex-wrap items-center gap-4 rounded-3xl border border-black/5 bg-black/[0.02] p-7 dark:border-white/10 dark:bg-white/[0.03]">
-        <p className="flex-1 text-base font-semibold">
-          Ready to put AI to work?
-        </p>
-        <Link
-          href="/contact"
-          className="rounded-full bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:bg-indigo-500"
-        >
-          Talk to us
-        </Link>
-      </div>
       <NextPage current="/about/why" />
     </section>
   );

@@ -47,3 +47,7 @@ next-env.d.ts
 
 # agent instructions (local only)
 /AGENTS.md
+
+# sanity studio build + runtime
+/dist
+/.sanity

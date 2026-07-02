@@ -153,11 +153,11 @@ function StatCards() {
           transition={{ duration: 0.4, delay: i * 0.08 }}
           className="flex flex-col rounded-2xl border border-black/5 bg-black/[0.02] p-7 dark:border-white/10 dark:bg-white/[0.03]"
         >
-          <div className="bg-gradient-to-r from-[#3F56A4] to-[#33A5DB] bg-clip-text text-4xl font-extrabold text-transparent">
+          <div className="text-4xl font-extrabold tracking-tight text-on-surface">
             {s.value}
           </div>
           <div className="mt-2 flex-1 text-sm opacity-70">{s.label}</div>
-          <div className="mt-4 text-[11px] font-semibold uppercase tracking-wide text-indigo-500/70">
+          <div className="mt-4 text-[11px] font-semibold uppercase tracking-wide opacity-45">
             {s.source}
           </div>
         </motion.div>

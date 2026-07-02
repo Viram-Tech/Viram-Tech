@@ -13,15 +13,10 @@ import {
   SiNvidia,
   SiApachespark,
   SiFastapi,
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiTailwindcss,
   SiDocker,
   SiKubernetes,
   SiPostgresql,
   SiGooglecloud,
-  SiGraphql,
   SiRedis,
 } from "react-icons/si";
 import { LogoLoop, type LogoItem } from "./LogoLoop";
@@ -39,15 +34,10 @@ const techLogos: LogoItem[] = [
   { node: <SiNvidia />, title: "NVIDIA", href: "https://www.nvidia.com" },
   { node: <SiApachespark />, title: "Apache Spark", href: "https://spark.apache.org" },
   { node: <SiFastapi />, title: "FastAPI", href: "https://fastapi.tiangolo.com" },
-  { node: <SiReact />, title: "React", href: "https://react.dev" },
-  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
-  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
   { node: <SiDocker />, title: "Docker", href: "https://www.docker.com" },
   { node: <SiKubernetes />, title: "Kubernetes", href: "https://kubernetes.io" },
   { node: <SiPostgresql />, title: "PostgreSQL", href: "https://www.postgresql.org" },
   { node: <SiGooglecloud />, title: "Google Cloud", href: "https://cloud.google.com" },
-  { node: <SiGraphql />, title: "GraphQL", href: "https://graphql.org" },
   { node: <SiRedis />, title: "Redis", href: "https://redis.io" },
 ];
 

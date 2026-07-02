@@ -12,9 +12,13 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 };
 
-export function InfrastructureDeepDive() {
+export function InfrastructureDeepDive({
+  className = "mt-24",
+}: {
+  className?: string;
+}) {
   return (
-    <div className="mt-24">
+    <div className={className}>
       <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
         Infrastructure that scales with you
       </h2>

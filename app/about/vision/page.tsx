@@ -29,6 +29,46 @@ export default function Vision() {
         ROI, not hype.
       </p>
 
+      {/* Company background */}
+      <div className="mt-12 grid gap-8 rounded-3xl border border-black/5 bg-black/[0.02] p-8 sm:p-10 md:grid-cols-[1.5fr_1fr] dark:border-white/10 dark:bg-white/[0.03]">
+        <div>
+          <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-indigo-500">
+            Who we are
+          </h2>
+          <p className="mt-4 text-lg leading-relaxed opacity-80">
+            Founded and led by{" "}
+            <strong className="font-semibold opacity-100">
+              Yash Sanjay Shah
+            </strong>
+            , ViramTech was established in 2025 as a Mumbai-based technology
+            services company dedicated to empowering businesses through
+            innovative solutions.
+          </p>
+          <p className="mt-4 leading-relaxed opacity-70">
+            Our professional services are designed to foster growth and success
+            for your business within the current competitive landscape —
+            combining technical expertise with business acumen to deliver
+            solutions that drive real results.
+          </p>
+        </div>
+        <div className="grid content-center gap-5 sm:border-l sm:border-black/5 sm:pl-8 dark:sm:border-white/10">
+          {[
+            { label: "Founded", value: "2025" },
+            { label: "Headquarters", value: "Mumbai, India" },
+            { label: "Founder & CEO", value: "Yash Sanjay Shah" },
+          ].map((f) => (
+            <div key={f.label}>
+              <div className="text-xs font-bold uppercase tracking-wide opacity-50">
+                {f.label}
+              </div>
+              <div className="mt-0.5 text-lg font-bold tracking-tight">
+                {f.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Vision & Mission statements */}
       <div className="mt-14 grid gap-6 md:grid-cols-2">
         <div className="rounded-3xl border border-black/5 bg-black/[0.02] p-8 dark:border-white/10 dark:bg-white/[0.03]">
@@ -55,6 +95,16 @@ export default function Vision() {
         </div>
       </div>
 
+      {/* Mission statement */}
+      <blockquote className="mt-6 overflow-hidden rounded-3xl bg-gradient-to-br from-[#2A3E77] to-[#14284E] p-8 text-white sm:p-10">
+        <p className="max-w-3xl font-serif text-2xl leading-relaxed sm:text-[28px]">
+          &ldquo;Our professional services are designed to foster growth and
+          success for your business within the current competitive landscape. We
+          believe in building strong, fast, and unstoppable technology solutions
+          that empower businesses to reach their full potential.&rdquo;
+        </p>
+      </blockquote>
+
       {/* Topic timeline — from problem to principle */}
       <h2 className="mt-24 text-2xl font-extrabold tracking-tight sm:text-3xl">
         From the gap to our principles
@@ -65,24 +115,7 @@ export default function Vision() {
       </p>
       <VisionTimeline items={visionTimeline} />
 
-      <CtaRow />
       <NextPage current="/about/vision" />
     </section>
-  );
-}
-
-function CtaRow() {
-  return (
-    <div className="mt-20 flex flex-wrap items-center gap-4 rounded-3xl border border-black/5 bg-black/[0.02] p-7 dark:border-white/10 dark:bg-white/[0.03]">
-      <p className="flex-1 text-base font-semibold">
-        Want to see how this works for your business?
-      </p>
-      <Link
-        href="/contact"
-        className="rounded-full bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:bg-indigo-500"
-      >
-        Book a consultation
-      </Link>
-    </div>
   );
 }

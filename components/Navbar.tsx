@@ -24,7 +24,7 @@ import {
   LuMail,
   LuNewspaper,
 } from "react-icons/lu";
-import { products, sectors, foundation, architecture } from "@/lib/content";
+import { products, sectors, foundation } from "@/lib/content";
 
 const links: {
   href: string;
@@ -33,7 +33,7 @@ const links: {
   noLink?: boolean;
 }[] = [
   // noLink menus open a dropdown but don't navigate to a page of their own.
-  { href: "/products", label: "Solutions", menu: "products" as const, noLink: true },
+  { href: "/products", label: "Solutions", menu: "products" as const },
   { href: "/industries", label: "Industries", menu: "industries" as const, noLink: true },
   { href: "/technology", label: "Technology", menu: "technology" as const },
   { href: "/about", label: "About", menu: "about" as const, noLink: true },
@@ -62,7 +62,7 @@ const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
 // Foundation pillars deep-link to the first section of their area on /technology.
 const foundationLinks = [
   "/technology#nlp",
-  "/technology#multi-cloud",
+  "/technology/infrastructure",
   "/technology/architecture#langchain",
 ];
 
@@ -75,6 +75,50 @@ const aboutLeft = [
 ];
 
 type MenuKey = "products" | "industries" | "technology" | "about";
+
+// Sub-links shown when a section is expanded in the mobile menu.
+const mobileMenus: Record<
+  MenuKey,
+  { overview: string; items: { href: string; label: string; note?: string }[] }
+> = {
+  products: {
+    overview: "All solutions",
+    items: products.map((p) => ({
+      href: `/products/${p.slug}`,
+      label: p.name,
+      note: p.kicker,
+    })),
+  },
+  industries: {
+    overview: "All industries",
+    items: sectors.map((s) => ({
+      href: `/industries/${s.slug}`,
+      label: s.name,
+    })),
+  },
+  technology: {
+    overview: "Technology overview",
+    items: [
+      ...foundation.map((f, i) => ({
+        href: foundationLinks[i] ?? "/technology",
+        label: f.title,
+      })),
+      { href: "/technology/architecture", label: "Technical architecture" },
+    ],
+  },
+  about: {
+    overview: "About ViramTech",
+    items: [
+      ...aboutLeft.map((it) => ({
+        href: it.href,
+        label: it.label,
+        note: it.note,
+      })),
+      { href: "/contact", label: "Contact us", note: "Reach our team" },
+      { href: "/blog", label: "Blog", note: "Ideas on enterprise AI" },
+    ],
+  },
+};
 
 function SunIcon() {
   return (
@@ -114,9 +158,9 @@ function Wordmark() {
       />
       <span className="flex items-baseline gap-1.5">
         <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-xl font-extrabold uppercase leading-none tracking-tight text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
-          Viram
+          VIR&#923;M
         </span>
-        <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-[0.7rem] font-bold uppercase leading-none tracking-[0.25em] text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
+        <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-[0.7rem] font-bold uppercase leading-none tracking-normal text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
           Tech
         </span>
       </span>
@@ -130,19 +174,33 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState<MenuKey | null>(null);
+  const [mobileSub, setMobileSub] = useState<MenuKey | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Aceternity-style resizing: shrink the bar once the page is scrolled.
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 80);
+
+    // Desktop only: hide when scrolling down, reveal when scrolling up —
+    // but stay visible until we've scrolled past the hero (~one viewport).
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const heroThreshold = window.innerHeight;
+    if (!isDesktop || latest < heroThreshold) {
+      setVisible(true);
+      return;
+    }
+    const prev = scrollY.getPrevious() ?? 0;
+    setVisible(latest < prev);
   });
 
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     setOpen(false);
     setMenu(null);
+    setMobileSub(null);
   }, [pathname]);
 
   const openMenu = (m: MenuKey) => {
@@ -175,6 +233,8 @@ export function Navbar() {
       animate={{
         maxWidth: scrolled ? "64rem" : "80rem",
         top: scrolled ? "1rem" : "0.75rem",
+        y: visible || open || menu ? "0%" : "-140%",
+        opacity: visible || open || menu ? 1 : 0,
       }}
       transition={{ type: "spring", stiffness: 200, damping: 50 }}
       className="fixed inset-x-0 z-50 mx-auto w-[calc(100%-2rem)]"
@@ -340,7 +400,7 @@ export function Navbar() {
               return (
                 <Link
                   key={s.name}
-                  href={`/industries#${s.slug}`}
+                  href={`/industries/${s.slug}`}
                   onClick={() => setMenu(null)}
                   className="group -mx-2 flex items-start gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
                 >
@@ -366,68 +426,37 @@ export function Navbar() {
       <div
         onMouseEnter={() => openMenu("technology")}
         onMouseLeave={scheduleClose}
-        className={`${panelBase} w-[min(94vw,860px)] ${
+        className={`${panelBase} w-[min(94vw,420px)] ${
           menu === "technology"
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0"
         }`}
       >
-        <div className="grid grid-cols-[0.95fr_1.05fr] gap-10 p-8">
-          {/* Left: foundation pillars */}
-          <div className="border-r border-black/5 pr-10 dark:border-white/10">
-            <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
-              Technology foundation
-            </h4>
-            <ul className="mt-5 space-y-1">
-              {foundation.map((f, i) => {
-                const Icon = pillarIcons[i % pillarIcons.length];
-                return (
-                  <li key={f.title}>
-                    <Link
-                      href={foundationLinks[i] ?? "/technology"}
-                      onClick={() => setMenu(null)}
-                      className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
-                        <Icon size={18} />
-                      </span>
-                      <span className="text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
-                        {f.title}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Right: technical architecture */}
-          <div>
-            <Link
-              href="/technology/architecture"
-              onClick={() => setMenu(null)}
-              className="text-xs font-bold uppercase tracking-[0.15em] opacity-40 transition hover:text-indigo-500 hover:opacity-100"
-            >
-              Technical architecture →
-            </Link>
-            <div className="mt-5 space-y-1">
-              {architecture.map((a) => (
-                <Link
-                  key={a.layer}
-                  href={`/technology/architecture#${a.slug}`}
-                  onClick={() => setMenu(null)}
-                  className="group -mx-2 block rounded-xl px-2 py-2 transition hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
-                    {a.layer}
-                  </span>
-                  <span className="mt-0.5 block text-xs leading-snug opacity-55">
-                    {a.components.map((c) => c.name).join(" · ")}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
+        <div className="p-8">
+          <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
+            Technology foundation
+          </h4>
+          <ul className="mt-5 space-y-1">
+            {foundation.map((f, i) => {
+              const Icon = pillarIcons[i % pillarIcons.length];
+              return (
+                <li key={f.title}>
+                  <Link
+                    href={foundationLinks[i] ?? "/technology"}
+                    onClick={() => setMenu(null)}
+                    className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                      <Icon size={18} />
+                    </span>
+                    <span className="text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      {f.title}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
 
@@ -517,27 +546,79 @@ export function Navbar() {
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 flex flex-col rounded-3xl border border-black/5 bg-white/95 p-4 shadow-2xl backdrop-blur-lg lg:hidden dark:border-white/10 dark:bg-neutral-950/95">
+        <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 flex max-h-[80vh] flex-col overflow-y-auto rounded-3xl border border-black/5 bg-white/95 p-4 shadow-2xl backdrop-blur-lg lg:hidden dark:border-white/10 dark:bg-neutral-950/95">
           <ul className="flex flex-col gap-1 text-base font-bold tracking-tight">
             {links.map((link) => {
               const active = isActive(link.href);
-              const cls = `block rounded-2xl px-4 py-3 transition ${
+              const sub = link.menu ? mobileMenus[link.menu] : null;
+              const expanded = link.menu != null && mobileSub === link.menu;
+              const rowCls = `flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left transition ${
                 active
                   ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
                   : "hover:bg-black/5 dark:hover:bg-white/5"
               }`;
-              return (
-                <li key={link.href}>
-                  {link.noLink ? (
-                    <span className={`${cls} opacity-60`}>{link.label}</span>
-                  ) : (
+
+              // Plain link (no sub-menu).
+              if (!sub) {
+                return (
+                  <li key={link.href}>
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className={cls}
+                      className={rowCls}
                     >
                       {link.label}
                     </Link>
+                  </li>
+                );
+              }
+
+              // Expandable section.
+              return (
+                <li key={link.href}>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() =>
+                      setMobileSub((cur) =>
+                        cur === link.menu ? null : link.menu!,
+                      )
+                    }
+                    className={rowCls}
+                  >
+                    {link.label}
+                    <Chevron open={expanded} />
+                  </button>
+
+                  {expanded && (
+                    <div className="mb-1 mt-1 flex flex-col gap-0.5 border-l border-black/10 pl-3 dark:border-white/10">
+                      {!link.noLink && (
+                        <Link
+                          href={link.href}
+                          onClick={() => setOpen(false)}
+                          className="rounded-xl px-4 py-2.5 text-sm font-bold text-indigo-600 transition hover:bg-black/5 dark:text-indigo-400 dark:hover:bg-white/5"
+                        >
+                          {sub.overview}
+                        </Link>
+                      )}
+                      {sub.items.map((it) => (
+                        <Link
+                          key={it.href + it.label}
+                          href={it.href}
+                          onClick={() => setOpen(false)}
+                          className="rounded-xl px-4 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                        >
+                          <span className="block text-sm font-semibold">
+                            {it.label}
+                          </span>
+                          {it.note && (
+                            <span className="mt-0.5 block text-xs font-normal opacity-55">
+                              {it.note}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
                   )}
                 </li>
               );

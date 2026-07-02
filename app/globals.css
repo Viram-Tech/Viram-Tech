@@ -18,6 +18,7 @@
   --c-surface-variant: #e0e3e5;
   --c-surface-container-lowest: #ffffff;
   --c-surface-container-low: #f2f4f6;
+  --c-outline: #757682;
   --c-outline-variant: #c5c5d3;
   --c-primary-fixed: #dce1ff;
   --c-secondary-fixed: #c5e7ff;
@@ -38,6 +39,7 @@
   --c-surface-variant: #2a3344;
   --c-surface-container-lowest: #0c111c;
   --c-surface-container-low: #161d2b;
+  --c-outline: #8b8d99;
   --c-outline-variant: #333c50;
   --c-primary-fixed: #2e3f73;
   --c-secondary-fixed: #1d4a63;
@@ -61,6 +63,7 @@
   --color-surface-variant: var(--c-surface-variant);
   --color-surface-container-lowest: var(--c-surface-container-lowest);
   --color-surface-container-low: var(--c-surface-container-low);
+  --color-outline: var(--c-outline);
   --color-outline-variant: var(--c-outline-variant);
   --color-primary-fixed: var(--c-primary-fixed);
   --color-secondary-fixed: var(--c-secondary-fixed);
@@ -84,6 +87,10 @@
   --color-brand-royal: #3f56a4;
   --color-brand-periwinkle: #597cbd;
   --color-brand-sky: #33a5db;
+
+  /* Stitch product/industry page shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(20, 40, 78, 0.08);
+  --shadow-card-hover: 0 12px 48px 0 rgba(51, 165, 219, 0.12);
 
   /* Remap the shades currently used across the app to the brand palette. */
   --color-indigo-400: #597cbd; /* Periwinkle — lighter accent / dark-mode text */
@@ -166,6 +173,30 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
+/* ── Stitch product/industry page utilities ── */
+
+/* White grid, for use over dark navy panels in either theme */
+.bg-grid-white {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #3f56a4, #33a5db);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 /* In dark mode, fade the edges of light-background images so they blend in. */
 :where(.dark) .img-fade {
   -webkit-mask-image: radial-gradient(
@@ -204,6 +235,7 @@ body {
 }
 .animate-pulse-glow {
   animation: pulse-glow 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Slow orbital ring rotation (both directions) */
@@ -214,23 +246,40 @@ body {
 }
 .animate-spin-slow {
   animation: spin-slow 26s linear infinite;
+  will-change: transform;
 }
 .animate-spin-reverse {
   animation: spin-slow 34s linear infinite reverse;
+  will-change: transform;
+}
+
+/* Opacity-only glow pulse — cheapest possible (no scale, no blur re-raster). */
+@keyframes orb-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+.animate-orb-glow {
+  animation: orb-glow 5s ease-in-out infinite;
+  will-change: opacity;
 }
 
 /* Gentle breathing for the orb itself */
+/* Transform-only (no animated filter) so it stays GPU-composited. */
 @keyframes orb-breathe {
   0%,
   100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 30px rgba(63, 86, 164, 0.35));
   }
   50% {
     transform: scale(1.04);
-    filter: drop-shadow(0 0 55px rgba(51, 165, 219, 0.55));
   }
 }
 .animate-orb-breathe {
   animation: orb-breathe 6s ease-in-out infinite;
+  will-change: transform;
 }

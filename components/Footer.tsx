@@ -40,9 +40,9 @@ export function Footer() {
               />
               <span className="flex items-baseline gap-1.5">
                 <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-xl font-extrabold uppercase leading-none tracking-tight text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
-                  Viram
+                  VIR&#923;M
                 </span>
-                <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-[0.7rem] font-bold uppercase leading-none tracking-[0.25em] text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
+                <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-[0.7rem] font-bold uppercase leading-none tracking-normal text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
                   Tech
                 </span>
               </span>

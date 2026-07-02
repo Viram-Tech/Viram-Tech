@@ -1,17 +1,30 @@
 import Link from "next/link";
 import { LuArrowRight, LuClock } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
-import { blogPosts } from "@/lib/content";
+import { getBlogPosts } from "@/lib/blog";
 
 export const metadata = {
   title: "Blog — ViramTech",
   description: "Ideas, playbooks and field notes on enterprise AI.",
 };
 
+// Re-checks Sanity for new/updated posts at most once a minute (ISR).
+export const revalidate = 60;
+
 const categories = ["All", "Enterprise AI", "Agentic AI", "Data", "MLOps"];
 
-export default function Blog() {
-  const [featured, ...rest] = blogPosts;
+export default async function Blog({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+  const active =
+    category && categories.includes(category) ? category : "All";
+  const all = await getBlogPosts();
+  const posts =
+    active === "All" ? all : all.filter((p) => p.category === active);
+  const [featured, ...rest] = posts;
 
   return (
     <section className="mx-auto max-w-6xl px-6 pb-28 pt-32">
@@ -34,31 +47,51 @@ export default function Blog() {
         actually reaches production.
       </p>
 
-      {/* Category filter chips (decorative for now) */}
+      {/* Category filter chips */}
       <div className="mt-8 flex flex-wrap gap-2.5">
-        {categories.map((c, i) => (
-          <span
-            key={c}
-            className={`rounded-full border px-4 py-1.5 text-sm font-semibold ${
-              i === 0
-                ? "border-transparent bg-indigo-600 text-white"
-                : "border-black/10 opacity-70 dark:border-white/15"
-            }`}
-          >
-            {c}
-          </span>
-        ))}
+        {categories.map((c) => {
+          const isActive = c === active;
+          const href = c === "All" ? "/blog" : `/blog?category=${encodeURIComponent(c)}`;
+          return (
+            <Link
+              key={c}
+              href={href}
+              className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition ${
+                isActive
+                  ? "border-transparent bg-indigo-600 text-white"
+                  : "border-black/10 opacity-70 hover:opacity-100 dark:border-white/15"
+              }`}
+            >
+              {c}
+            </Link>
+          );
+        })}
       </div>
 
+      {posts.length === 0 && (
+        <p className="mt-16 rounded-3xl border border-dashed border-black/10 p-12 text-center text-sm opacity-60 dark:border-white/15">
+          No posts in this category yet.
+        </p>
+      )}
+
       {/* Featured post */}
+      {featured && (
       <Link
         href={`/blog/${featured.slug}`}
         className="group mt-12 grid overflow-hidden rounded-3xl border border-black/5 bg-black/[0.02] transition hover:border-indigo-500/30 md:grid-cols-2 dark:border-white/10 dark:bg-white/[0.03]"
       >
         <div
-          className={`relative min-h-[240px] bg-gradient-to-br ${featured.gradient} p-8`}
+          className={`relative min-h-[240px] overflow-hidden bg-gradient-to-br ${featured.gradient} p-8`}
         >
-          <span className="absolute left-6 top-6 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">
+          {featured.coverImageUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={featured.coverImageUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
+          <span className="absolute left-6 top-6 z-10 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">
             Featured
           </span>
         </div>
@@ -85,8 +118,10 @@ export default function Blog() {
           </span>
         </div>
       </Link>
+      )}
 
       {/* Rest of the grid */}
+      {posts.length > 0 && (
       <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {rest.map((p) => (
           <Link
@@ -94,7 +129,16 @@ export default function Blog() {
             href={`/blog/${p.slug}`}
             className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-black/[0.02] transition hover:-translate-y-1 hover:border-indigo-500/30 dark:border-white/10 dark:bg-white/[0.03]"
           >
-            <div className={`h-44 bg-gradient-to-br ${p.gradient}`} />
+            {p.coverImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={p.coverImageUrl}
+                alt=""
+                className="h-44 w-full object-cover"
+              />
+            ) : (
+              <div className={`h-44 bg-gradient-to-br ${p.gradient}`} />
+            )}
             <div className="flex flex-1 flex-col p-6">
               <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-wide text-indigo-500">
                 <span>{p.category}</span>
@@ -122,6 +166,7 @@ export default function Blog() {
           <span className="mt-1 text-sm opacity-45">coming soon</span>
         </div>
       </div>
+      )}
     </section>
   );
 }
