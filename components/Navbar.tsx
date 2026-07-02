@@ -23,6 +23,7 @@ import {
   LuBlocks,
   LuMail,
   LuNewspaper,
+  LuRocket,
 } from "react-icons/lu";
 import { products, sectors, foundation } from "@/lib/content";
 
@@ -116,6 +117,11 @@ const mobileMenus: Record<
       })),
       { href: "/contact", label: "Contact us", note: "Reach our team" },
       { href: "/blog", label: "Blog", note: "Ideas on enterprise AI" },
+      {
+        href: "/for-startups",
+        label: "ViramTech for Startups",
+        note: "Enterprise-grade AI at startup speed",
+      },
     ],
   },
 };
@@ -495,10 +501,10 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Right: get in touch */}
+          {/* Right: explore */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-[0.15em] opacity-40">
-              Get in touch
+              Explore
             </h4>
             <ul className="mt-5 space-y-1">
               <li>
@@ -535,6 +541,25 @@ export function Navbar() {
                     </span>
                     <span className="mt-0.5 block text-xs opacity-55">
                       Ideas on enterprise AI
+                    </span>
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/for-startups"
+                  onClick={() => setMenu(null)}
+                  className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                    <LuRocket size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      ViramTech for Startups
+                    </span>
+                    <span className="mt-0.5 block text-xs opacity-55">
+                      Enterprise-grade AI at startup speed
                     </span>
                   </span>
                 </Link>

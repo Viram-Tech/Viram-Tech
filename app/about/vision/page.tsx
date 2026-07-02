@@ -2,7 +2,7 @@ import Link from "next/link";
 import { LuTelescope, LuTarget } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
 import { visionMission, visionTimeline } from "@/lib/content";
-import { VisionTimeline } from "@/components/VisionTimeline";
+import { TextGenerateEffect } from "@/components/TextGenerateEffect";
 import { NextPage } from "@/components/NextPage";
 
 export const metadata = {
@@ -113,7 +113,39 @@ export default function Vision() {
         The journey from the problem we saw to the principles that guide
         everything we build.
       </p>
-      <VisionTimeline items={visionTimeline} />
+      <div className="mt-14 space-y-16">
+        {visionTimeline.map((t) => (
+          <div
+            key={t.topic}
+            className="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:gap-12"
+          >
+            <div>
+              <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-indigo-500/70">
+                {t.heading}
+              </span>
+              <h3 className="mt-3 font-serif text-3xl font-normal leading-tight tracking-tight sm:text-4xl">
+                {t.topic}
+              </h3>
+            </div>
+            <div>
+              <TextGenerateEffect
+                words={t.body}
+                className="text-xl font-medium leading-relaxed"
+              />
+              <ul className="mt-6 flex flex-wrap gap-2.5">
+                {t.points.map((p) => (
+                  <li
+                    key={p}
+                    className="rounded-full border border-black/5 bg-black/[0.02] px-4 py-2 text-sm opacity-75 dark:border-white/10 dark:bg-white/[0.03]"
+                  >
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <NextPage current="/about/vision" />
     </section>
