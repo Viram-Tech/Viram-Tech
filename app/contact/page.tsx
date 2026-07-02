@@ -1,10 +1,4 @@
-import {
-  FaLinkedinIn,
-  FaXTwitter,
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 export const metadata = {
   title: "Contact — ViramTech",
@@ -15,18 +9,13 @@ export const metadata = {
 const offices = [
   {
     flag: "📍",
-    lines: ["Your office address", "City, State, ZIP code", "Country"],
+    lines: ["Mumbai, Maharashtra", "India"],
     phone: "+00 00000 00000",
   },
 ];
 
-// Social icons are not linked anywhere yet — add hrefs when ready.
 const socials = [
-  { label: "LinkedIn", icon: FaLinkedinIn },
-  { label: "X", icon: FaXTwitter },
-  { label: "Facebook", icon: FaFacebookF },
-  { label: "Instagram", icon: FaInstagram },
-  { label: "YouTube", icon: FaYoutube },
+  { label: "LinkedIn", icon: FaLinkedinIn, href: "https://www.linkedin.com" },
 ];
 
 export default function Contact() {
@@ -85,14 +74,17 @@ export default function Contact() {
               Social Profiles
             </h2>
             <div className="mt-5 flex items-center gap-4">
-              {socials.map(({ label, icon: Icon }) => (
-                <span
+              {socials.map(({ label, icon: Icon, href }) => (
+                <a
                   key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer noopener"
                   aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-white/90"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition hover:bg-white/15"
                 >
                   <Icon size={18} />
-                </span>
+                </a>
               ))}
             </div>
           </div>
