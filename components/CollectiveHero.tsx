@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 
 const MARKS = 12;
 const RADIUS = 290; // px, distance of each mark from centre (snug off-corner arc)
@@ -132,20 +131,12 @@ export function CollectiveHero() {
       </div>
 
       {/* Centre content */}
-      <div className="relative z-10 max-w-2xl px-6 text-center">
-        <h1 className="font-serif text-5xl font-normal leading-[1.05] sm:text-6xl lg:text-7xl">
-          Uniting enterprises
-          <br />
-          in the AI era
+      <div className="relative z-10 max-w-3xl px-6 text-center">
+        <h1 className="font-serif text-4xl font-normal leading-[1.12] sm:text-5xl lg:text-6xl">
+          Accelerate your business growth with{" "}
+          <span className="italic text-brand-sky">strength-driven</span>{" "}
+          technology.
         </h1>
-        <div className="mt-8 flex justify-center">
-          <Link
-            href="/contact"
-            className="rounded-full bg-brand-sky px-8 py-4 text-body-lg font-semibold text-brand-navy shadow-lg transition hover:-translate-y-1 hover:bg-white"
-          >
-            Support our mission
-          </Link>
-        </div>
       </div>
 
       {/* Bottom serif line */}
