@@ -6,8 +6,6 @@ const groups = [
   {
     title: "Solutions",
     links: [
-      { label: "DataForge", href: "/products/dataforge" },
-      { label: "Agentic AI Platform", href: "/products/agentic-ai-platform" },
       { label: "All Products", href: "/products" },
       { label: "Technology", href: "/technology" },
     ],
