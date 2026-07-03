@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { products, productCaseStudies } from "@/lib/content";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { SmoothScrollLink } from "@/components/SmoothScrollLink";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -110,15 +111,15 @@ export default async function ProductPage({
               >
                 Talk to us
               </Link>
-              <a
-                href="#impact"
+              <SmoothScrollLink
+                targetId="impact"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/50 px-8 py-3 font-medium text-on-surface transition-colors hover:border-primary hover:text-primary dark:hover:text-primary-fixed"
               >
                 See the impact
                 <span className="material-symbols-outlined text-[18px]">
                   arrow_downward
                 </span>
-              </a>
+              </SmoothScrollLink>
             </div>
           </div>
 
