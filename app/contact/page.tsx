@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { PhoneField } from "@/components/PhoneField";
 
@@ -47,12 +48,24 @@ export default function Contact() {
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2">
         {/* Left column */}
         <div className="overflow-hidden rounded-3xl shadow-xl">
-          {/* Left image slot */}
-          <ImageSlot
-            src="/contact/side.jpg"
-            alt="ViramTech"
-            className="h-64 w-full"
-          />
+          {/* Brand logo panel — built from the real vector assets */}
+          <div className="flex h-64 w-full items-center justify-center gap-3 bg-background p-10">
+            <Image
+              src="/logo.svg"
+              alt="ViramTech logo"
+              width={72}
+              height={60}
+              className="h-16 w-auto"
+            />
+            <span className="flex items-baseline gap-2">
+              <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-4xl font-extrabold uppercase leading-none tracking-tight text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
+                VIR&#923;M
+              </span>
+              <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-lg font-bold uppercase leading-none tracking-normal text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
+                Tech
+              </span>
+            </span>
+          </div>
 
           {/* Offices + socials panel */}
           <div className="bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] p-8 text-white sm:p-10">
