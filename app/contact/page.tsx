@@ -23,17 +23,10 @@ const socials = [
 export default function Contact() {
   return (
     <>
-      {/* ── Hero with diagonal blue panel + top image slot ── */}
-      <section className="relative h-[360px] overflow-hidden bg-neutral-900 sm:h-[420px]">
-        {/* Top image slot */}
-        <ImageSlot
-          src="/contact/hero.webp"
-          alt=""
-          className="absolute inset-0 h-full w-full"
-        />
-        {/* Blue diagonal overlay */}
-        <div className="absolute inset-y-0 left-0 flex w-full items-center bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] [clip-path:polygon(0_0,100%_0,80%_100%,0_100%)] lg:w-[60%]">
-          <div className="max-w-xl px-6 pt-16 text-white sm:px-10 lg:pl-16">
+      {/* ── Hero — solid brand-blue band (matches the Our Offices panel) ── */}
+      <section className="relative flex h-[360px] items-center overflow-hidden bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] sm:h-[420px]">
+        <div className="w-full">
+          <div className="mx-auto max-w-6xl px-6 pt-16 text-white sm:px-10 lg:pl-16">
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
               Contact Us
             </h1>
@@ -47,9 +40,9 @@ export default function Contact() {
       {/* ── Main: left (image + offices) / right (form) ── */}
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2">
         {/* Left column */}
-        <div className="overflow-hidden rounded-3xl shadow-xl">
+        <div className="flex flex-col overflow-hidden rounded-3xl shadow-xl">
           {/* Brand logo panel — built from the real vector assets */}
-          <div className="flex h-64 w-full items-center justify-center gap-3 bg-background p-10">
+          <div className="flex h-64 w-full shrink-0 items-center justify-center gap-3 bg-background p-10">
             <Image
               src="/logo.svg"
               alt="ViramTech logo"
@@ -68,7 +61,7 @@ export default function Contact() {
           </div>
 
           {/* Offices + socials panel */}
-          <div className="bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] p-8 text-white sm:p-10">
+          <div className="flex-1 bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] p-8 text-white sm:p-10">
             <h2 className="text-2xl font-bold tracking-tight">Our Offices</h2>
             <div className="mt-6 space-y-7">
               {offices.map((o, i) => (
@@ -186,47 +179,6 @@ function Field({
         placeholder={placeholder}
         className="w-full rounded-2xl border border-black/10 bg-black/[0.02] px-4 py-3 outline-none transition focus:border-indigo-500 dark:border-white/15 dark:bg-white/[0.03]"
       />
-    </div>
-  );
-}
-
-function ImageSlot({
-  src,
-  alt,
-  className = "",
-}: {
-  src?: string;
-  alt: string;
-  className?: string;
-}) {
-  if (src) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={src} alt={alt} className={`object-cover ${className}`} />
-    );
-  }
-  return (
-    <div
-      className={`flex items-center justify-center bg-gradient-to-br from-neutral-200 to-neutral-300 text-neutral-500 dark:from-neutral-800 dark:to-neutral-700 dark:text-neutral-400 ${className}`}
-    >
-      <div className="flex flex-col items-center gap-2 text-center">
-        <svg
-          width="34"
-          height="34"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="9" cy="9" r="2" />
-          <path d="m21 15-3.5-3.5L9 20" />
-        </svg>
-        <span className="text-xs font-medium">{alt}</span>
-      </div>
     </div>
   );
 }
