@@ -242,7 +242,7 @@ export default function Home() {
               {sectors.map((s, i) => {
                 const Icon = sectorIcons[i % sectorIcons.length];
                 return (
-                <div key={s.slug} className="sticky top-24 pb-8">
+                <div key={s.slug} className="sticky top-24 pb-28">
                 <div
                   className="grid min-h-[58vh] overflow-hidden rounded-3xl border border-black/5 bg-surface-container-lowest shadow-2xl md:grid-cols-2 dark:border-white/10"
                 >
