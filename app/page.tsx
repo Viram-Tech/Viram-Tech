@@ -1,8 +1,29 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { CollectiveHero } from "@/components/CollectiveHero";
 import { Terminal } from "@/components/Terminal";
+import {
+  LuShoppingBag,
+  LuTruck,
+  LuLandmark,
+  LuStethoscope,
+  LuFactory,
+  LuShieldCheck,
+} from "react-icons/lu";
 import { FeaturesSection } from "@/components/FeaturesSection";
+import { RelatedArticles } from "@/components/RelatedArticles";
+import { sectors } from "@/lib/content";
+
+// Industry icons, in the same order as `sectors` in lib/content.
+const sectorIcons = [
+  LuShoppingBag,
+  LuTruck,
+  LuLandmark,
+  LuStethoscope,
+  LuFactory,
+  LuShieldCheck,
+];
 
 export const metadata: Metadata = {
   title: "ViramTech — Enterprise AI, built to ship",
@@ -210,30 +231,73 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Smooth transition → Our vision */}
-        <div className="mx-auto max-w-[1200px] bg-background px-gutter py-16 md:py-20">
-          <Link
-            href="/about/vision"
-            className="group flex flex-wrap items-center justify-between gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-navy via-brand-slate to-brand-royal px-8 py-10 text-white shadow-2xl transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_rgba(20,40,78,0.6)] md:px-12">
-            <div>
-              <span className="font-metadata-label text-metadata-label uppercase text-white/60">
-                Up next · Who we are
-              </span>
-              <h2 className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">
-                Discover our vision
-              </h2>
-              <p className="mt-2 max-w-md text-white/75">
-                The name <em className="font-serif not-italic">Viram</em> means a
-                pause — a deliberate moment to think before building.
-              </p>
+        {/* Industry-focused showcase — sticky scroll reveal */}
+        <section className="bg-[#e8f0fb] py-section-padding-mobile md:py-section-padding-desktop dark:bg-white/[0.03]">
+          <div className="mx-auto max-w-[1500px] px-gutter">
+            <h2 className="mx-auto max-w-3xl text-center text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+              Industry-focused strategy to reach your goals
+            </h2>
+
+            <div className="mt-12">
+              {sectors.map((s, i) => {
+                const Icon = sectorIcons[i % sectorIcons.length];
+                return (
+                <div key={s.slug} className="sticky top-24 pb-8">
+                <div
+                  className="grid min-h-[58vh] overflow-hidden rounded-3xl border border-black/5 bg-surface-container-lowest shadow-2xl md:grid-cols-2 dark:border-white/10"
+                >
+                  {/* Text half */}
+                  <div className="flex flex-col justify-center p-8 sm:p-12">
+                    <h3 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+                      {s.name}
+                    </h3>
+                    <p className="mt-4 text-lg font-semibold text-on-surface">
+                      {s.tagline}
+                    </p>
+                    <p className="mt-3 leading-relaxed text-on-surface-variant">
+                      {s.overview}
+                    </p>
+                    <Link
+                      href={`/industries/${s.slug}`}
+                      className="mt-7 inline-block self-start rounded-full bg-indigo-600 px-7 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-indigo-500"
+                    >
+                      Know More
+                    </Link>
+                  </div>
+
+                  {/* Visual half */}
+                  <div className="relative flex min-h-[280px] flex-col items-center justify-center overflow-hidden p-10 text-center">
+                    <Image
+                      src={`/industries/${s.slug}.jpg`}
+                      alt={s.name}
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                    {/* Brand tint + contrast scrim keeps the label legible over any photo */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-55`}
+                    />
+                    <div className="absolute inset-0 bg-black/25" />
+                    <Icon
+                      className="relative text-white drop-shadow"
+                      size={72}
+                      strokeWidth={1.5}
+                    />
+                    <span className="relative mt-6 text-2xl font-bold text-white drop-shadow sm:text-3xl">
+                      {s.name}
+                    </span>
+                  </div>
+                </div>
+                </div>
+                );
+              })}
             </div>
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-2">
-              <span className="material-symbols-outlined text-[26px]">
-                arrow_forward
-              </span>
-            </span>
-          </Link>
-        </div>
+          </div>
+        </section>
+
+        {/* Insights — latest blog posts (same band as the technology page) */}
+        <RelatedArticles />
       </div>
     </div>
   );

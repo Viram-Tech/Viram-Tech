@@ -94,7 +94,7 @@ export function FeaturesSection() {
             The economic upside of enterprise AI is already quantified.
           </FeatureDescription>
           <div className="mt-6">
-            <div className="gradient-text text-5xl font-extrabold">$15.7T</div>
+            <div className="text-white text-5xl font-extrabold">$15.7T</div>
             <p className="mt-3 text-sm leading-relaxed text-white/60">
               AI&apos;s projected boost to the global economy by 2030.
             </p>
@@ -117,7 +117,7 @@ export function FeaturesSection() {
                 key={s.value}
                 className="flex items-baseline gap-5 border-t border-white/10 pt-5 first:border-t-0 first:pt-0"
               >
-                <span className="gradient-text w-24 shrink-0 text-2xl font-extrabold">
+                <span className="w-24 shrink-0 text-2xl font-extrabold text-white">
                   {s.value}
                 </span>
                 <div>

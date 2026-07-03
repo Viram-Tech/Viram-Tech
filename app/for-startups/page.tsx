@@ -88,17 +88,14 @@ export default function ForStartups() {
       <h2 className="mt-20 text-2xl font-extrabold tracking-tight sm:text-3xl">
         Built for how startups actually work
       </h2>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-x-14 gap-y-9 sm:grid-cols-2">
         {pillars.map((p) => (
           <div
             key={p.title}
-            className="rounded-2xl border border-black/5 bg-black/[0.02] p-6 transition hover:border-indigo-500/30 dark:border-white/10 dark:bg-white/[0.03]"
+            className="border-t border-black/10 pt-5 dark:border-white/15"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
-              <span className="material-symbols-outlined">{p.icon}</span>
-            </span>
-            <h3 className="mt-4 text-lg font-bold tracking-tight">{p.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed opacity-70">{p.body}</p>
+            <h3 className="text-lg font-bold tracking-tight">{p.title}</h3>
+            <p className="mt-2 leading-relaxed opacity-70">{p.body}</p>
           </div>
         ))}
       </div>
@@ -107,19 +104,16 @@ export default function ForStartups() {
       <h2 className="mt-20 text-2xl font-extrabold tracking-tight sm:text-3xl">
         What you can build
       </h2>
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        {useCases.map((u, i) => (
+      <div className="mt-10 space-y-8">
+        {useCases.map((u) => (
           <div
             key={u.title}
-            className="rounded-2xl border border-black/5 bg-black/[0.02] p-6 dark:border-white/10 dark:bg-white/[0.03]"
+            className="border-t border-black/10 pt-5 dark:border-white/15"
           >
-            <div className="font-mono text-xs font-semibold text-indigo-500/70">
-              0{i + 1}
-            </div>
-            <h3 className="mt-2 text-base font-bold tracking-tight">
-              {u.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed opacity-70">{u.body}</p>
+            <h3 className="text-lg font-bold tracking-tight">{u.title}</h3>
+            <p className="mt-2 max-w-2xl leading-relaxed opacity-70">
+              {u.body}
+            </p>
           </div>
         ))}
       </div>

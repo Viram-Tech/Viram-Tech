@@ -44,10 +44,10 @@ export function StickyScroll({ content }: { content: Item[] }) {
             >
               <motion.div
                 initial={false}
-                animate={{ opacity: activeCard === index ? 1 : 0.4 }}
-                className="max-w-xl rounded-md border border-black/10 bg-black/[0.02] p-8 dark:border-white/10 dark:bg-white/[0.03]"
+                animate={{ opacity: activeCard === index ? 1 : 0.5 }}
+                className="max-w-xl rounded-3xl border border-black/5 bg-surface-container-lowest p-8 shadow-xl sm:p-10 dark:border-white/10"
               >
-                <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                <h2 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
                   {item.title}
                 </h2>
                 <div className="mt-6">{item.description}</div>
