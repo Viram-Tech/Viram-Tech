@@ -1,19 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 const groups = [
   {
-    title: "Explore",
+    title: "Solutions",
     links: [
       { label: "DataForge", href: "/products/dataforge" },
       { label: "Agentic AI Platform", href: "/products/agentic-ai-platform" },
+      { label: "All Products", href: "/products" },
       { label: "Technology", href: "/technology" },
-      { label: "Our Work", href: "/work" },
+    ],
+  },
+  {
+    title: "Industries",
+    links: [
+      { label: "Retail & E-commerce", href: "/industries/retail" },
+      { label: "Banking & Finance", href: "/industries/banking" },
+      { label: "Healthcare", href: "/industries/healthcare" },
+      { label: "All Industries", href: "/industries" },
     ],
   },
   {
     title: "Company",
-    links: [{ label: "Contact", href: "/contact" }],
+    links: [
+      { label: "For Startups", href: "/for-startups" },
+      { label: "Our Work", href: "/work" },
+      { label: "Insights", href: "/blog" },
+      { label: "Contact", href: "/contact" },
+    ],
   },
 ];
 
@@ -50,10 +65,22 @@ export function Footer() {
             <p className="mt-5 text-sm leading-relaxed opacity-60">
               Accelerate your business growth with strength-driven technology.
             </p>
+            <p className="mt-4 text-sm leading-relaxed opacity-60">
+              Mumbai, Maharashtra · India
+            </p>
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="ViramTech on LinkedIn"
+              className="mt-5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 opacity-75 transition hover:border-indigo-500 hover:text-indigo-500 hover:opacity-100 dark:border-white/15"
+            >
+              <FaLinkedinIn size={16} />
+            </a>
           </div>
 
           {/* Link groups */}
-          <div className="grid grid-cols-2 gap-10 sm:gap-16">
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 sm:gap-16">
             {groups.map((group) => (
               <div key={group.title}>
                 <h3 className="text-xs font-bold uppercase tracking-[0.2em] opacity-50">

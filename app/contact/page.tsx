@@ -1,4 +1,5 @@
 import { FaLinkedinIn } from "react-icons/fa6";
+import { PhoneField } from "@/components/PhoneField";
 
 export const metadata = {
   title: "Contact — ViramTech",
@@ -25,8 +26,8 @@ export default function Contact() {
       <section className="relative h-[360px] overflow-hidden bg-neutral-900 sm:h-[420px]">
         {/* Top image slot */}
         <ImageSlot
-          // To use a real photo: drop it in /public/contact/ and set src="/contact/hero.jpg"
-          alt="Add hero image"
+          src="/contact/hero.webp"
+          alt=""
           className="absolute inset-0 h-full w-full"
         />
         {/* Blue diagonal overlay */}
@@ -48,8 +49,8 @@ export default function Contact() {
         <div className="overflow-hidden rounded-3xl shadow-xl">
           {/* Left image slot */}
           <ImageSlot
-            // To use a real photo: set src="/contact/office.jpg"
-            alt="Add side image"
+            src="/contact/side.jpg"
+            alt="ViramTech"
             className="h-64 w-full"
           />
 
@@ -102,20 +103,7 @@ export default function Contact() {
               <Field label="Last Name *" name="lastName" placeholder="Doe" />
             </div>
 
-            <div>
-              <Label>Phone Number *</Label>
-              <div className="flex">
-                <span className="inline-flex items-center gap-1.5 rounded-l-2xl border border-r-0 border-black/10 bg-black/[0.02] px-3 text-sm font-medium dark:border-white/15 dark:bg-white/[0.03]">
-                  🇮🇳 +91
-                </span>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="00000 00000"
-                  className="w-full rounded-r-2xl border border-black/10 bg-black/[0.02] px-4 py-3 outline-none transition focus:border-indigo-500 dark:border-white/15 dark:bg-white/[0.03]"
-                />
-              </div>
-            </div>
+            <PhoneField />
 
             <Field
               label="Email *"

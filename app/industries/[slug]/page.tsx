@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { LuTriangleAlert, LuSparkles, LuArrowRight, LuArrowUpRight } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
@@ -77,13 +78,21 @@ export default async function IndustryPage({
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div
-            className={`relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br ${s.gradient} shadow-xl shadow-indigo-500/10`}
-          >
-            <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+          <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-3xl shadow-xl shadow-indigo-500/10">
+            <Image
+              src={`/industries/${s.slug}.jpg`}
+              alt={s.name}
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+            />
+            <div
+              className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-55`}
+            />
+            <div className="absolute inset-0 bg-black/25" />
             <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
             {Icon && (
-              <span className="animate-float relative text-white/95">
+              <span className="animate-float relative text-white/95 drop-shadow">
                 <Icon size={96} strokeWidth={1.3} />
               </span>
             )}
