@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/Reveal";
 import { CompanyOrbit } from "@/components/CompanyOrbit";
-import { ScrollProgress } from "@/components/ScrollProgress";
 
 export const metadata: Metadata = {
   title: "LaunchLine — build your company from zero · ViramTech",
@@ -253,9 +252,6 @@ export default function ForStartups() {
       {/* Soft brand glows spanning the whole page (theme-aware). */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-brand-royal/15 blur-[130px] dark:bg-brand-royal/25" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[420px] w-[560px] rounded-full bg-brand-sky/10 blur-[120px]" />
-
-      {/* Page-wide FACTORY ONLINE progress HUD */}
-      <ScrollProgress />
 
       <div className="relative">
         {/* ── Hero ── */}
