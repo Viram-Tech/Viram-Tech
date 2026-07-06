@@ -1,159 +1,194 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { PhoneField } from "@/components/PhoneField";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata = {
   title: "Contact — ViramTech",
-  description: "Get in touch with the ViramTech team.",
+  description:
+    "Tell us what you're building. We'll map the fastest path and reply within one business day.",
 };
 
-// Single address slot — fill in your office details here.
-const offices = [
-  {
-    flag: "📍",
-    lines: ["Mumbai, Maharashtra", "India"],
-    phone: "+00 00000 00000",
-  },
+const details = [
+  { icon: "location_on", label: "Studio", lines: ["Mumbai, Maharashtra", "India"] },
+  { icon: "call", label: "Phone", lines: ["+00 00000 00000"] },
+  { icon: "schedule", label: "Reply time", lines: ["Within one business day"] },
 ];
 
-const socials = [
-  { label: "LinkedIn", icon: FaLinkedinIn, href: "https://www.linkedin.com" },
-];
-
-export default function Contact() {
+// Italic serif accent word (Playfair), in the brand accent colour.
+function Accent({ children }: { children: ReactNode }) {
   return (
-    <>
-      {/* ── Hero — solid brand-blue band (matches the Our Offices panel) ── */}
-      <section className="relative flex h-[360px] items-center overflow-hidden bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] sm:h-[420px]">
-        <div className="w-full">
-          <div className="mx-auto max-w-6xl px-6 pt-16 text-white sm:px-10 lg:pl-16">
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-              Contact Us
-            </h1>
-            <p className="mt-4 max-w-xs text-lg text-white/90">
-              Get in Touch with Our Expert Team.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Main: left (image + offices) / right (form) ── */}
-      <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2">
-        {/* Left column */}
-        <div className="flex flex-col overflow-hidden rounded-3xl shadow-xl">
-          {/* Brand logo panel — built from the real vector assets */}
-          <div className="flex h-64 w-full shrink-0 items-center justify-center gap-3 bg-background p-10">
-            <Image
-              src="/logo.svg"
-              alt="ViramTech logo"
-              width={72}
-              height={60}
-              className="h-16 w-auto"
-            />
-            <span className="flex items-baseline gap-2">
-              <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-4xl font-extrabold uppercase leading-none tracking-tight text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
-                VIR&#923;M
-              </span>
-              <span className="bg-gradient-to-r from-[#00B4E4] via-[#3B56A6] to-[#112649] bg-clip-text text-lg font-bold uppercase leading-none tracking-normal text-transparent dark:from-[#33A5DB] dark:via-[#597CBD] dark:to-[#597CBD]">
-                Tech
-              </span>
-            </span>
-          </div>
-
-          {/* Offices + socials panel */}
-          <div className="flex-1 bg-gradient-to-br from-[#3F56A4] to-[#33A5DB] p-8 text-white sm:p-10">
-            <h2 className="text-2xl font-bold tracking-tight">Our Offices</h2>
-            <div className="mt-6 space-y-7">
-              {offices.map((o, i) => (
-                <div key={i} className="flex gap-3">
-                  <span className="mt-0.5 text-xl">{o.flag}</span>
-                  <div className="text-[15px] leading-relaxed text-white/90">
-                    {o.lines.map((l) => (
-                      <div key={l}>{l}</div>
-                    ))}
-                    <div className="mt-1 font-medium">{o.phone}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <h2 className="mt-10 text-2xl font-bold tracking-tight">
-              Social Profiles
-            </h2>
-            <div className="mt-5 flex items-center gap-4">
-              {socials.map(({ label, icon: Icon, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition hover:bg-white/15"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right column — form */}
-        <div>
-          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Let&apos;s Collaborate!
-          </h2>
-
-          <form className="mt-8 space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="First Name *" name="firstName" placeholder="Jane" />
-              <Field label="Last Name *" name="lastName" placeholder="Doe" />
-            </div>
-
-            <PhoneField />
-
-            <Field
-              label="Email *"
-              name="email"
-              type="email"
-              placeholder="you@company.com"
-            />
-            <Field
-              label="Company Name"
-              name="company"
-              placeholder="Your organization"
-            />
-            <Field
-              label="Designation"
-              name="designation"
-              placeholder="e.g. Head of Operations"
-            />
-
-            <div>
-              <Label>Message</Label>
-              <textarea
-                name="message"
-                rows={5}
-                placeholder="Tell us about your project…"
-                className="w-full rounded-2xl border border-black/10 bg-black/[0.02] px-4 py-3 outline-none transition focus:border-indigo-500 dark:border-white/15 dark:bg-white/[0.03]"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="rounded-lg bg-[#3F8DF0] px-7 py-3 font-semibold text-white shadow-lg shadow-[#3F8DF0]/30 transition hover:bg-[#2f7ce0]"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </section>
-    </>
+    <span className="font-[family-name:var(--font-playfair)] italic text-brand-royal dark:text-brand-sky">
+      {children}
+    </span>
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
+const inputClass =
+  "w-full rounded-xl border border-black/10 bg-white/70 px-4 py-3 text-[15px] outline-none transition placeholder:opacity-40 focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/25 dark:border-white/15 dark:bg-white/[0.04]";
+
+export default function Contact() {
   return (
-    <label className="mb-2 block text-sm font-semibold opacity-80">
+    <div className="relative overflow-hidden bg-background text-brand-navy dark:text-white">
+      {/* Soft brand glows (theme-aware), matching for-startups. */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[760px] -translate-x-1/2 rounded-full bg-brand-royal/15 blur-[130px] dark:bg-brand-royal/25" />
+      <div className="pointer-events-none absolute bottom-0 right-0 h-[420px] w-[560px] rounded-full bg-brand-sky/10 blur-[120px]" />
+
+      <div className="relative mx-auto max-w-6xl px-6 pt-36 pb-28 sm:pt-44">
+        {/* ── Hero ── */}
+        <Reveal>
+          <p className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.28em] text-brand-royal dark:text-brand-sky">
+            ＋ Contact
+          </p>
+          <h1 className="mt-6 max-w-3xl text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-7xl">
+            Let&apos;s build something <Accent>together</Accent>.
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed opacity-65">
+            Tell us what you&apos;re building — an idea, a pilot, or a system
+            that needs to scale. We&apos;ll map the fastest path and reply within
+            one business day.
+          </p>
+        </Reveal>
+
+        {/* ── Info card + form ── */}
+        <div className="mt-16 grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          {/* Left: brand info card (dark panel in both themes) */}
+          <Reveal>
+            <div className="relative h-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-slate to-brand-navy p-8 text-white sm:p-10">
+              <div className="pointer-events-none absolute inset-0 bg-grid-white opacity-60" />
+              <div className="relative flex h-full flex-col">
+                {/* Logo lockup */}
+                <span className="flex items-center gap-2.5">
+                  <Image
+                    src="/logo.svg"
+                    alt="ViramTech logo"
+                    width={36}
+                    height={30}
+                    className="h-8 w-auto"
+                  />
+                  <span className="flex items-baseline gap-1.5">
+                    <span className="bg-gradient-to-r from-[#33A5DB] via-[#597CBD] to-[#7d97ef] bg-clip-text text-2xl font-extrabold uppercase leading-none tracking-tight text-transparent">
+                      VIR&#923;M
+                    </span>
+                    <span className="bg-gradient-to-r from-[#33A5DB] via-[#597CBD] to-[#7d97ef] bg-clip-text text-sm font-bold uppercase leading-none text-transparent">
+                      Tech
+                    </span>
+                  </span>
+                </span>
+
+                <p className="mt-6 max-w-xs leading-relaxed text-white/60">
+                  Accelerate your business growth with strength-driven
+                  technology.
+                </p>
+
+                {/* Contact details */}
+                <div className="mt-10 space-y-6">
+                  {details.map((d) => (
+                    <div key={d.label} className="flex items-start gap-4">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-royal/25 text-brand-sky">
+                        <span className="material-symbols-outlined text-[20px]">
+                          {d.icon}
+                        </span>
+                      </span>
+                      <div>
+                        <p className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.18em] text-white/40">
+                          {d.label}
+                        </p>
+                        <div className="mt-1 text-[15px] leading-relaxed text-white/90">
+                          {d.lines.map((l) => (
+                            <div key={l}>{l}</div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Social */}
+                <div className="mt-auto pt-10">
+                  <p className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.18em] text-white/40">
+                    Connect
+                  </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <a
+                      href="https://www.linkedin.com/company/viram-tech/"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label="ViramTech on LinkedIn"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 text-white/80 transition hover:border-brand-sky hover:text-brand-sky"
+                    >
+                      <FaLinkedinIn size={17} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Right: form */}
+          <Reveal delay={0.08}>
+            <div>
+              <p className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.25em] text-brand-royal dark:text-brand-sky">
+                ＋ Send a message
+              </p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Let&apos;s <Accent>collaborate</Accent>.
+              </h2>
+
+              <form className="mt-8 space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label="First name *" name="firstName" placeholder="Jane" />
+                  <Field label="Last name *" name="lastName" placeholder="Doe" />
+                </div>
+
+                <PhoneField />
+
+                <Field
+                  label="Email *"
+                  name="email"
+                  type="email"
+                  placeholder="you@company.com"
+                />
+                <Field
+                  label="Company"
+                  name="company"
+                  placeholder="Your organization"
+                />
+                <Field
+                  label="Designation"
+                  name="designation"
+                  placeholder="e.g. Head of Operations"
+                />
+
+                <div>
+                  <Label>Message</Label>
+                  <textarea
+                    name="message"
+                    rows={5}
+                    placeholder="Tell us about your project…"
+                    className={inputClass}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="rounded-full bg-gradient-to-r from-brand-royal to-brand-sky px-8 py-3.5 font-semibold text-white shadow-[0_10px_40px_-8px_rgba(51,165,219,0.6)] transition hover:-translate-y-0.5"
+                >
+                  Send message →
+                </button>
+              </form>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Label({ children }: { children: ReactNode }) {
+  return (
+    <label className="mb-2 block font-[family-name:var(--font-jetbrains)] text-[11px] font-medium uppercase tracking-[0.15em] opacity-55">
       {children}
     </label>
   );
@@ -177,7 +212,7 @@ function Field({
         type={type}
         name={name}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-black/10 bg-black/[0.02] px-4 py-3 outline-none transition focus:border-indigo-500 dark:border-white/15 dark:bg-white/[0.03]"
+        className={inputClass}
       />
     </div>
   );

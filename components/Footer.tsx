@@ -67,7 +67,7 @@ export function Footer() {
               Mumbai, Maharashtra · India
             </p>
             <a
-              href="https://www.linkedin.com"
+              href="https://www.linkedin.com/company/viram-tech/"
               target="_blank"
               rel="noreferrer noopener"
               aria-label="ViramTech on LinkedIn"

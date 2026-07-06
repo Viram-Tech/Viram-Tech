@@ -27,12 +27,12 @@ export function PhoneField() {
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold opacity-80">
-        Phone Number *
+      <label className="mb-2 block font-[family-name:var(--font-jetbrains)] text-[11px] font-medium uppercase tracking-[0.15em] opacity-55">
+        Phone number *
       </label>
       <div className="flex">
         {/* Country code — native select overlaid on a compact flag + code display */}
-        <div className="relative inline-flex items-center gap-1.5 rounded-l-2xl border border-r-0 border-black/10 bg-black/[0.02] pl-3 pr-2 text-sm font-medium dark:border-white/15 dark:bg-white/[0.03]">
+        <div className="relative inline-flex items-center gap-1.5 rounded-l-xl border border-r-0 border-black/10 bg-white/70 pl-3 pr-2 text-sm font-medium dark:border-white/15 dark:bg-white/[0.04]">
           <span className="text-base leading-none">{country.flag}</span>
           <span>{country.dial}</span>
           <svg
@@ -68,7 +68,7 @@ export function PhoneField() {
           type="tel"
           name="phone"
           placeholder="00000 00000"
-          className="w-full rounded-r-2xl border border-black/10 bg-black/[0.02] px-4 py-3 outline-none transition focus:border-indigo-500 dark:border-white/15 dark:bg-white/[0.03]"
+          className="w-full rounded-r-xl border border-black/10 bg-white/70 px-4 py-3 text-[15px] outline-none transition placeholder:opacity-40 focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/25 dark:border-white/15 dark:bg-white/[0.04]"
         />
       </div>
     </div>
