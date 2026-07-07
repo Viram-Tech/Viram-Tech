@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { FaLinkedinIn } from "react-icons/fa6";
-import { PhoneField } from "@/components/PhoneField";
+import { ContactForm } from "@/components/ContactForm";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata = {
@@ -24,9 +24,6 @@ function Accent({ children }: { children: ReactNode }) {
     </span>
   );
 }
-
-const inputClass =
-  "w-full rounded-xl border border-black/10 bg-white/70 px-4 py-3 text-[15px] outline-none transition placeholder:opacity-40 focus:border-brand-sky focus:ring-2 focus:ring-brand-sky/25 dark:border-white/15 dark:bg-white/[0.04]";
 
 export default function Contact() {
   return (
@@ -136,84 +133,11 @@ export default function Contact() {
                 Let&apos;s <Accent>collaborate</Accent>.
               </h2>
 
-              <form className="mt-8 space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <Field label="First name *" name="firstName" placeholder="Jane" />
-                  <Field label="Last name *" name="lastName" placeholder="Doe" />
-                </div>
-
-                <PhoneField />
-
-                <Field
-                  label="Email *"
-                  name="email"
-                  type="email"
-                  placeholder="you@company.com"
-                />
-                <Field
-                  label="Company"
-                  name="company"
-                  placeholder="Your organization"
-                />
-                <Field
-                  label="Designation"
-                  name="designation"
-                  placeholder="e.g. Head of Operations"
-                />
-
-                <div>
-                  <Label>Message</Label>
-                  <textarea
-                    name="message"
-                    rows={5}
-                    placeholder="Tell us about your project…"
-                    className={inputClass}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="rounded-full bg-gradient-to-r from-brand-royal to-brand-sky px-8 py-3.5 font-semibold text-white shadow-[0_10px_40px_-8px_rgba(51,165,219,0.6)] transition hover:-translate-y-0.5"
-                >
-                  Send message →
-                </button>
-              </form>
+              <ContactForm />
             </div>
           </Reveal>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Label({ children }: { children: ReactNode }) {
-  return (
-    <label className="mb-2 block font-[family-name:var(--font-jetbrains)] text-[11px] font-medium uppercase tracking-[0.15em] opacity-55">
-      {children}
-    </label>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <Label>{label}</Label>
-      <input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        className={inputClass}
-      />
     </div>
   );
 }
