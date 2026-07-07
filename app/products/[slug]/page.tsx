@@ -22,7 +22,7 @@ export async function generateMetadata({
   };
 }
 
-/** Material Symbol shown in the hero glass tile, per product. */
+/** Material Symbol shown in the hero instrument, per product. */
 const heroIcon: Record<string, string> = {
   dataforge: "forum",
   "predictive-demand-intelligence": "trending_up",
@@ -33,10 +33,7 @@ const heroIcon: Record<string, string> = {
   "agentic-ai-platform": "smart_toy",
 };
 
-/** Rotating icon set for the use-case columns. */
-const useCaseIcons = ["insights", "auto_graph", "hub", "bolt", "target"];
-
-/** Material Symbol per industry / function, matching the product-logo style. */
+/** Material Symbol per industry, matching the product-logo style. */
 const industryIcon: Record<string, string> = {
   Agencies: "ads_click",
   Banking: "account_balance",
@@ -62,6 +59,98 @@ const industryIcon: Record<string, string> = {
   Utilities: "bolt",
 };
 
+/** How every ViramTech product goes from data to production. */
+const buildSteps = [
+  {
+    title: "Connect",
+    body: "We plug into the data and systems you already run — your cloud, your stack, no rip-and-replace.",
+  },
+  {
+    title: "Build",
+    body: "We build and tune the models on your own data, in your own environment, until they clear the bar your team sets.",
+  },
+  {
+    title: "Deliver",
+    body: "It ships to production owned end to end — wired to the metrics leadership already tracks, and monitored as it runs.",
+  },
+];
+
+/** Playfair italic accent — matches the for-startups / contact type system. */
+function Accent({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-[family-name:var(--font-playfair)] font-normal italic text-brand-royal dark:text-brand-sky">
+      {children}
+    </span>
+  );
+}
+
+/**
+ * Branded hero "instrument" — a technical dial that frames the product icon,
+ * echoing the LaunchLine Company-OS language. Generated SVG, not a glass card.
+ */
+function InstrumentPanel({ symbol, fallback }: { symbol?: string; fallback: string }) {
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-[380px]">
+      {/* aura */}
+      <div className="absolute inset-[16%] rounded-full bg-brand-sky/25 blur-3xl" />
+      {/* rotating dashed orbit (HTML element — safe transform-origin) */}
+      <div className="animate-spin-slow absolute inset-[3%] rounded-full border border-dashed border-white/15" />
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full text-white/20">
+        {/* tick ring */}
+        {Array.from({ length: 60 }).map((_, i) => {
+          const a = (i / 60) * Math.PI * 2;
+          const r1 = 44;
+          const r2 = i % 5 === 0 ? 40 : 42;
+          return (
+            <line
+              key={i}
+              x1={50 + Math.cos(a) * r1}
+              y1={50 + Math.sin(a) * r1}
+              x2={50 + Math.cos(a) * r2}
+              y2={50 + Math.sin(a) * r2}
+              stroke="currentColor"
+              strokeWidth="0.4"
+            />
+          );
+        })}
+        {/* concentric rings */}
+        <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="0.5" />
+        <circle cx="50" cy="50" r="26" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" />
+        {/* active arc in brand sky */}
+        <circle
+          cx="50"
+          cy="50"
+          r="34"
+          fill="none"
+          stroke="#33a5db"
+          strokeWidth="1.1"
+          strokeLinecap="round"
+          strokeDasharray="118 214"
+          transform="rotate(-90 50 50)"
+        />
+        {/* crosshair */}
+        <line x1="6" y1="50" x2="16" y2="50" stroke="currentColor" strokeWidth="0.4" />
+        <line x1="84" y1="50" x2="94" y2="50" stroke="currentColor" strokeWidth="0.4" />
+      </svg>
+      {/* core + icon */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="flex h-[42%] w-[42%] items-center justify-center rounded-full border border-white/15 bg-white/[0.05] backdrop-blur-sm">
+          {symbol ? (
+            <span
+              className="material-symbols-outlined text-5xl text-brand-sky"
+              style={{ fontVariationSettings: "'wght' 250" }}
+            >
+              {symbol}
+            </span>
+          ) : (
+            <span className="text-5xl">{fallback}</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -75,152 +164,149 @@ export default async function ProductPage({
   const symbol = heroIcon[slug];
 
   return (
-    <div className="pb-section-padding-desktop pt-32">
-      {/* ── Hero ── */}
-      <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-        <div className="mb-8">
+    <div>
+      {/* ── Hero (full-bleed, drenched navy) ── */}
+      <section className="relative overflow-hidden bg-brand-navy text-white">
+        <div className="bg-grid-white pointer-events-none absolute inset-0 opacity-[0.12]" />
+        <div className="pointer-events-none absolute -right-40 top-0 h-[560px] w-[560px] rounded-full bg-brand-sky/15 blur-[130px]" />
+        <div className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-brand-royal/25 blur-[130px]" />
+
+        <div className="relative mx-auto max-w-6xl px-6 pt-32 pb-16 sm:pt-40">
           <Link
             href="/products"
-            className="font-metadata-label text-metadata-label inline-flex items-center uppercase text-primary transition-colors hover:text-brand-royal dark:text-primary-fixed"
+            className="inline-flex items-center gap-1.5 font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.2em] text-brand-sky transition hover:text-white"
           >
-            <span className="material-symbols-outlined mr-1 text-[16px]">
-              arrow_back
-            </span>
+            <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             Solutions
           </Link>
-        </div>
 
-        <div className="mb-16 grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <div>
-            <span className="font-metadata-label text-metadata-label mb-4 block uppercase tracking-widest text-primary dark:text-primary-fixed">
-              AI Products · {product.name}
-            </span>
-            <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-6 text-on-surface">
-              {product.name}
-            </h1>
-            <p className="font-accent-italic mb-6 text-[28px] italic leading-tight text-primary dark:text-primary-fixed">
-              {product.kicker}.
-            </p>
-            <p className="font-body-lg text-body-lg mb-8 max-w-lg text-on-surface-variant">
-              {product.summary}
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="rounded-full bg-brand-navy px-8 py-3 text-center font-medium text-white shadow-lg transition-colors hover:bg-brand-slate"
-              >
-                Talk to us
-              </Link>
-              <SmoothScrollLink
-                targetId="impact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-outline-variant/50 px-8 py-3 font-medium text-on-surface transition-colors hover:border-primary hover:text-primary dark:hover:text-primary-fixed"
-              >
-                See the impact
-                <span className="material-symbols-outlined text-[18px]">
-                  arrow_downward
-                </span>
-              </SmoothScrollLink>
-            </div>
-          </div>
-
-          {/* Visual panel */}
-          <div className="group relative flex h-[400px] items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-brand-navy to-brand-slate shadow-2xl">
-            <div className="bg-grid-white absolute inset-0 opacity-20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 to-transparent" />
-            <div className="glass-panel relative z-10 flex h-32 w-32 items-center justify-center rounded-2xl transition-transform duration-500 group-hover:-translate-y-2">
-              {symbol ? (
-                <span
-                  className="material-symbols-outlined text-6xl text-white opacity-90"
-                  style={{ fontVariationSettings: "'wght' 200" }}
+          <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+            <div>
+              <p className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.28em] text-brand-sky/80">
+                AI Product
+              </p>
+              <h1 className="mt-4 text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-7xl">
+                {product.name}
+              </h1>
+              <p className="mt-4 text-2xl leading-tight sm:text-3xl">
+                <Accent>{product.kicker}.</Accent>
+              </p>
+              <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/65">
+                {product.summary}
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/contact"
+                  className="rounded-full bg-gradient-to-r from-brand-royal to-brand-sky px-8 py-3.5 text-center font-semibold text-white shadow-[0_10px_40px_-8px_rgba(51,165,219,0.6)] transition hover:-translate-y-0.5"
                 >
-                  {symbol}
-                </span>
-              ) : (
-                <span className="text-6xl">{product.icon}</span>
-              )}
-            </div>
-            {/* Decorative orbs */}
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-sky opacity-40 mix-blend-screen blur-[80px]" />
-            <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-brand-royal opacity-40 mix-blend-screen blur-[80px]" />
-          </div>
-        </div>
-
-        {/* Stats rail */}
-        {product.metrics && (
-          <div
-            id="impact"
-            className="grid scroll-mt-32 grid-cols-1 divide-y divide-outline-variant/20 rounded-3xl border border-outline-variant/30 bg-surface-container-lowest shadow-glass md:grid-cols-3 md:divide-x md:divide-y-0"
-          >
-            {product.metrics.map((m) => (
-              <div
-                key={m.label}
-                className="flex flex-col items-center justify-center p-8 text-center transition-colors hover:bg-surface-container-low/50"
-              >
-                <span className="font-display-lg-mobile text-display-lg-mobile mb-2 font-bold text-primary dark:text-primary-fixed">
-                  {m.value}
-                </span>
-                <span className="font-body-md text-body-md text-on-surface-variant">
-                  {m.label}
-                </span>
+                  Talk to us
+                </Link>
+                <SmoothScrollLink
+                  targetId="how"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3.5 font-semibold text-white/85 transition hover:border-white/50 hover:text-white"
+                >
+                  See how it works
+                  <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
+                </SmoothScrollLink>
               </div>
-            ))}
+            </div>
+
+            <InstrumentPanel symbol={symbol} fallback={product.icon} />
           </div>
-        )}
+
+          {/* inline metric proof strip */}
+          {product.metrics && (
+            <div className="mt-16 flex flex-wrap items-end gap-x-14 gap-y-8 border-t border-white/12 pt-10">
+              {product.metrics.map((m) => (
+                <div key={m.label} className="min-w-[120px]">
+                  <div className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+                    {m.value}
+                  </div>
+                  <div className="mt-2 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-brand-sky/85">
+                    {m.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* ── Key features ── */}
-      <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-        <div className="mb-12">
-          <h2 className="font-headline-md text-headline-md mb-4 text-on-surface">
-            Key features
-          </h2>
-          <p className="font-body-md text-body-md text-on-surface-variant">
-            What {product.name} does out of the box.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {product.features.map((f) => (
-            <div
-              key={f}
-              className="rounded-3xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
-            >
-              <span className="material-symbols-outlined mb-6 text-3xl text-primary dark:text-primary-fixed">
-                task_alt
+      {/* ── How it works (Connect · Build · Deliver) ── */}
+      <section id="how" className="mx-auto max-w-6xl scroll-mt-28 px-6 py-24">
+        <h2 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+          From your data to a system that <Accent>runs itself</Accent>.
+        </h2>
+        <p className="mt-4 max-w-xl text-lg text-on-surface-variant">
+          Three steps, one team — no handoffs at the seams.
+        </p>
+        <div className="relative mt-14 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10">
+          <div className="absolute left-6 right-6 top-6 hidden h-px bg-gradient-to-r from-brand-royal/50 via-outline-variant/40 to-brand-sky/50 md:block" />
+          {buildSteps.map((s, i) => (
+            <div key={s.title} className="relative">
+              <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-outline-variant/40 bg-surface-container-lowest font-[family-name:var(--font-jetbrains)] text-sm font-bold text-primary shadow-sm dark:text-primary-fixed">
+                0{i + 1}
               </span>
-              <p className="font-body-md text-body-md text-on-surface-variant">
-                {f}
+              <h3 className="mt-6 text-lg font-bold tracking-tight text-on-surface">
+                {s.title}
+              </h3>
+              <p className="mt-2 max-w-xs leading-relaxed text-on-surface-variant">
+                {s.body}
               </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Use cases ── */}
-      {product.useCaseList && (
-        <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-          <div className="mb-16">
-            <h2 className="font-headline-md text-headline-md mb-4 text-on-surface">
-              How teams put {product.name} to work
-            </h2>
-            <p className="font-body-md text-body-md text-on-surface-variant">
-              The AI we put to work — mapped to the outcomes you care about.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-            {product.useCaseList.map((u, i) => (
-              <div key={u.title} className="group">
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-brand-navy shadow-md transition-transform group-hover:scale-110">
-                  <span
-                    className="material-symbols-outlined text-white"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    {useCaseIcons[i % useCaseIcons.length]}
+      {/* ── Capabilities (editorial spec list, not cards) ── */}
+      <section className="border-t border-outline-variant/20 bg-surface-container-low/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <h2 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+                Everything it does <Accent>out of the box</Accent>.
+              </h2>
+              <p className="mt-4 max-w-sm text-lg text-on-surface-variant">
+                What {product.name} ships with on day one — no add-ons, no phase two.
+              </p>
+            </div>
+            <ul>
+              {product.features.map((f, i) => (
+                <li
+                  key={f}
+                  className={`flex items-baseline gap-5 border-t border-outline-variant/25 py-6 ${
+                    i === 0 ? "lg:border-t-0 lg:pt-0" : ""
+                  }`}
+                >
+                  <span className="mt-1 text-lg font-bold text-primary dark:text-primary-fixed">
+                    +
                   </span>
-                </div>
-                <h3 className="font-body-md text-body-md mb-3 font-bold text-on-surface">
+                  <span className="text-xl leading-snug text-on-surface sm:text-2xl">
+                    {f}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Use cases (ruled two-column list) ── */}
+      {product.useCaseList && (
+        <section className="mx-auto max-w-6xl px-6 py-24">
+          <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+            How teams put {product.name} to <Accent>work</Accent>.
+          </h2>
+          <p className="mt-4 max-w-xl text-lg text-on-surface-variant">
+            The AI, mapped to the outcomes you already care about.
+          </p>
+          <div className="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
+            {product.useCaseList.map((u) => (
+              <div key={u.title} className="border-t border-outline-variant/25 pt-6">
+                <h3 className="text-xl font-bold tracking-tight text-on-surface">
                   {u.title}
                 </h3>
-                <p className="font-body-md text-body-md text-on-surface-variant">
+                <p className="mt-3 leading-relaxed text-on-surface-variant">
                   {u.body}
                 </p>
               </div>
@@ -229,154 +315,139 @@ export default async function ProductPage({
         </section>
       )}
 
-      {/* ── Industry-specific solutions ── */}
+      {/* ── Industry solutions (ruled list with quiet icons) ── */}
       {product.industries && (
-        <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-          <div className="mb-12">
-            <h2 className="font-headline-md text-headline-md mb-4 text-on-surface">
-              Industry-specific solutions
+        <section className="border-t border-outline-variant/20">
+          <div className="mx-auto max-w-6xl px-6 py-24">
+            <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+              Tuned to your <Accent>sector</Accent>.
             </h2>
-            <p className="font-body-md text-body-md text-on-surface-variant">
-              Tuned to the realities of your sector.
+            <p className="mt-4 max-w-xl text-lg text-on-surface-variant">
+              The same product, shaped to the realities of your industry.
             </p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {product.industries.map((ind) => (
-              <div
-                key={ind.name}
-                className="flex gap-5 rounded-3xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
-              >
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-fixed">
-                  {industryIcon[ind.name] ? (
-                    <span
-                      className="material-symbols-outlined text-2xl text-primary"
-                      style={{ fontVariationSettings: "'wght' 300" }}
-                    >
-                      {industryIcon[ind.name]}
-                    </span>
-                  ) : (
-                    <span className="text-2xl">{ind.icon}</span>
-                  )}
-                </span>
-                <div>
-                  <h3 className="font-body-md text-body-md mb-2 font-bold text-on-surface">
-                    {ind.name}
-                  </h3>
-                  <p className="font-body-md text-body-md text-on-surface-variant">
-                    {ind.solution}
-                  </p>
+            <div className="mt-14 grid gap-x-16 gap-y-10 md:grid-cols-2">
+              {product.industries.map((ind) => (
+                <div
+                  key={ind.name}
+                  className="flex gap-5 border-t border-outline-variant/25 pt-6"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-fixed text-primary">
+                    {industryIcon[ind.name] ? (
+                      <span
+                        className="material-symbols-outlined text-xl"
+                        style={{ fontVariationSettings: "'wght' 300" }}
+                      >
+                        {industryIcon[ind.name]}
+                      </span>
+                    ) : (
+                      <span className="text-xl">{ind.icon}</span>
+                    )}
+                  </span>
+                  <div>
+                    <h3 className="font-bold tracking-tight text-on-surface">
+                      {ind.name}
+                    </h3>
+                    <p className="mt-1.5 leading-relaxed text-on-surface-variant">
+                      {ind.solution}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
       )}
 
       {/* ── Case study ── */}
       {caseStudy && (
-        <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-          <div className="mb-12 flex items-center gap-4">
-            <h2 className="font-headline-md text-headline-md text-on-surface">
-              Case study
+        <section className="mx-auto max-w-6xl px-6 py-24">
+          <div className="mb-10 flex items-center gap-4">
+            <h2 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+              A <Accent>representative</Accent> engagement
             </h2>
-            <span className="font-metadata-label rounded-full border border-outline-variant/30 bg-surface-variant/50 px-3 py-1 text-[10px] uppercase tracking-wider text-primary dark:text-primary-fixed">
-              Representative Engagement
-            </span>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-outline-variant/30 bg-surface-container-lowest shadow-glass">
+          <div className="overflow-hidden rounded-3xl border border-outline-variant/30 bg-surface-container-lowest shadow-glass">
             <div className="grid grid-cols-1 lg:grid-cols-12">
-              {/* Content side */}
-              <div className="border-b border-outline-variant/20 p-10 lg:col-span-7 lg:border-b-0 lg:border-r lg:p-16">
-                <span className="font-metadata-label text-metadata-label mb-4 block uppercase tracking-widest text-primary dark:text-primary-fixed">
+              <div className="border-b border-outline-variant/20 p-10 lg:col-span-7 lg:border-b-0 lg:border-r lg:p-14">
+                <span className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.2em] text-primary dark:text-primary-fixed">
                   {caseStudy.industry}
                 </span>
-                <h3 className="font-headline-md text-headline-md mb-8 text-on-surface">
+                <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-on-surface">
                   {caseStudy.client}
                 </h3>
-                <div className="mb-8">
-                  <h4 className="font-metadata-label text-metadata-label mb-2 uppercase tracking-wider text-outline">
+                <div className="mt-8">
+                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
                     The challenge
                   </h4>
-                  <p className="font-body-md text-body-md text-on-surface-variant">
+                  <p className="mt-2 leading-relaxed text-on-surface-variant">
                     {caseStudy.challenge}
                   </p>
                 </div>
-                <div>
-                  <h4 className="font-metadata-label text-metadata-label mb-2 uppercase tracking-wider text-outline">
+                <div className="mt-6">
+                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
                     Our approach
                   </h4>
-                  <p className="font-body-md text-body-md text-on-surface-variant">
+                  <p className="mt-2 leading-relaxed text-on-surface-variant">
                     {caseStudy.approach}
                   </p>
                 </div>
               </div>
 
-              {/* Stats side */}
-              <div className="flex flex-col justify-center bg-surface/50 p-10 lg:col-span-5 lg:p-16">
-                <h4 className="font-metadata-label text-metadata-label mb-8 uppercase tracking-wider text-outline">
-                  The results
-                </h4>
-                <div className="space-y-8">
-                  {caseStudy.results.map((r) => (
-                    <div key={r.label}>
-                      <span className="font-display-lg-mobile text-display-lg-mobile mb-1 block font-bold text-primary dark:text-primary-fixed">
-                        {r.value}
-                      </span>
-                      <span className="font-body-md text-body-md text-on-surface-variant">
-                        {r.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-col justify-center gap-8 bg-surface/50 p-10 lg:col-span-5 lg:p-14">
+                {caseStudy.results.map((r) => (
+                  <div key={r.label} className="border-t border-outline-variant/25 pt-4 first:border-t-0 first:pt-0">
+                    <span className="block text-4xl font-extrabold tracking-tight text-primary dark:text-primary-fixed">
+                      {r.value}
+                    </span>
+                    <span className="mt-1 block text-on-surface-variant">
+                      {r.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Quote band */}
-            <div className="relative overflow-hidden bg-brand-navy p-10 lg:px-16 lg:py-12">
+            <div className="relative overflow-hidden bg-brand-navy p-10 lg:px-14 lg:py-12">
               <div className="bg-grid-white absolute inset-0 opacity-10" />
               <div className="relative z-10 max-w-3xl">
-                <p className="font-accent-italic mb-6 text-[28px] italic leading-snug text-white">
+                <p className="font-[family-name:var(--font-playfair)] text-2xl italic leading-snug text-white sm:text-[28px]">
                   &ldquo;{caseStudy.quote}&rdquo;
                 </p>
-                <p className="font-body-md text-body-md text-white/70">
-                  — {caseStudy.attribution}
-                </p>
+                <p className="mt-5 text-white/60">— {caseStudy.attribution}</p>
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* ── CTA band ── */}
-      <section className="max-w-5xl mx-auto px-gutter mb-section-padding-desktop">
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-navy to-brand-slate p-12 text-center shadow-2xl md:p-20">
+      {/* ── CTA ── */}
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <div className="relative overflow-hidden rounded-3xl bg-brand-navy p-12 text-center text-white md:p-20">
           <div className="bg-grid-white absolute inset-0 opacity-10" />
-          <div className="absolute right-0 top-0 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-brand-sky opacity-20 mix-blend-screen blur-[100px]" />
-          <div className="absolute bottom-0 left-0 h-96 w-96 -translate-x-1/2 translate-y-1/2 rounded-full bg-brand-royal opacity-20 mix-blend-screen blur-[100px]" />
+          <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 -translate-y-1/3 translate-x-1/3 rounded-full bg-brand-sky/20 blur-[110px]" />
+          <div className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 -translate-x-1/3 translate-y-1/3 rounded-full bg-brand-royal/25 blur-[110px]" />
           <div className="relative z-10 mx-auto max-w-2xl">
-            <h2 className="font-headline-md text-headline-md mb-4 text-white">
-              Put {product.name} to work
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
+              Put {product.name} to <Accent>work</Accent>.
             </h2>
-            <p className="font-body-md text-body-md mb-10 text-white/80">
+            <p className="mx-auto mt-4 max-w-lg text-lg text-white/70">
               Tell us your goals and we&apos;ll ship a pilot in weeks — measured
               against the outcomes your leadership already tracks.
             </p>
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"
-                className="w-full rounded-full bg-white px-8 py-3 font-medium text-brand-navy shadow-lg transition-colors hover:bg-surface-container-low sm:w-auto"
+                className="w-full rounded-full bg-white px-8 py-3.5 font-semibold text-brand-navy transition hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto"
               >
                 Book a consultation
               </Link>
               <Link
                 href="/technology"
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-transparent px-8 py-3 font-medium text-white transition-colors hover:bg-white/10 sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-white/25 px-8 py-3.5 font-semibold text-white transition hover:border-white/50 sm:w-auto"
               >
                 Explore the technology
-                <span className="material-symbols-outlined text-[18px]">
-                  arrow_forward
-                </span>
+                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
             </div>
           </div>
@@ -384,40 +455,40 @@ export default async function ProductPage({
       </section>
 
       {/* ── More products ── */}
-      <section className="max-w-5xl mx-auto px-gutter">
-        <h2 className="font-metadata-label text-metadata-label mb-6 uppercase tracking-widest text-outline">
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <h2 className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.2em] text-outline">
           Explore more AI products
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {products
             .filter((p) => p.slug !== slug)
             .map((p) => (
               <Link
                 key={p.slug}
                 href={`/products/${p.slug}`}
-                className="group flex items-center gap-4 rounded-3xl border border-outline-variant/30 bg-surface-container-lowest px-5 py-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
+                className="group flex items-center gap-4 rounded-2xl border border-outline-variant/30 bg-surface-container-lowest px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-fixed">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-fixed text-primary">
                   {heroIcon[p.slug] ? (
                     <span
-                      className="material-symbols-outlined text-xl text-primary"
+                      className="material-symbols-outlined text-xl"
                       style={{ fontVariationSettings: "'wght' 300" }}
                     >
                       {heroIcon[p.slug]}
                     </span>
                   ) : (
-                    <span className="text-lg">{p.icon}</span>
+                    <span className="text-xl">{p.icon}</span>
                   )}
                 </span>
-                <span className="flex-1">
-                  <span className="font-body-md text-body-md block font-bold text-on-surface transition-colors group-hover:text-primary dark:group-hover:text-primary-fixed">
+                <div className="min-w-0">
+                  <span className="block font-bold tracking-tight text-on-surface transition-colors group-hover:text-primary dark:group-hover:text-primary-fixed">
                     {p.name}
                   </span>
-                  <span className="font-body-md block text-sm text-on-surface-variant">
+                  <span className="block truncate text-sm text-on-surface-variant">
                     {p.kicker}
                   </span>
-                </span>
-                <span className="material-symbols-outlined text-outline transition-transform group-hover:translate-x-1 group-hover:text-primary dark:group-hover:text-primary-fixed">
+                </div>
+                <span className="material-symbols-outlined ml-auto text-outline transition-transform group-hover:translate-x-0.5">
                   arrow_forward
                 </span>
               </Link>

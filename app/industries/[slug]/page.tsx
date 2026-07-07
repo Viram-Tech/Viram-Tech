@@ -1,11 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { LuTriangleAlert, LuSparkles, LuArrowRight, LuArrowUpRight } from "react-icons/lu";
-import { Eyebrow } from "@/components/ui";
+import { LuArrowRight } from "react-icons/lu";
 import { sectors, sectorCaseStudies, type Sector } from "@/lib/content";
 import { sectorIcons } from "@/components/sectorIcons";
-import { Reveal } from "@/components/Reveal";
+import { SmoothScrollLink } from "@/components/SmoothScrollLink";
 import { RelatedArticles } from "@/components/RelatedArticles";
 
 export function generateStaticParams() {
@@ -25,15 +24,23 @@ export async function generateMetadata({
   };
 }
 
+/** Playfair italic accent — matches the products / for-startups type system. */
+function Accent({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="font-[family-name:var(--font-playfair)] font-normal italic text-brand-royal dark:text-brand-sky">
+      {children}
+    </span>
+  );
+}
+
+/** Tagline with its key phrase set in the Playfair italic accent. */
 function Tagline({ text, accent }: { text: string; accent: string }) {
   const i = text.toLowerCase().indexOf(accent.toLowerCase());
   if (i < 0) return <>{text}</>;
   return (
     <>
       {text.slice(0, i)}
-      <span className="font-serif font-normal italic text-indigo-500">
-        {text.slice(i, i + accent.length)}
-      </span>
+      <Accent>{text.slice(i, i + accent.length)}</Accent>
       {text.slice(i + accent.length)}
     </>
   );
@@ -53,237 +60,252 @@ export default async function IndustryPage({
   const caseStudy = sectorCaseStudies[s.slug];
 
   return (
-    <>
-    <article className="mx-auto max-w-5xl px-6 pb-28 pt-32">
-      <Link
-        href="/industries"
-        className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline"
-      >
-        ← Industries
-      </Link>
+    <div>
+      {/* ── Hero (full-bleed navy, photo panel) ── */}
+      <section className="relative overflow-hidden bg-brand-navy text-white">
+        <div className="bg-grid-white pointer-events-none absolute inset-0 opacity-[0.1]" />
+        <div className="pointer-events-none absolute -left-40 bottom-0 h-[460px] w-[460px] rounded-full bg-brand-royal/25 blur-[130px]" />
 
-      {/* Hero */}
-      <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <Reveal>
-          <Eyebrow>Industries · {s.short}</Eyebrow>
-          <h1 className="mt-3 text-pretty text-4xl font-extrabold tracking-tight sm:text-5xl">
-            {s.name}
-          </h1>
-          <p className="mt-5 text-balance text-2xl font-semibold leading-snug tracking-tight">
-            <Tagline text={s.tagline} accent={s.accent} />
-          </p>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed opacity-80">
-            {s.overview}
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-3xl shadow-xl shadow-indigo-500/10">
-            <Image
-              src={`/industries/${s.slug}.jpg`}
-              alt={s.name}
-              fill
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-55`}
-            />
-            <div className="absolute inset-0 bg-black/25" />
-            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
-            {Icon && (
-              <span className="animate-float relative text-white/95 drop-shadow">
-                <Icon size={96} strokeWidth={1.3} />
-              </span>
-            )}
-          </div>
-        </Reveal>
-      </div>
-
-      {/* Metrics band */}
-      <Reveal className="mt-16 grid divide-y divide-black/5 rounded-3xl border border-black/5 bg-black/[0.02] sm:grid-cols-3 sm:divide-x sm:divide-y-0 dark:divide-white/10 dark:border-white/10 dark:bg-white/[0.03]">
-        {s.metrics.map((m) => (
-          <div key={m.label} className="p-7 text-center">
-            <div className="bg-gradient-to-r from-[#3F56A4] to-[#33A5DB] bg-clip-text text-4xl font-extrabold text-transparent sm:text-5xl">
-              {m.value}
-            </div>
-            <div className="mt-2 text-sm opacity-70">{m.label}</div>
-          </div>
-        ))}
-      </Reveal>
-
-      {/* The challenge */}
-      <div className="mt-24">
-        <Reveal>
-          <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-            The challenge
-          </h2>
-        </Reveal>
-        <div className="mt-8 grid gap-x-10 gap-y-7 sm:grid-cols-3">
-          {s.challenges.map((c, i) => (
-            <Reveal key={c} delay={i * 0.08}>
-              <div className="flex gap-3">
-                <LuTriangleAlert
-                  size={18}
-                  className="mt-1 shrink-0 text-amber-500/80"
-                />
-                <p className="text-base leading-relaxed opacity-80">{c}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {/* How ViramTech helps */}
-      <div className="mt-24">
-        <Reveal>
-          <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-            How ViramTech helps
-          </h2>
-          <p className="mt-2 max-w-xl text-lg opacity-70">
-            The AI we put to work in {s.short.toLowerCase()}.
-          </p>
-        </Reveal>
-        <div className="mt-10 grid gap-x-10 gap-y-12 sm:grid-cols-3">
-          {s.solutions.map((sol, i) => (
-            <Reveal key={sol.title} delay={i * 0.08}>
-              <span
-                className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${s.gradient} text-white shadow-md`}
-              >
-                <LuSparkles size={22} />
-              </span>
-              <h3 className="mt-5 text-lg font-bold tracking-tight">{sol.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed opacity-75">{sol.body}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
-      {/* Case study */}
-      {caseStudy && (
-        <div className="mt-24">
-          <Reveal className="flex flex-wrap items-center gap-3">
-            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-              Case study
-            </h2>
-            <span className="rounded-full border border-indigo-500/20 bg-indigo-500/5 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
-              Representative engagement
-            </span>
-          </Reveal>
-
-          <Reveal
-            delay={0.1}
-            className="mt-8 overflow-hidden rounded-3xl border border-black/5 dark:border-white/10"
+        <div className="relative mx-auto max-w-6xl px-6 pt-32 pb-16 sm:pt-40">
+          <Link
+            href="/industries"
+            className="inline-flex items-center gap-1.5 font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.2em] text-brand-sky transition hover:text-white"
           >
-            <div className="grid gap-10 bg-black/[0.02] p-8 sm:p-10 md:grid-cols-2 dark:bg-white/[0.03]">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-500">
-                  {caseStudy.industry}
+            <span aria-hidden>←</span> Industries
+          </Link>
+
+          <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.28em] text-brand-sky/80">
+                Industry · {s.short}
+              </p>
+              <h1 className="mt-4 text-5xl font-extrabold leading-[1.02] tracking-tight sm:text-7xl">
+                {s.name}
+              </h1>
+              <p className="mt-5 max-w-lg text-2xl font-semibold leading-tight tracking-tight text-white/90 sm:text-3xl">
+                <Tagline text={s.tagline} accent={s.accent} />
+              </p>
+              <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/65">
+                {s.overview}
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/contact"
+                  className="rounded-full bg-gradient-to-r from-brand-royal to-brand-sky px-8 py-3.5 text-center font-semibold text-white shadow-[0_10px_40px_-8px_rgba(51,165,219,0.6)] transition hover:-translate-y-0.5"
+                >
+                  Talk to us
+                </Link>
+                <SmoothScrollLink
+                  targetId="help"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3.5 font-semibold text-white/85 transition hover:border-white/50 hover:text-white"
+                >
+                  How we help
+                  <span aria-hidden>↓</span>
+                </SmoothScrollLink>
+              </div>
+            </div>
+
+            {/* Industry photo — kept, framed on the navy */}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+              <Image
+                src={`/industries/${s.slug}.jpg`}
+                alt={`${s.name} — ${s.short.toLowerCase()} operations`}
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${s.gradient} opacity-40 mix-blend-multiply`}
+              />
+              <div className="absolute inset-0 bg-brand-navy/30" />
+              {Icon && (
+                <span className="absolute bottom-5 left-5 text-white/90 drop-shadow">
+                  <Icon size={40} strokeWidth={1.4} />
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* inline metric strip */}
+          <div className="mt-16 flex flex-wrap items-end gap-x-14 gap-y-8 border-t border-white/12 pt-10">
+            {s.metrics.map((m) => (
+              <div key={m.label} className="min-w-[120px]">
+                <div className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+                  {m.value}
+                </div>
+                <div className="mt-2 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-brand-sky/85">
+                  {m.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── The challenge (ruled list) ── */}
+      <section className="mx-auto max-w-6xl px-6 py-24">
+        <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+          Where the <Accent>friction</Accent> is.
+        </h2>
+        <p className="mt-4 max-w-xl text-lg text-on-surface-variant">
+          The problems that quietly cost {s.short.toLowerCase()} teams the most.
+        </p>
+        <div className="mt-12 grid gap-x-16 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+          {s.challenges.map((c) => (
+            <div key={c} className="border-t border-outline-variant/25 pt-5">
+              <p className="leading-relaxed text-on-surface-variant">{c}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── How ViramTech helps (ruled list) ── */}
+      <section
+        id="help"
+        className="scroll-mt-28 border-t border-outline-variant/20 bg-surface-container-low/40"
+      >
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <h2 className="max-w-2xl text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+            How ViramTech puts AI to <Accent>work</Accent>.
+          </h2>
+          <p className="mt-4 max-w-xl text-lg text-on-surface-variant">
+            The AI we ship into {s.short.toLowerCase()} — mapped to real outcomes.
+          </p>
+          <div className="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
+            {s.solutions.map((sol) => (
+              <div key={sol.title} className="border-t border-outline-variant/25 pt-6">
+                <h3 className="text-xl font-bold tracking-tight text-on-surface">
+                  {sol.title}
+                </h3>
+                <p className="mt-3 leading-relaxed text-on-surface-variant">
+                  {sol.body}
                 </p>
-                <h3 className="mt-2 text-xl font-extrabold tracking-tight">
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Case study ── */}
+      {caseStudy && (
+        <section className="mx-auto max-w-6xl px-6 py-24">
+          <h2 className="mb-10 text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
+            A <Accent>representative</Accent> engagement
+          </h2>
+
+          <div className="overflow-hidden rounded-3xl border border-outline-variant/30 bg-surface-container-lowest shadow-glass">
+            <div className="grid grid-cols-1 lg:grid-cols-12">
+              <div className="border-b border-outline-variant/20 p-10 lg:col-span-7 lg:border-b-0 lg:border-r lg:p-14">
+                <span className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.2em] text-primary dark:text-primary-fixed">
+                  {caseStudy.industry}
+                </span>
+                <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-on-surface">
                   {caseStudy.client}
                 </h3>
-                <div className="mt-6">
-                  <p className="text-xs font-bold uppercase tracking-wide opacity-50">
+                <div className="mt-8">
+                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
                     The challenge
-                  </p>
-                  <p className="mt-1.5 text-sm leading-relaxed opacity-80">
+                  </h4>
+                  <p className="mt-2 leading-relaxed text-on-surface-variant">
                     {caseStudy.challenge}
                   </p>
                 </div>
-                <div className="mt-5">
-                  <p className="text-xs font-bold uppercase tracking-wide opacity-50">
+                <div className="mt-6">
+                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
                     Our approach
-                  </p>
-                  <p className="mt-1.5 text-sm leading-relaxed opacity-80">
+                  </h4>
+                  <p className="mt-2 leading-relaxed text-on-surface-variant">
                     {caseStudy.approach}
                   </p>
                 </div>
               </div>
 
-              <div className="grid content-center gap-6 sm:border-l sm:border-black/5 sm:pl-10 dark:sm:border-white/10">
-                <p className="text-xs font-bold uppercase tracking-wide opacity-50">
-                  The results
-                </p>
+              <div className="flex flex-col justify-center gap-8 bg-surface/50 p-10 lg:col-span-5 lg:p-14">
                 {caseStudy.results.map((r) => (
-                  <div key={r.label} className="flex items-baseline gap-3">
-                    <span className="bg-gradient-to-r from-[#3F56A4] to-[#33A5DB] bg-clip-text text-4xl font-extrabold text-transparent">
+                  <div
+                    key={r.label}
+                    className="border-t border-outline-variant/25 pt-4 first:border-t-0 first:pt-0"
+                  >
+                    <span className="block text-4xl font-extrabold tracking-tight text-primary dark:text-primary-fixed">
                       {r.value}
                     </span>
-                    <span className="text-sm opacity-70">{r.label}</span>
+                    <span className="mt-1 block text-on-surface-variant">
+                      {r.label}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <blockquote
-              className={`bg-gradient-to-br ${s.gradient} p-8 text-white sm:p-10`}
-            >
-              <p className="max-w-2xl text-lg font-medium leading-relaxed">
-                &ldquo;{caseStudy.quote}&rdquo;
-              </p>
-              <footer className="mt-4 text-sm text-white/60">
-                — {caseStudy.attribution}
-              </footer>
-            </blockquote>
-          </Reveal>
-        </div>
+            <div className="relative overflow-hidden bg-brand-navy p-10 lg:px-14 lg:py-12">
+              <div className="bg-grid-white absolute inset-0 opacity-10" />
+              <div className="relative z-10 max-w-3xl">
+                <p className="font-[family-name:var(--font-playfair)] text-2xl italic leading-snug text-white sm:text-[28px]">
+                  &ldquo;{caseStudy.quote}&rdquo;
+                </p>
+                <p className="mt-5 text-white/60">— {caseStudy.attribution}</p>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
-      {/* CTA band */}
-      <div
-        className={`mt-24 overflow-hidden rounded-3xl bg-gradient-to-br ${s.gradient} px-8 py-14 text-center text-white`}
-      >
-        <h2 className="text-2xl font-extrabold sm:text-3xl">
-          Put AI to work in your {s.short.toLowerCase()} operation
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-white/80">
-          Tell us where the friction is — we&apos;ll map the highest-ROI place to
-          start.
-        </p>
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/contact"
-            className="rounded-full bg-white px-7 py-3 font-semibold text-indigo-700 transition hover:bg-white/90"
-          >
-            Book a consultation
-          </Link>
-          <Link
-            href="/technology"
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
-          >
-            Explore the technology
-            <LuArrowRight size={16} />
-          </Link>
+      {/* ── CTA ── */}
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <div className="relative overflow-hidden rounded-3xl bg-brand-navy p-12 text-center text-white md:p-20">
+          <div className="bg-grid-white absolute inset-0 opacity-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 -translate-y-1/3 translate-x-1/3 rounded-full bg-brand-sky/20 blur-[110px]" />
+          <div className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 -translate-x-1/3 translate-y-1/3 rounded-full bg-brand-royal/25 blur-[110px]" />
+          <div className="relative z-10 mx-auto max-w-2xl">
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
+              Put AI to work in your <Accent>{s.short.toLowerCase()}</Accent>{" "}
+              operation.
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-lg text-white/70">
+              Tell us where the friction is — we&apos;ll map the highest-ROI place
+              to start and ship a pilot in weeks.
+            </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                href="/contact"
+                className="w-full rounded-full bg-white px-8 py-3.5 font-semibold text-brand-navy transition hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto"
+              >
+                Book a consultation
+              </Link>
+              <Link
+                href="/technology"
+                className="flex w-full items-center justify-center gap-2 rounded-full border border-white/25 px-8 py-3.5 font-semibold text-white transition hover:border-white/50 sm:w-auto"
+              >
+                Explore the technology
+                <LuArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* More industries */}
-      <div className="mt-20">
-        <h2 className="text-sm font-bold uppercase tracking-[0.15em] opacity-50">
+      {/* ── More industries ── */}
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <h2 className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.2em] text-outline">
           More industries
         </h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {others.map((o) => {
             const OIcon = sectorIcons[o.slug];
             return (
               <Link
                 key={o.slug}
                 href={`/industries/${o.slug}`}
-                className="group flex items-start gap-3 rounded-2xl border border-black/5 bg-black/[0.02] p-5 transition hover:-translate-y-0.5 hover:border-indigo-500/30 dark:border-white/10 dark:bg-white/[0.03]"
+                className="group flex items-start gap-3 rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-5 transition hover:-translate-y-0.5 hover:border-primary/40"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-fixed text-primary">
                   {OIcon && <OIcon size={20} />}
                 </span>
                 <span className="min-w-0">
-                  <span className="flex items-center gap-1 text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                  <span className="block font-bold tracking-tight text-on-surface transition-colors group-hover:text-primary dark:group-hover:text-primary-fixed">
                     {o.short}
-                    <LuArrowUpRight
-                      size={14}
-                      className="opacity-0 transition group-hover:opacity-100"
-                    />
                   </span>
-                  <span className="mt-0.5 block truncate text-xs opacity-60">
+                  <span className="mt-0.5 block truncate text-xs text-on-surface-variant">
                     {o.points.join(" · ")}
                   </span>
                 </span>
@@ -291,9 +313,9 @@ export default async function IndustryPage({
             );
           })}
         </div>
-      </div>
-    </article>
+      </section>
+
       <RelatedArticles />
-    </>
+    </div>
   );
 }

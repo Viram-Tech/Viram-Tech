@@ -20,6 +20,37 @@ const heroIcon: Record<string, string> = {
   "agentic-ai-platform": "smart_toy",
 };
 
+/** What every product in the suite shares — value blocks with proof points. */
+const valueBlocks = [
+  {
+    icon: "lock",
+    title: "Owned end to end",
+    points: [
+      "Your data, models and infrastructure stay yours",
+      "Deployed inside your cloud — no lock-in",
+      "One team from first pilot to production",
+    ],
+  },
+  {
+    icon: "bolt",
+    title: "In production, in weeks",
+    points: [
+      "A working pilot in weeks, not quarters",
+      "Fixed scope — no open-ended research",
+      "Architecture that scales to the enterprise",
+    ],
+  },
+  {
+    icon: "insights",
+    title: "Measured on outcomes",
+    points: [
+      "Tied to the metrics leadership already tracks",
+      "Monitored continuously as it runs",
+      "Proven against a baseline you set",
+    ],
+  },
+];
+
 export default function ProductsIndex() {
   return (
     <>
@@ -37,7 +68,11 @@ export default function ProductsIndex() {
         AI Products
       </span>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-        Solutions built to reach production
+        Solutions built to reach{" "}
+        <span className="font-[family-name:var(--font-playfair)] font-normal italic text-brand-royal dark:text-brand-sky">
+          production
+        </span>
+        .
       </h1>
       <p className="mt-5 max-w-2xl text-lg leading-relaxed opacity-70">
         A suite of enterprise AI products — each one owned end to end, measured
@@ -49,7 +84,7 @@ export default function ProductsIndex() {
           <Link
             key={p.slug}
             href={`/products/${p.slug}`}
-            className="group flex flex-col rounded-3xl border border-outline-variant/30 bg-surface-container-lowest p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
+            className="group flex flex-col rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
           >
             <div className="flex items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-fixed">
@@ -82,6 +117,49 @@ export default function ProductsIndex() {
             </span>
           </Link>
         ))}
+      </div>
+
+      {/* ── What every product shares (Decodable-style value blocks) ── */}
+      <div className="mt-24">
+        <h2 className="max-w-2xl text-2xl font-extrabold tracking-tight sm:text-3xl">
+          Enterprise AI, without the hassle.
+        </h2>
+        <p className="mt-3 max-w-2xl text-lg leading-relaxed opacity-70">
+          Whatever you build with us, the fundamentals are the same.
+        </p>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {valueBlocks.map((b) => (
+            <div
+              key={b.title}
+              className="rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-fixed text-primary">
+                <span
+                  className="material-symbols-outlined text-2xl"
+                  style={{ fontVariationSettings: "'wght' 300" }}
+                >
+                  {b.icon}
+                </span>
+              </span>
+              <h3 className="mt-5 text-lg font-bold tracking-tight text-on-surface">
+                {b.title}
+              </h3>
+              <ul className="mt-4 space-y-3">
+                {b.points.map((pt) => (
+                  <li
+                    key={pt}
+                    className="flex gap-2.5 text-sm leading-relaxed text-on-surface-variant"
+                  >
+                    <span className="material-symbols-outlined mt-0.5 shrink-0 text-[18px] text-primary dark:text-primary-fixed">
+                      check
+                    </span>
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
       <RelatedArticles />
