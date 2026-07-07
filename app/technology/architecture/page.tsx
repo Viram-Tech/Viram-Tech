@@ -21,7 +21,11 @@ export default function Architecture() {
       </Link>
       <Eyebrow>Technology · AI Frameworks</Eyebrow>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-        Frameworks that tie it all together.
+        Frameworks that tie it all{" "}
+        <span className="font-[family-name:var(--font-playfair)] font-normal italic text-brand-royal dark:text-brand-sky">
+          together
+        </span>
+        .
       </h1>
       <p className="mt-5 max-w-xl text-lg opacity-70">
         The tooling layer — orchestration, model integration and fine-tuning —

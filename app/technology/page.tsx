@@ -19,7 +19,11 @@ export default function Technology() {
     <section className="mx-auto max-w-5xl px-6 pt-32">
       <Eyebrow>Technology</Eyebrow>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-        An AI stack built to scale.
+        An AI stack built to{" "}
+        <span className="font-[family-name:var(--font-playfair)] font-normal italic text-brand-royal dark:text-brand-sky">
+          scale
+        </span>
+        .
       </h1>
       <p className="mt-5 max-w-xl text-lg opacity-70">
         From models to multi-cloud infrastructure, we own every layer — so your

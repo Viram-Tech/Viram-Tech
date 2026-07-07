@@ -144,10 +144,10 @@ export function CompanyOrbit() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // Scrub the power-up across a long scroll range — from when the diagram
-  // enters near the bottom until it has nearly scrolled off the top — so the
-  // reveal reads clearly as a slow, scroll-driven animation.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.15"] });
+  // Scrub the power-up from when the diagram enters near the bottom until it
+  // is centred in the viewport — so it reaches the full "online" state while
+  // still fully visible, before it scrolls off the top.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "center 0.5"] });
 
   const coreOpacity = useTransform(scrollYProgress, [0.15, 0.55], [0.35, 1]);
   const glowOpacity = useTransform(scrollYProgress, [0.4, 1], [0, 0.9]);

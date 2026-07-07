@@ -71,7 +71,7 @@ function CapabilitySection({ cap, index }: { cap: Capability; index: number }) {
         <h3 className="mt-6 text-2xl font-extrabold tracking-tight sm:text-3xl">
           {cap.name}
         </h3>
-        <p className="mt-2 text-lg font-semibold text-indigo-600 dark:text-indigo-300">
+        <p className="mt-2 font-[family-name:var(--font-playfair)] text-xl italic text-brand-royal dark:text-brand-sky">
           {cap.tagline}
         </p>
         <p className="mt-4 text-base leading-relaxed opacity-75">{cap.body}</p>
