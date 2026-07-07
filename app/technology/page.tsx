@@ -16,7 +16,7 @@ const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
 export default function Technology() {
   return (
     <>
-    <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+    <section className="mx-auto max-w-5xl px-6 pt-32">
       <Eyebrow>Technology</Eyebrow>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">
         An AI stack built to scale.
@@ -90,8 +90,10 @@ export default function Technology() {
           );
         })}
       </div>
+    </section>
 
-      {/* AI / ML capabilities — half-page deep dives */}
+    {/* AI / ML capabilities — wider, un-carded deep dives */}
+    <section className="mx-auto max-w-6xl px-6 pb-28">
       <CapabilityDeepDive />
 
       {/* Infrastructure → dedicated page (blue deep-dive CTA) */}

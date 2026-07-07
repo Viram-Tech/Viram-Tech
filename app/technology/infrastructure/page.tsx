@@ -13,7 +13,7 @@ export const metadata = {
 export default function Infrastructure() {
   return (
     <>
-    <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+    <section className="mx-auto max-w-5xl px-6 pt-32">
       <Link
         href="/technology"
         className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline"
@@ -21,8 +21,10 @@ export default function Infrastructure() {
         ← Technology
       </Link>
       <Eyebrow>Technology · Infrastructure</Eyebrow>
+    </section>
 
-      <InfrastructureDeepDive className="mt-6" />
+    <section className="mx-auto max-w-6xl px-6 pb-28">
+      <InfrastructureDeepDive className="mt-10" />
 
       {/* Continue → technical architecture */}
       <Link

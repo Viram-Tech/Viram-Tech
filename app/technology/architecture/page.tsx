@@ -12,7 +12,7 @@ export const metadata = {
 export default function Architecture() {
   return (
     <>
-    <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+    <section className="mx-auto max-w-5xl px-6 pt-32">
       <Link
         href="/technology"
         className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline"
@@ -27,10 +27,14 @@ export default function Architecture() {
         The tooling layer — orchestration, model integration and fine-tuning —
         that turns raw models into production solutions that speak your business.
       </p>
+    </section>
 
-      {/* AI Frameworks — half-page deep dives (heading handled by the page hero) */}
+    {/* AI Frameworks — wider, un-carded deep dives */}
+    <section className="mx-auto max-w-6xl px-6">
       <FrameworksDeepDive showHeading={false} />
+    </section>
 
+    <section className="mx-auto max-w-5xl px-6 pb-28">
       {/* Why this architecture is viable */}
       <h2 className="mt-24 text-center text-2xl font-extrabold tracking-tight sm:text-3xl">
         Why this architecture is viable

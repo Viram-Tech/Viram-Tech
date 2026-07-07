@@ -31,7 +31,7 @@ export function CapabilityDeepDive() {
         one turns into business value.
       </p>
 
-      <div className="mt-12 space-y-10 sm:space-y-16">
+      <div className="mt-16 space-y-24 sm:space-y-36">
         {aiCapabilities.map((cap, i) => (
           <CapabilitySection key={cap.slug} cap={cap} index={i} />
         ))}
@@ -52,10 +52,13 @@ function CapabilitySection({ cap, index }: { cap: Capability; index: number }) {
       whileInView="show"
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.5, staggerChildren: 0.08 }}
-      className="grid min-h-[58vh] scroll-mt-28 items-center gap-10 rounded-3xl border border-black/5 bg-black/[0.015] p-7 sm:p-10 lg:grid-cols-2 lg:gap-14 dark:border-white/10 dark:bg-white/[0.02]"
+      className="grid min-h-[58vh] scroll-mt-28 items-center gap-10 lg:grid-cols-2 lg:gap-14"
     >
-      {/* Copy */}
-      <motion.div variants={fadeUp} className={flipped ? "lg:order-2" : ""}>
+      {/* Copy — a left-aligned block, pushed to the right edge when flipped */}
+      <motion.div
+        variants={fadeUp}
+        className={`lg:max-w-md ${flipped ? "lg:order-2 lg:ml-auto" : ""}`}
+      >
         <div className="flex items-center gap-4">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
             <Icon size={26} />
@@ -71,9 +74,7 @@ function CapabilitySection({ cap, index }: { cap: Capability; index: number }) {
         <p className="mt-2 text-lg font-semibold text-indigo-600 dark:text-indigo-300">
           {cap.tagline}
         </p>
-        <p className="mt-4 max-w-md text-base leading-relaxed opacity-75">
-          {cap.body}
-        </p>
+        <p className="mt-4 text-base leading-relaxed opacity-75">{cap.body}</p>
 
         <ul className="mt-7 space-y-4">
           {cap.points.map((p) => (
