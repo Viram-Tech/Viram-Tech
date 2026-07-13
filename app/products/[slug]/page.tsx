@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { products, productCaseStudies } from "@/lib/content";
+import { products } from "@/lib/content";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { SmoothScrollLink } from "@/components/SmoothScrollLink";
 
@@ -160,7 +160,6 @@ export default async function ProductPage({
   const index = products.findIndex((p) => p.slug === slug);
   if (index === -1) notFound();
   const product = products[index];
-  const caseStudy = productCaseStudies[slug];
   const symbol = heroIcon[slug];
 
   return (
@@ -353,69 +352,6 @@ export default async function ProductPage({
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── Case study ── */}
-      {caseStudy && (
-        <section className="mx-auto max-w-6xl px-6 py-24">
-          <div className="mb-10 flex items-center gap-4">
-            <h2 className="text-3xl font-extrabold tracking-tight text-on-surface sm:text-4xl">
-              A <Accent>representative</Accent> engagement
-            </h2>
-          </div>
-
-          <div className="overflow-hidden rounded-3xl border border-outline-variant/30 bg-surface-container-lowest shadow-glass">
-            <div className="grid grid-cols-1 lg:grid-cols-12">
-              <div className="border-b border-outline-variant/20 p-10 lg:col-span-7 lg:border-b-0 lg:border-r lg:p-14">
-                <span className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.2em] text-primary dark:text-primary-fixed">
-                  {caseStudy.industry}
-                </span>
-                <h3 className="mt-3 text-2xl font-extrabold tracking-tight text-on-surface">
-                  {caseStudy.client}
-                </h3>
-                <div className="mt-8">
-                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
-                    The challenge
-                  </h4>
-                  <p className="mt-2 leading-relaxed text-on-surface-variant">
-                    {caseStudy.challenge}
-                  </p>
-                </div>
-                <div className="mt-6">
-                  <h4 className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-outline">
-                    Our approach
-                  </h4>
-                  <p className="mt-2 leading-relaxed text-on-surface-variant">
-                    {caseStudy.approach}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-col justify-center gap-8 bg-surface/50 p-10 lg:col-span-5 lg:p-14">
-                {caseStudy.results.map((r) => (
-                  <div key={r.label} className="border-t border-outline-variant/25 pt-4 first:border-t-0 first:pt-0">
-                    <span className="block text-4xl font-extrabold tracking-tight text-primary dark:text-primary-fixed">
-                      {r.value}
-                    </span>
-                    <span className="mt-1 block text-on-surface-variant">
-                      {r.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative overflow-hidden bg-brand-navy p-10 lg:px-14 lg:py-12">
-              <div className="bg-grid-white absolute inset-0 opacity-10" />
-              <div className="relative z-10 max-w-3xl">
-                <p className="font-[family-name:var(--font-playfair)] text-2xl italic leading-snug text-white sm:text-[28px]">
-                  &ldquo;{caseStudy.quote}&rdquo;
-                </p>
-                <p className="mt-5 text-white/60">— {caseStudy.attribution}</p>
-              </div>
             </div>
           </div>
         </section>
