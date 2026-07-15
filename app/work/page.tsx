@@ -24,7 +24,7 @@ const projects: Project[] = [
   {
     title: "Cabin Zindagi",
     subtitle: "Web platform",
-    link: "https://cabin-zindagi.vercel.app",
+    link: "https://cabinzindagi.com",
     image: "/work/cabin-zindagi.png",
     gradient: "from-[#597CBD] to-[#2A3E77]",
   },
