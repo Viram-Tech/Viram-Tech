@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   SiGooglecloud,
   SiSnowflake,
@@ -37,27 +38,50 @@ const platformLogos: LogoItem[] = [
   { node: <SiNvidia />, title: "NVIDIA", href: "https://www.nvidia.com" },
 ];
 
-// Soft fade only at the very ends of the loop — reveals the page behind it,
-// so it stays clean on any background in either theme.
-const END_FADE =
-  "linear-gradient(to right, transparent 0, #000 64px, #000 calc(100% - 64px), transparent 100%)";
+// Soft fade only at the very ends of the loop. Narrower on mobile so the
+// fade doesn't eat the small viewport.
+const endFade = (edge: number) =>
+  `linear-gradient(to right, transparent 0, #000 ${edge}px, #000 calc(100% - ${edge}px), transparent 100%)`;
+
+// Tighten spacing / size on small screens; roomier on desktop.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+}
 
 export function ClientLogos() {
+  const isMobile = useIsMobile();
+  const gap = isMobile ? 72 : 144;
+  const logoHeight = isMobile ? 36 : 48;
+  const containerHeight = isMobile ? 46 : 60;
+  const fadeEdge = isMobile ? 28 : 64;
+
   return (
     <section className="px-gutter pt-16 pb-10">
       <p className="mb-8 text-center font-metadata-label text-metadata-label uppercase tracking-[0.18em] text-on-surface-variant/70">
         Built on enterprise cloud, data &amp; AI platforms
       </p>
       <div
-        className="relative flex items-center h-[60px] w-full text-on-surface-variant/70"
-        style={{ WebkitMaskImage: END_FADE, maskImage: END_FADE }}
+        className="relative flex items-center w-full text-on-surface-variant/70"
+        style={{
+          height: containerHeight,
+          WebkitMaskImage: endFade(fadeEdge),
+          maskImage: endFade(fadeEdge),
+        }}
       >
         <LogoLoop
           logos={platformLogos}
           speed={45}
           direction="left"
-          logoHeight={48}
-          gap={144}
+          logoHeight={logoHeight}
+          gap={gap}
           hoverSpeed={0}
           scaleOnHover
           ariaLabel="Platforms ViramTech builds on"
