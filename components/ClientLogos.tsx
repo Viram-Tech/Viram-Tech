@@ -49,7 +49,7 @@ export function ClientLogos() {
         Built on enterprise cloud, data &amp; AI platforms
       </p>
       <div
-        className="relative h-[52px] w-full text-on-surface-variant/70"
+        className="relative flex items-center h-[60px] w-full text-on-surface-variant/70"
         style={{ WebkitMaskImage: END_FADE, maskImage: END_FADE }}
       >
         <LogoLoop
