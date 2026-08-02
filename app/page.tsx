@@ -12,6 +12,7 @@ import {
   LuShieldCheck,
 } from "react-icons/lu";
 import { FeaturesSection } from "@/components/FeaturesSection";
+import { ClientLogos } from "@/components/ClientLogos";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { sectors } from "@/lib/content";
 
@@ -38,6 +39,9 @@ export default function Home() {
 
       {/* Content rises over the pinned hero with a rounded reveal */}
       <div className="relative z-10 -mt-[6vh] rounded-t-[2.5rem] bg-background shadow-[0_-24px_60px_rgba(0,0,0,0.25)]">
+        {/* Trusted-by client strip — quiet credibility band before the bento */}
+        <ClientLogos />
+
         {/* Platform bento — coding window + capability cards */}
         <section className="mx-auto max-w-[1500px] px-gutter pt-20 pb-section-padding-mobile md:pb-section-padding-desktop">
           <div className="grid gap-6 lg:grid-cols-3">
