@@ -60,7 +60,10 @@ export function ClientLogos() {
   const isMobile = useIsMobile();
   const gap = isMobile ? 72 : 144;
   const logoHeight = isMobile ? 36 : 48;
-  const containerHeight = isMobile ? 46 : 60;
+  // The band carries a mask-image, which clips content to its box. Give it
+  // enough vertical room for the 1.2x hover scale so logos aren't clipped
+  // at the top/bottom on hover (scaled height = logoHeight * 1.2, plus margin).
+  const containerHeight = isMobile ? 54 : 72;
   const fadeEdge = isMobile ? 28 : 64;
 
   return (
