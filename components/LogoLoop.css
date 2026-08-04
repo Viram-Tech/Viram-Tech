@@ -1,6 +1,11 @@
 .logoloop {
   position: relative;
 
+  /* Clip the wide (width: max-content) marquee track horizontally so it can't
+     extend the page's scroll width and let mobile pan sideways. `clip` (not
+     `hidden`) leaves overflow-y visible, so the hover scale still shows. */
+  overflow-x: clip;
+
   --logoloop-gap: 32px;
   --logoloop-logoHeight: 28px;
   --logoloop-fadeColorAuto: #ffffff;

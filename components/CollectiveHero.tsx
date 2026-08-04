@@ -71,7 +71,7 @@ export function CollectiveHero() {
       </div>
 
       {/* Bottom serif line */}
-      <p className="absolute bottom-14 left-1/2 z-10 max-w-2xl -translate-x-1/2 px-6 text-center font-serif text-lg leading-relaxed text-white/85 sm:text-xl">
+      <p className="absolute bottom-16 left-1/2 z-10 w-full max-w-md -translate-x-1/2 text-balance px-6 text-center font-serif text-base leading-relaxed text-white/85 sm:bottom-20 sm:max-w-2xl sm:text-xl">
         We&apos;re building the human layer for the AI era — helping enterprises
         turn rapid technological progress into systems that actually ship.
       </p>

@@ -309,6 +309,11 @@ body {
 /* Smooth in-page anchor navigation (e.g. "See the impact" → #impact). */
 html {
   scroll-behavior: smooth;
+  /* Safety net against horizontal overflow (e.g. off-screen decorative
+     elements): stop the page from panning sideways on mobile. `clip` — not
+     `hidden` — so it doesn't create a scroll container that would break the
+     sticky hero and sticky industry cards. */
+  overflow-x: clip;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
