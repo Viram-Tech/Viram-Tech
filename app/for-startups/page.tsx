@@ -1,14 +1,16 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/Reveal";
 import { CompanyOrbit } from "@/components/CompanyOrbit";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "LaunchLine — build your company from zero · ViramTech",
-  description:
-    "LaunchLine turns an idea into a launch-ready company: research, brand, website, incorporation, sourcing, go-to-market, operations, and expert-kept books — eight phases, one flow.",
-};
+export const metadata = buildMetadata({
+  title: "LaunchLine — build your company from zero",
+  description: "LaunchLine turns an idea into a launch-ready company: research, brand, website, incorporation, sourcing, go-to-market, operations, and expert-kept books — eight phases, one flow.",
+  path: "/for-startups",
+});
 
 // Italic serif accent word (Playfair), in the brand accent colour.
 function Accent({ children }: { children: ReactNode }) {
@@ -249,6 +251,7 @@ function Deliverables({ items }: { items: string[] }) {
 export default function ForStartups() {
   return (
     <div className="relative overflow-hidden bg-background text-brand-navy dark:text-white">
+      <JsonLd data={graph(breadcrumbSchema([["LaunchLine", "/for-startups"]]))} />
       {/* Soft brand glows spanning the whole page (theme-aware). */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-brand-royal/15 blur-[130px] dark:bg-brand-royal/25" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[420px] w-[560px] rounded-full bg-brand-sky/10 blur-[120px]" />

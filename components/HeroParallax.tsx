@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useRef } from "react";
 import {
   motion,
@@ -98,12 +100,15 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
             className="group block overflow-hidden rounded-2xl border border-black/10 shadow-lg transition active:scale-[0.99] dark:border-white/10"
           >
             {p.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={p.image}
-                alt={p.title}
-                className="aspect-[16/10] w-full object-cover object-top"
-              />
+              <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <Image
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover object-top"
+                />
+              </div>
             ) : (
               <div
                 className={`flex aspect-[16/10] w-full items-center justify-center bg-gradient-to-br ${p.gradient}`}
@@ -168,12 +173,13 @@ function ProjectCard({
       >
         <div className="relative h-full w-full overflow-hidden rounded-2xl border border-black/10 shadow-2xl dark:border-white/10">
           {project.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={project.image}
               alt={project.title}
               draggable={false}
-              className="h-full w-full object-cover object-left-top"
+              fill
+              sizes="(min-width: 768px) 40vw, 80vw"
+              className="object-cover object-left-top"
             />
           ) : (
             <div

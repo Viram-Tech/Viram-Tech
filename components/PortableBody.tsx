@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   PortableText,
   type PortableTextComponents,
@@ -51,12 +52,16 @@ const components: PortableTextComponents = {
     image: ({ value }: { value: any }) => {
       const url = urlForImage(value);
       if (!url) return null;
-      // eslint-disable-next-line @next/next/no-img-element
+      // urlForImage pins every asset to 1200x675, so the box is known up front
+      // and the image reserves its space instead of shifting layout on load.
       return (
-        <img
+        <Image
           src={url}
           alt={value?.alt ?? ""}
-          className="mt-8 w-full rounded-2xl border border-black/5 dark:border-white/10"
+          width={1200}
+          height={675}
+          sizes="(min-width: 768px) 768px, 100vw"
+          className="mt-8 h-auto w-full rounded-2xl border border-black/5 dark:border-white/10"
         />
       );
     },

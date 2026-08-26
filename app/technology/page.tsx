@@ -5,17 +5,22 @@ import { foundation } from "@/lib/content";
 import { FoundationCardSwap } from "@/components/FoundationCardSwap";
 import { CapabilityDeepDive } from "@/components/CapabilityDeepDive";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Technology — ViramTech",
+export const metadata = buildMetadata({
+  title: "Technology",
   description: "The ViramTech AI stack and technical architecture.",
-};
+  path: "/technology",
+});
 
 const pillarIcons = [LuBrainCircuit, LuServer, LuBlocks];
 
 export default function Technology() {
   return (
     <>
+      <JsonLd data={graph(breadcrumbSchema([["Technology", "/technology"]]))} />
     <section className="mx-auto max-w-5xl px-6 pt-32">
       <Eyebrow>Technology</Eyebrow>
       <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-tight sm:text-5xl">

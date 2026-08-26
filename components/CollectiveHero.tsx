@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
 /**
  * Sticky hero with a looping video background. The page content below scrolls
@@ -8,6 +9,9 @@ import { useEffect, useRef } from "react";
  * (and pauses under reduced-motion) to keep CPU/GPU work off the main thread.
  */
 export function CollectiveHero() {
+  // Hoisted into <head> by React so the poster starts downloading immediately.
+  ReactDOM.preload("/hero-poster.jpg", { as: "image", fetchPriority: "high" });
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -46,11 +50,10 @@ export function CollectiveHero() {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         poster="/hero-poster.jpg"
       >
         <source src="/hero-loop.webm" type="video/webm" />

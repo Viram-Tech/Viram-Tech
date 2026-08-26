@@ -3,15 +3,20 @@ import { Eyebrow } from "@/components/ui";
 import { FrameworksDeepDive } from "@/components/FrameworksDeepDive";
 import { WhyViableGrid } from "@/components/WhyViableGrid";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Technical Architecture — ViramTech",
+export const metadata = buildMetadata({
+  title: "Technical Architecture",
   description: "A layered approach to enterprise AI delivery.",
-};
+  path: "/technology/architecture",
+});
 
 export default function Architecture() {
   return (
     <>
+      <JsonLd data={graph(breadcrumbSchema([["Technology", "/technology"], ["Technical Architecture", "/technology/architecture"]]))} />
     <section className="mx-auto max-w-5xl px-6 pt-32">
       <Link
         href="/technology"

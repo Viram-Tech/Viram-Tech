@@ -2,15 +2,20 @@ import Link from "next/link";
 import { Eyebrow } from "@/components/ui";
 import { MarketInsights } from "@/components/MarketInsights";
 import { NextPage } from "@/components/NextPage";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Market Opportunity — ViramTech",
+export const metadata = buildMetadata({
+  title: "Market Opportunity",
   description: "The enterprise shift to AI-first is already underway.",
-};
+  path: "/about/market",
+});
 
 export default function Market() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+      <JsonLd data={graph(breadcrumbSchema([["Market Opportunity", "/about/market"]]))} />
       <Link href="/" className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline">
         ← Home
       </Link>

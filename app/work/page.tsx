@@ -1,10 +1,13 @@
 import { HeroParallax, type Project } from "@/components/HeroParallax";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Our Work — ViramTech",
-  description:
-    "Selected ViramTech projects — production AI and websites we have shipped.",
-};
+export const metadata = buildMetadata({
+  title: "Our Work",
+  description: "Selected ViramTech projects — production AI and websites we have shipped.",
+  path: "/work",
+});
 
 // ──────────────────────────────────────────────────────────────────────────
 // Projects shown in the Our Work parallax.
@@ -38,5 +41,10 @@ const projects: Project[] = [
 ];
 
 export default function Work() {
-  return <HeroParallax projects={projects} />;
+  return (
+    <>
+      <JsonLd data={graph(breadcrumbSchema([["Our Work", "/work"]]))} />
+      <HeroParallax projects={projects} />
+    </>
+  );
 }

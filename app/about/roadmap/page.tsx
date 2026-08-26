@@ -2,15 +2,20 @@ import Link from "next/link";
 import { Eyebrow } from "@/components/ui";
 import { RoadmapTimeline } from "@/components/RoadmapTimeline";
 import { NextPage } from "@/components/NextPage";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Our Roadmap — ViramTech",
+export const metadata = buildMetadata({
+  title: "Our Roadmap",
   description: "From enterprise pilots to scale to market leadership.",
-};
+  path: "/about/roadmap",
+});
 
 export default function Roadmap() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+      <JsonLd data={graph(breadcrumbSchema([["Our Roadmap", "/about/roadmap"]]))} />
       <Link href="/" className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline">
         ← Home
       </Link>

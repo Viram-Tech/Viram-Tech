@@ -1,8 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LuClock } from "react-icons/lu";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { PortableBody } from "@/components/PortableBody";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema, articleSchema } from "@/lib/schema";
+import type { Metadata } from "next";
 
 // Re-checks Sanity for edits at most once a minute (ISR).
 export const revalidate = 60;
@@ -16,13 +21,26 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPost(slug);
-  return {
-    title: post ? `${post.title} — ViramTech` : "Blog — ViramTech",
-    description: post?.excerpt,
-  };
+  if (!post) {
+    return buildMetadata({
+      title: "Blog",
+      description: "Ideas, playbooks and field notes on enterprise AI.",
+      path: "/blog",
+    });
+  }
+  return buildMetadata({
+    // post.seo is already coalesced in GROQ, so these are never empty.
+    title: post.seo.title,
+    description: post.seo.description,
+    path: `/blog/${post.slug}`,
+    type: "article",
+    publishedTime: post.publishedAt ?? undefined,
+    image: post.seo.imageUrl ?? post.coverImageUrl ?? undefined,
+    noIndex: post.seo.noIndex,
+  });
 }
 
 export default async function BlogPost({
@@ -34,8 +52,17 @@ export default async function BlogPost({
   const post = await getBlogPost(slug);
   if (!post) notFound();
 
+  const jsonLd = graph(
+    articleSchema(post),
+    breadcrumbSchema([
+      ["Blog", "/blog"],
+      [post.title, `/blog/${post.slug}`],
+    ]),
+  );
+
   return (
     <article className="mx-auto max-w-3xl px-6 pb-28 pt-32">
+      <JsonLd data={jsonLd} />
       <Link
         href="/blog"
         className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline"
@@ -53,17 +80,41 @@ export default async function BlogPost({
         </span>
       </div>
 
+      {post.author && (
+        <div className="mt-5 flex items-center gap-3">
+          {post.author.imageUrl && (
+            <Image
+              src={post.author.imageUrl}
+              alt=""
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+          )}
+          <div className="text-sm leading-tight">
+            <p className="font-semibold">{post.author.name}</p>
+            {post.author.role && (
+              <p className="opacity-60">{post.author.role}</p>
+            )}
+          </div>
+        </div>
+      )}
+
       <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
         {post.title}
       </h1>
 
       {post.coverImageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={post.coverImageUrl}
-          alt=""
-          className="mt-8 h-56 w-full rounded-3xl object-cover sm:h-72"
-        />
+        <div className="relative mt-8 h-56 w-full overflow-hidden rounded-3xl sm:h-72">
+          <Image
+            src={post.coverImageUrl}
+            alt={post.coverImageAlt}
+            fill
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
       ) : (
         <div
           className={`mt-8 h-56 w-full rounded-3xl bg-gradient-to-br ${post.gradient}`}

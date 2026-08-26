@@ -1,12 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LuArrowRight, LuClock } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
 import { getBlogPosts } from "@/lib/blog";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Blog — ViramTech",
+export const metadata = buildMetadata({
+  title: "Blog",
   description: "Ideas, playbooks and field notes on enterprise AI.",
-};
+  path: "/blog",
+});
 
 // Re-checks Sanity for new/updated posts at most once a minute (ISR).
 export const revalidate = 60;
@@ -28,6 +33,7 @@ export default async function Blog({
 
   return (
     <section className="mx-auto max-w-6xl px-6 pb-28 pt-32">
+      <JsonLd data={graph(breadcrumbSchema([["Blog", "/blog"]]))} />
       <Link
         href="/"
         className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline"
@@ -84,11 +90,13 @@ export default async function Blog({
           className={`relative min-h-[240px] overflow-hidden bg-gradient-to-br ${featured.gradient} p-8`}
         >
           {featured.coverImageUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={featured.coverImageUrl}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+              priority
             />
           )}
           <span className="absolute left-6 top-6 z-10 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">
@@ -130,12 +138,15 @@ export default async function Blog({
             className="group flex flex-col overflow-hidden rounded-3xl border border-black/5 bg-black/[0.02] transition hover:-translate-y-1 hover:border-indigo-500/30 dark:border-white/10 dark:bg-white/[0.03]"
           >
             {p.coverImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={p.coverImageUrl}
-                alt=""
-                className="h-44 w-full object-cover"
-              />
+              <div className="relative h-44 w-full overflow-hidden">
+                <Image
+                  src={p.coverImageUrl}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div className={`h-44 bg-gradient-to-br ${p.gradient}`} />
             )}

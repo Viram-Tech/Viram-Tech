@@ -3,12 +3,15 @@ import type { ReactNode } from "react";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { ContactForm } from "@/components/ContactForm";
 import { Reveal } from "@/components/Reveal";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Contact — ViramTech",
-  description:
-    "Tell us what you're building. We'll map the fastest path and reply within one business day.",
-};
+export const metadata = buildMetadata({
+  title: "Contact",
+  description: "Tell us what you're building. We'll map the fastest path and reply within one business day.",
+  path: "/contact",
+});
 
 const details = [
   { icon: "location_on", label: "Studio", lines: ["Mumbai, Maharashtra", "India"] },
@@ -28,6 +31,7 @@ function Accent({ children }: { children: ReactNode }) {
 export default function Contact() {
   return (
     <div className="relative overflow-hidden bg-background text-brand-navy dark:text-white">
+      <JsonLd data={graph(breadcrumbSchema([["Contact", "/contact"]]))} />
       {/* Soft brand glows (theme-aware), matching for-startups. */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[760px] -translate-x-1/2 rounded-full bg-brand-royal/15 blur-[130px] dark:bg-brand-royal/25" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[420px] w-[560px] rounded-full bg-brand-sky/10 blur-[120px]" />

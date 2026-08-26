@@ -4,15 +4,20 @@ import { Eyebrow } from "@/components/ui";
 import { visionMission, visionTimeline } from "@/lib/content";
 import { TextGenerateEffect } from "@/components/TextGenerateEffect";
 import { NextPage } from "@/components/NextPage";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Our Vision — ViramTech",
+export const metadata = buildMetadata({
+  title: "Our Vision",
   description: "AI-native, enterprise-ready, results-driven by design.",
-};
+  path: "/about/vision",
+});
 
 export default function Vision() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+      <JsonLd data={graph(breadcrumbSchema([["Our Vision", "/about/vision"]]))} />
       <Link href="/" className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline">
         ← Home
       </Link>

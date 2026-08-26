@@ -10,6 +10,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, organizationSchema, websiteSchema } from "@/lib/schema";
+import { MATERIAL_SYMBOLS_HREF } from "@/lib/icons";
 
 // Clean neo-grotesque used site-wide (headings + body).
 const geistSans = Inter({
@@ -47,8 +51,40 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "ViramTech",
-  description: "ViramTech — building thoughtful, reliable technology.",
+  // Resolves every relative URL below (canonicals, og:url, og:image) against
+  // the production origin, which crawlers require to be absolute.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Enterprise AI, built to ship`,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Enterprise AI, built to ship`,
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Enterprise AI, built to ship`,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -63,12 +99,23 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${jetbrains.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
+        {/* Warm the font origins before the stylesheet below asks for them. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
         />
+        {/*
+          Subsetted to the 48 icons the site actually renders — the unsubsetted
+          variable font is 1.1 MB. `display=block` hides the glyph slot until
+          the font lands rather than flashing the raw ligature text.
+        */}
+        <link rel="stylesheet" href={MATERIAL_SYMBOLS_HREF} />
       </head>
       <body className="flex min-h-full flex-col">
+        {/* Publisher + site entity, referenced by @id from every page graph. */}
+        <JsonLd data={graph(organizationSchema(), websiteSchema())} />
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

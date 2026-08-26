@@ -4,16 +4,20 @@ import { LuArrowRight } from "react-icons/lu";
 import { sectors } from "@/lib/content";
 import { sectorIcons } from "@/components/sectorIcons";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Industries — ViramTech",
-  description:
-    "Enterprise AI tuned for retail, logistics, banking, healthcare, manufacturing and insurance.",
-};
+export const metadata = buildMetadata({
+  title: "Industries",
+  description: "Enterprise AI tuned for retail, logistics, banking, healthcare, manufacturing and insurance.",
+  path: "/industries",
+});
 
 export default function Industries() {
   return (
     <>
+      <JsonLd data={graph(breadcrumbSchema([["Industries", "/industries"]]))} />
       <section className="mx-auto max-w-6xl px-6 pb-28 pt-32">
         <p className="font-[family-name:var(--font-jetbrains)] text-[12px] uppercase tracking-[0.28em] text-primary dark:text-primary-fixed">
           Industries

@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { products } from "@/lib/content";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { SmoothScrollLink } from "@/components/SmoothScrollLink";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema, productServiceSchema } from "@/lib/schema";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -12,14 +16,23 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
-  if (!product) return { title: "Product — ViramTech" };
-  return {
-    title: `${product.name} — ViramTech`,
+  if (!product) {
+    return buildMetadata({
+      title: "Product",
+      description: "Explore the ViramTech suite of enterprise AI products.",
+      path: "/products",
+    });
+  }
+  return buildMetadata({
+    title: product.name,
     description: product.summary,
-  };
+    path: `/products/${product.slug}`,
+    // Header art in /public/products/<slug>.jpg doubles as the social card.
+    image: product.image,
+  });
 }
 
 /** Material Symbol shown in the hero instrument, per product. */
@@ -162,8 +175,17 @@ export default async function ProductPage({
   const product = products[index];
   const symbol = heroIcon[slug];
 
+  const jsonLd = graph(
+    productServiceSchema(product),
+    breadcrumbSchema([
+      ["AI Products", "/products"],
+      [product.name, `/products/${product.slug}`],
+    ]),
+  );
+
   return (
     <div>
+      <JsonLd data={jsonLd} />
       {/* ── Hero (full-bleed, drenched navy) ── */}
       <section className="relative overflow-hidden bg-brand-navy text-white">
         <div className="bg-grid-white pointer-events-none absolute inset-0 opacity-[0.12]" />

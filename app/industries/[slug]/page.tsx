@@ -6,6 +6,10 @@ import { sectors, type Sector } from "@/lib/content";
 import { sectorIcons } from "@/components/sectorIcons";
 import { SmoothScrollLink } from "@/components/SmoothScrollLink";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema, sectorServiceSchema } from "@/lib/schema";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return sectors.map((s) => ({ slug: s.slug }));
@@ -15,13 +19,22 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
-  const s = sectors.find((x) => x.slug === slug);
-  return {
-    title: s ? `${s.name} — ViramTech` : "Industries — ViramTech",
-    description: s?.overview,
-  };
+  const sector = sectors.find((x) => x.slug === slug);
+  if (!sector) {
+    return buildMetadata({
+      title: "Industries",
+      description:
+        "Enterprise AI tuned for retail, logistics, banking, healthcare, manufacturing and insurance.",
+      path: "/industries",
+    });
+  }
+  return buildMetadata({
+    title: sector.name,
+    description: sector.overview,
+    path: `/industries/${sector.slug}`,
+  });
 }
 
 /** Playfair italic accent — matches the products / for-startups type system. */
@@ -58,8 +71,17 @@ export default async function IndustryPage({
   const Icon = sectorIcons[s.slug];
   const others = sectors.filter((x) => x.slug !== s.slug);
 
+  const jsonLd = graph(
+    sectorServiceSchema(s),
+    breadcrumbSchema([
+      ["Industries", "/industries"],
+      [s.name, `/industries/${s.slug}`],
+    ]),
+  );
+
   return (
     <div>
+      <JsonLd data={jsonLd} />
       {/* ── Hero (full-bleed navy, photo panel) ── */}
       <section className="relative overflow-hidden bg-brand-navy text-white">
         <div className="bg-grid-white pointer-events-none absolute inset-0 opacity-[0.1]" />

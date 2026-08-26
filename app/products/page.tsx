@@ -1,13 +1,15 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { products } from "@/lib/content";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "AI Products — ViramTech",
-  description:
-    "The ViramTech suite of enterprise AI products — from data intelligence to autonomous agents.",
-};
+export const metadata = buildMetadata({
+  title: "AI Products",
+  description: "The ViramTech suite of enterprise AI products — from data intelligence to autonomous agents.",
+  path: "/products",
+});
 
 /** Material Symbol per product (mirrors the product detail pages). */
 const heroIcon: Record<string, string> = {
@@ -54,6 +56,7 @@ const valueBlocks = [
 export default function ProductsIndex() {
   return (
     <>
+      <JsonLd data={graph(breadcrumbSchema([["AI Products", "/products"]]))} />
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-medium opacity-55">

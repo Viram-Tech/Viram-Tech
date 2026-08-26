@@ -47,6 +47,7 @@ next-env.d.ts
 
 # agent instructions (local only)
 /AGENTS.md
+/CLAUDE.md
 
 # sanity studio build + runtime
 /dist

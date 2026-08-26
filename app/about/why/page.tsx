@@ -2,15 +2,20 @@ import Link from "next/link";
 import { Eyebrow } from "@/components/ui";
 import { WhyGrid } from "@/components/WhyGrid";
 import { NextPage } from "@/components/NextPage";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Why ViramTech — ViramTech",
+export const metadata = buildMetadata({
+  title: "Why ViramTech",
   description: "Speed to value, industry expertise, full-stack control, proven ROI.",
-};
+  path: "/about/why",
+});
 
 export default function Why() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-28 pt-32">
+      <JsonLd data={graph(breadcrumbSchema([["Why ViramTech", "/about/why"]]))} />
       <Link href="/" className="mb-6 inline-block text-sm font-semibold text-indigo-500 hover:underline">
         ← Home
       </Link>

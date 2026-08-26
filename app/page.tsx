@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Metadata } from "next";
 import { CollectiveHero } from "@/components/CollectiveHero";
 import { Terminal } from "@/components/Terminal";
 import {
@@ -15,6 +14,7 @@ import { FeaturesSection } from "@/components/FeaturesSection";
 import { ClientLogos } from "@/components/ClientLogos";
 import { RelatedArticles } from "@/components/RelatedArticles";
 import { sectors } from "@/lib/content";
+import { buildMetadata } from "@/lib/seo";
 
 // Industry icons, in the same order as `sectors` in lib/content.
 const sectorIcons = [
@@ -26,11 +26,11 @@ const sectorIcons = [
   LuShieldCheck,
 ];
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "ViramTech — Enterprise AI, built to ship",
-  description:
-    "We build, deploy and scale AI systems that reach production — owned end to end and measured on the outcomes leadership already tracks.",
-};
+  description: "We build, deploy and scale AI systems that reach production — owned end to end and measured on the outcomes leadership already tracks.",
+  path: "/",
+});
 
 export default function Home() {
   return (

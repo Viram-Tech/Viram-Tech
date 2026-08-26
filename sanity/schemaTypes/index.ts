@@ -1,3 +1,7 @@
+import { authorType } from "./author";
 import { postType } from "./post";
+import { seoType } from "./seo";
 
-export const schemaTypes = [postType];
+// `seoType` is an object type reused by documents, not a document itself; it
+// still has to be registered here for `type: "seo"` fields to resolve.
+export const schemaTypes = [postType, authorType, seoType];

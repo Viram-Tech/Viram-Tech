@@ -8,10 +8,31 @@ export type Post = {
   title: string;
   category: string;
   date: string;
+  /** ISO publish date for <time> and Article structured data; null if unknown. */
+  publishedAt: string | null;
+  /** ISO last-edited date from Sanity; null for the static fallback. */
+  updatedAt: string | null;
   readTime: string;
   excerpt: string;
   gradient: string;
   coverImageUrl: string | null;
+  /** Alt text for the cover, authored in Sanity. Empty means decorative. */
+  coverImageAlt: string;
+  /** Byline, when the post has an author; null publishes under the company. */
+  author: {
+    name: string;
+    role: string | null;
+    bio: string | null;
+    imageUrl: string | null;
+    linkedin: string | null;
+  } | null;
+  /** Search/social overrides. Already coalesced against the post's own fields. */
+  seo: {
+    title: string;
+    description: string;
+    imageUrl: string | null;
+    noIndex: boolean;
+  };
   // Portable Text blocks when sourced from Sanity; null for static fallback.
   body: unknown[] | null;
 };
@@ -26,7 +47,14 @@ const gradientPresets = [
 ];
 
 const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
-  "slug": slug.current, title, category, publishedAt, excerpt, coverImage, body
+  "slug": slug.current, title, category, publishedAt, _updatedAt, excerpt, coverImage, body,
+  author->{ name, role, bio, linkedin, image },
+  "seo": {
+    "title": coalesce(seo.title, title),
+    "description": coalesce(seo.description, excerpt, ""),
+    "image": coalesce(seo.image, coverImage),
+    "noIndex": seo.noIndex == true
+  }
 }`;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -57,16 +85,49 @@ function mapSanity(doc: any, i: number): Post {
     title: doc.title,
     category: doc.category ?? "Enterprise AI",
     date: formatDate(doc.publishedAt),
+    publishedAt: doc.publishedAt ?? null,
+    updatedAt: doc._updatedAt ?? null,
     readTime: readTimeFromBody(doc.body),
     excerpt: doc.excerpt ?? "",
     gradient: gradientPresets[i % gradientPresets.length],
     coverImageUrl: urlForImage(doc.coverImage),
+    coverImageAlt: doc.coverImage?.alt ?? "",
+    author: doc.author
+      ? {
+          name: doc.author.name,
+          role: doc.author.role ?? null,
+          bio: doc.author.bio ?? null,
+          imageUrl: urlForImage(doc.author.image),
+          linkedin: doc.author.linkedin ?? null,
+        }
+      : null,
+    seo: {
+      title: doc.seo?.title ?? doc.title,
+      description: doc.seo?.description ?? doc.excerpt ?? "",
+      imageUrl: urlForImage(doc.seo?.image),
+      noIndex: doc.seo?.noIndex === true,
+    },
     body: doc.body ?? null,
   };
 }
 
 function mapStatic(p: (typeof staticPosts)[number]): Post {
-  return { ...p, coverImageUrl: null, body: null };
+  const parsed = new Date(p.date);
+  return {
+    ...p,
+    publishedAt: Number.isNaN(parsed.getTime()) ? null : parsed.toISOString(),
+    updatedAt: null,
+    coverImageUrl: null,
+    coverImageAlt: "",
+    author: null,
+    seo: {
+      title: p.title,
+      description: p.excerpt,
+      imageUrl: null,
+      noIndex: false,
+    },
+    body: null,
+  };
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

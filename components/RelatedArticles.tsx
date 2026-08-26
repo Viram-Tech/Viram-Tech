@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getBlogPosts } from "@/lib/blog";
 
@@ -32,12 +33,15 @@ export async function RelatedArticles() {
         {posts.map((p) => (
           <Link key={p.slug} href={`/blog/${p.slug}`} className="group block">
             {p.coverImageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={p.coverImageUrl}
-                alt=""
-                className="aspect-[16/10] w-full rounded-2xl object-cover"
-              />
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
+                <Image
+                  src={p.coverImageUrl}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             ) : (
               <div
                 className={`aspect-[16/10] w-full rounded-2xl bg-gradient-to-br ${p.gradient}`}

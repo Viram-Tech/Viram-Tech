@@ -3,16 +3,20 @@ import { LuArrowRight } from "react-icons/lu";
 import { Eyebrow } from "@/components/ui";
 import { InfrastructureDeepDive } from "@/components/InfrastructureDeepDive";
 import { RelatedArticles } from "@/components/RelatedArticles";
+import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { graph, breadcrumbSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Infrastructure — ViramTech",
-  description:
-    "The backbone that keeps every solution running — portable, automated and secure enough for real production load.",
-};
+export const metadata = buildMetadata({
+  title: "Infrastructure",
+  description: "The backbone that keeps every solution running — portable, automated and secure enough for real production load.",
+  path: "/technology/infrastructure",
+});
 
 export default function Infrastructure() {
   return (
     <>
+      <JsonLd data={graph(breadcrumbSchema([["Technology", "/technology"], ["Infrastructure", "/technology/infrastructure"]]))} />
     <section className="mx-auto max-w-5xl px-6 pt-32">
       <Link
         href="/technology"
