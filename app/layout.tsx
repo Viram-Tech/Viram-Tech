@@ -14,6 +14,7 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { graph, organizationSchema, websiteSchema } from "@/lib/schema";
 import { MATERIAL_SYMBOLS_HREF } from "@/lib/icons";
+import { ChatLauncher } from "@/components/ChatLauncher";
 
 // Clean neo-grotesque used site-wide (headings + body).
 const geistSans = Inter({
@@ -120,6 +121,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <ChatLauncher />
         </ThemeProvider>
       </body>
     </html>
