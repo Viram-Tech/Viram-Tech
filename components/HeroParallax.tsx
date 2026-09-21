@@ -21,11 +21,11 @@ export type Project = {
 };
 
 export function HeroParallax({ projects }: { projects: Project[] }) {
-  // Row 1: the projects in order. Row 2: the SAME projects, rotated by one so
-  // each lines up at a different point ("different times") as the rows drift.
-  const firstRow = projects;
-  // Bottom row: staggered against row 1, with AirCalibre (projects[0]) bottom-left.
-  const secondRow = [projects[0], ...projects.slice(2), ...projects.slice(1, 2)];
+  // Top row: just two cards, rendered right-to-left so projects[0] lands
+  // top-right. Bottom row: the remaining projects in reverse, which keeps the
+  // last one (AirCalibre) bottom-left as the rows drift in opposite directions.
+  const firstRow = projects.slice(0, 2);
+  const secondRow = projects.slice(1).reverse();
 
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -35,8 +35,12 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
 
   const springConfig = { stiffness: 300, damping: 30 };
 
+  // Top row travels the same 1000px the bottom row does, just in the opposite
+  // direction, so the two drift apart at a matching rate and run out together.
+  // The -250 head start frames the pair while the section is actually on screen:
+  // it sweeps up to flush-right, then streams on past as the section exits.
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
+    useTransform(scrollYProgress, [0, 1], [-250, 750]),
     springConfig,
   );
   const translateXReverse = useSpring(
@@ -72,7 +76,7 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
         className="hidden lg:block"
         style={{ rotateX, rotateZ, translateY, opacity }}
       >
-        <motion.div className="mb-12 flex flex-row-reverse space-x-12 space-x-reverse">
+        <motion.div className="mb-12 flex flex-row-reverse space-x-6 space-x-reverse">
           {firstRow.map((p) => (
             <ProjectCard project={p} translate={translateX} key={`r1-${p.title}`} />
           ))}

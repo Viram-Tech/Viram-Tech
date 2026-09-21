@@ -15,14 +15,17 @@ export const metadata = buildMetadata({
 //   image   → optional screenshot. Drop a file in /public/work/ and set e.g.
 //             image: "/work/aircalibre.png". If omitted, a branded card shows.
 //   subtitle→ short tag shown on hover
+//
+// Order matters: the top row shows the first three, the bottom row the last
+// three — so projects[0] appears only up top and the last only down below.
 // ──────────────────────────────────────────────────────────────────────────
 const projects: Project[] = [
   {
-    title: "AirCalibre",
+    title: "Shrutsanjeevan",
     subtitle: "Web platform",
-    link: "https://aircalibre.com",
-    image: "/work/aircalibre.png",
-    gradient: "from-[#33A5DB] to-[#14284E]",
+    link: "https://www.shrutsanjivan.com",
+    image: "/work/shrutsanjeevan.png",
+    gradient: "from-[#597CBD] to-[#14284E]",
   },
   {
     title: "Cabin Zindagi",
@@ -37,6 +40,13 @@ const projects: Project[] = [
     link: "https://yairmatters.com",
     image: "/work/yairmatters.png",
     gradient: "from-[#3F56A4] to-[#14284E]",
+  },
+  {
+    title: "AirCalibre",
+    subtitle: "Web platform",
+    link: "https://aircalibre.com",
+    image: "/work/aircalibre.png",
+    gradient: "from-[#33A5DB] to-[#14284E]",
   },
 ];
 
