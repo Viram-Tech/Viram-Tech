@@ -30,6 +30,17 @@ const groups = [
   },
 ];
 
+// Machine-readable renderings of the site, surfaced so both crawlers and people
+// can find them. All five are generated routes, not static files in /public:
+// app/llms.txt, app/llms-full.txt, app/index.html.md, app/robots.ts, app/sitemap.ts.
+const crawlerFiles = [
+  { label: "llms.txt", href: "/llms.txt" },
+  { label: "llms-full.txt", href: "/llms-full.txt" },
+  { label: "index.html.md", href: "/index.html.md" },
+  { label: "robots.txt", href: "/robots.txt" },
+  { label: "sitemap.xml", href: "/sitemap.xml" },
+];
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -103,7 +114,26 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col gap-2 border-t border-black/5 pt-6 text-xs opacity-50 sm:flex-row sm:items-center sm:justify-between dark:border-white/10">
-          <span>© {year} ViramTech. All rights reserved.</span>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
+            <span>© {year} ViramTech. All rights reserved.</span>
+            {/* Plain-text renderings of the site for AI crawlers, per
+                llmstxt.org. Ordinary <a> tags, not <Link>: these are route
+                handlers returning text, so there is nothing to prefetch. */}
+            <span className="flex items-center gap-1.5">
+              AI crawlers:
+              {crawlerFiles.map((file, i) => (
+                <span key={file.href} className="flex items-center gap-1.5">
+                  {i > 0 && <span aria-hidden="true">|</span>}
+                  <a
+                    href={file.href}
+                    className="underline underline-offset-2 transition hover:text-indigo-500"
+                  >
+                    {file.label}
+                  </a>
+                </span>
+              ))}
+            </span>
+          </div>
           <Link href="/contact" className="hover:text-indigo-500">
             Book a consultation →
           </Link>
