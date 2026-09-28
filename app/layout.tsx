@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Inter,
   Geist_Mono,
@@ -86,6 +86,17 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+};
+
+/*
+  iOS Safari tints the status-bar strip (and the toolbar) with `theme-color`.
+  Without one it samples the page background, which rendered as grey above the
+  navbar. Pin it to Deep Navy so the strip reads as an extension of the hero.
+  A single value rather than prefers-color-scheme variants: next-themes toggles
+  a class, which those media queries would not follow.
+*/
+export const viewport: Viewport = {
+  themeColor: "#14284e",
 };
 
 export default function RootLayout({
