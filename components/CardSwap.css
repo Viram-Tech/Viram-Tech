@@ -22,14 +22,34 @@
   -webkit-backface-visibility: hidden;
 }
 
+/*
+  The rightward bleed above only works when the page is wider than the
+  max-w-5xl section it sits in — otherwise the stack (plus the fan's own
+  +120px of card offsets) hangs off the page and lets it pan sideways.
+  Below ~1200px there is no such outer margin, so tuck the stack back in at
+  each step-down.
+*/
+@media (min-width: 1024px) and (max-width: 1201px) {
+  .card-swap-container {
+    transform: translate(-18%, 20%);
+  }
+}
+
+/* Below `lg` the two-column layout collapses and the stack spans full width. */
+@media (max-width: 1023px) {
+  .card-swap-container {
+    transform: scale(0.85) translate(-18%, 20%);
+  }
+}
+
 @media (max-width: 768px) {
   .card-swap-container {
-    transform: scale(0.75) translate(25%, 25%);
+    transform: scale(0.75) translate(-17%, 25%);
   }
 }
 
 @media (max-width: 480px) {
   .card-swap-container {
-    transform: scale(0.55) translate(25%, 25%);
+    transform: scale(0.55) translate(-14%, 25%);
   }
 }

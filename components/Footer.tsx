@@ -119,17 +119,23 @@ export function Footer() {
             {/* Plain-text renderings of the site for AI crawlers, per
                 llmstxt.org. Ordinary <a> tags, not <Link>: these are route
                 handlers returning text, so there is nothing to prefetch. */}
-            <span className="flex items-center gap-1.5">
+            {/* Wraps: five filenames don't fit one mobile line, and an
+                unwrapped flex row here widened the whole page. */}
+            <span className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
               AI crawlers:
               {crawlerFiles.map((file, i) => (
                 <span key={file.href} className="flex items-center gap-1.5">
-                  {i > 0 && <span aria-hidden="true">|</span>}
                   <a
                     href={file.href}
                     className="underline underline-offset-2 transition hover:text-indigo-500"
                   >
                     {file.label}
                   </a>
+                  {/* Separator trails its own link so a wrapped line never
+                      starts with a stray pipe. */}
+                  {i < crawlerFiles.length - 1 && (
+                    <span aria-hidden="true">|</span>
+                  )}
                 </span>
               ))}
             </span>
