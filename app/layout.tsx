@@ -89,14 +89,18 @@ export const metadata: Metadata = {
 };
 
 /*
-  iOS Safari tints the status-bar strip (and the toolbar) with `theme-color`.
-  Without one it samples the page background, which rendered as grey above the
-  navbar. Pin it to Deep Navy so the strip reads as an extension of the hero.
-  A single value rather than prefers-color-scheme variants: next-themes toggles
-  a class, which those media queries would not follow.
+  iOS Safari tints the status-bar strip (and the toolbar) with `theme-color`;
+  page content cannot paint there, so this is the only way to colour it. Without
+  one Safari samples the page background, which rendered as grey above the navbar.
+
+  Sampled from the hero's own top edge rather than set to a brand token: the
+  video's first rows render a flat #0b162b (video under bg-brand-navy/55) and
+  hold that value across the whole loop, so the strip reads as a continuation
+  of the hero instead of a seam. A single value rather than prefers-color-scheme
+  variants: next-themes toggles a class, which those media queries would not follow.
 */
 export const viewport: Viewport = {
-  themeColor: "#14284e",
+  themeColor: "#0b162b",
 };
 
 export default function RootLayout({
