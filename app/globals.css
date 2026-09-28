@@ -320,3 +320,19 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/*
+  iOS Safari zooms the whole page whenever a focused field's font-size is
+  under 16px — the chat composer auto-focuses on open, so tapping the
+  launcher zoomed the site. Lift every control to 16px on touch devices
+  only, so pointer devices keep the smaller type the design calls for.
+  The attribute selector just outweighs Tailwind's text-* utilities; the
+  alternative is !important on every field.
+*/
+@media (hover: none) and (pointer: coarse) {
+  input[class],
+  select[class],
+  textarea[class] {
+    font-size: 16px;
+  }
+}
