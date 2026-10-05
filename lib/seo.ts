@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
 /** Canonical production origin. Every absolute URL in metadata derives from it. */
-export const SITE_URL = "https://viramtech.com";
+// www is the served host: the bare domain 308-redirects to it, so canonicals
+// and the sitemap must name www or every one points at a redirect.
+export const SITE_URL = "https://www.viramtech.com";
 export const SITE_NAME = "ViramTech";
 export const SITE_DESCRIPTION =
   "ViramTech builds, deploys and scales enterprise AI systems that reach production — owned end to end and measured on the outcomes leadership already tracks.";

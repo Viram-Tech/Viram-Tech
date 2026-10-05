@@ -86,6 +86,16 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  // Search Console / Bing Webmaster ownership tags, emitted only once the
+  // codes are set. DNS verification needs neither, so both stay optional.
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } }
+      : {}),
+  },
 };
 
 /*

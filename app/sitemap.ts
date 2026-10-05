@@ -35,26 +35,28 @@ function parsedDate(value: string): Date | undefined {
   return Number.isNaN(d.getTime()) ? undefined : d;
 }
 
+/*
+ * Static, product and sector pages carry no lastModified: their copy lives in
+ * code and has no real edit date, and stamping every URL with the build time
+ * teaches Google the field is noise — it then ignores it for blog posts too.
+ * An honest absence beats a date that changes on every deploy.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
   const posts = await getBlogPosts();
 
   return [
     ...staticRoutes.map(({ path, priority }) => ({
       url: absoluteUrl(path),
-      lastModified: now,
       changeFrequency: "monthly" as const,
       priority,
     })),
     ...products.map((p) => ({
       url: absoluteUrl(`/products/${p.slug}`),
-      lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...sectors.map((s) => ({
       url: absoluteUrl(`/industries/${s.slug}`),
-      lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
@@ -66,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: absoluteUrl(`/blog/${post.slug}`),
         lastModified: post.updatedAt
           ? new Date(post.updatedAt)
-          : (parsedDate(post.date) ?? now),
+          : parsedDate(post.date),
         changeFrequency: "weekly" as const,
         priority: 0.6,
       })),

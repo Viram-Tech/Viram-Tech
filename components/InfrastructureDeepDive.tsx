@@ -19,9 +19,9 @@ export function InfrastructureDeepDive({
 }) {
   return (
     <div className={className}>
-      <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+      <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
         Infrastructure that scales with you
-      </h2>
+      </h1>
       <p className="mt-3 max-w-xl text-lg opacity-70">
         The backbone that keeps every solution running — portable, automated and
         secure enough for real production load.
