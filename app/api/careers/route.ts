@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { roles } from "@/lib/careers";
 import { saveApplication } from "@/lib/careers-notion";
+import { notifyNewApplication } from "@/lib/careers-notify";
 
 // Needs a request per call and must never be prerendered or cached.
 export const dynamic = "force-dynamic";
@@ -106,10 +107,12 @@ export async function POST(req: Request) {
   if (limited) return fail(limited, 429);
 
   try {
-    await saveApplication({
+    const notionUrl = await saveApplication({
       ...app,
       resume: new File([file], file.name, { type: type.mime }),
     });
+    // Sent after the response so the applicant isn't kept waiting.
+    after(() => notifyNewApplication(app, notionUrl));
   } catch (err) {
     console.error("[careers] saving to Notion failed:", err);
     return fail("Something went wrong on our side. Please try again later.", 502);

@@ -70,3 +70,32 @@ with people involved in hiring. Applicants consent to storage "for recruitment
 purposes". Decide how long you keep applications (e.g. 12 months) and delete
 older rows on that schedule; India's DPDP Act expects personal data not to be
 kept longer than needed.
+
+## New-application alerts
+
+Notion's own automations (⚡ → Page added → notify/email) need a paid plan,
+so the site sends the alert itself through EmailJS, the same account as the
+contact form (free tier: 200 emails a month). Optional; skipped until both
+variables below are set.
+
+1. **Allow server sending.** EmailJS → **Account → Security** → turn on
+   **Allow EmailJS API for non-browser applications**. On the same page,
+   copy the **Private Key**.
+2. **Make a template.** **Email Templates → Create New Template**. Set
+   **To Email** to whoever should be alerted (comma-separate several), the
+   subject to `New application: {{role}} – {{name}}`. For the content, open
+   **Edit Content → Code editor** and paste all of `email-template.html`
+   (in this folder): a branded card with the applicant's details and an
+   **Open résumé in Notion** button.
+
+   Save it and copy its **Template ID**.
+3. **Add both to `.env.local`** (and to the host's environment variables):
+
+   ```
+   EMAILJS_CAREERS_TEMPLATE_ID=<template id>
+   EMAILJS_PRIVATE_KEY=<private key>
+   ```
+
+The email has no résumé attached and is sent after the applicant sees
+"application is in"; if it fails, the application is still saved and the
+error is logged as `[careers] new-application email failed`.

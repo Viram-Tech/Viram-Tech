@@ -67,13 +67,14 @@ function richText(text: string) {
   return chunks.map((content) => ({ type: "text", text: { content } }));
 }
 
-export async function saveApplication(app: Application) {
+/** Saves the application and returns the new row's Notion URL. */
+export async function saveApplication(app: Application): Promise<string> {
   const name = `${app.firstName} ${app.lastName}`;
   const ext = app.resume.name.slice(app.resume.name.lastIndexOf(".")).toLowerCase();
   const fileName = `${name} – ${app.role}${ext}`.replace(/[\\/:*?"<>|]+/g, " ");
   const uploadId = await uploadResume(app.resume, fileName);
 
-  await notion("/pages", {
+  const page = await notion("/pages", {
     method: "POST",
     json: {
       parent: { database_id: process.env.NOTION_CAREERS_DATABASE_ID },
@@ -92,4 +93,5 @@ export async function saveApplication(app: Application) {
       },
     },
   });
+  return page.url;
 }
