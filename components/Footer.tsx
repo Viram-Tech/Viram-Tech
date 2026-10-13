@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaLinkedinIn } from "react-icons/fa6";
+import { SiTrustpilot, SiGlassdoor } from "react-icons/si";
+import { LogoLoop } from "./LogoLoop";
+import { recognitions, type Recognition } from "@/lib/recognitions";
 
 const groups = [
   {
@@ -29,6 +32,45 @@ const groups = [
     ],
   },
 ];
+
+/*
+ * "Featured & recognized on" badges, from content/recognitions.json. Without an
+ * `image` a text badge is drawn. While the file is empty, placeholders render
+ * in development only, so no unearned "Featured on" claim can ship.
+ */
+const devPlaceholders: Recognition[] = [
+  { name: "Platform one", href: "#", kicker: "Featured on" },
+  { name: "Platform two", href: "#", kicker: "Published on" },
+];
+
+const shownRecognitions =
+  recognitions.length > 0
+    ? recognitions
+    : process.env.NODE_ENV === "development"
+      ? devPlaceholders
+      : [];
+
+/*
+ * "Review us on …" buttons under the badges. Trustpilot's /evaluate/<domain>
+ * link opens its review form for viramtech.com (claim the profile at
+ * business.trustpilot.com to manage it). Glassdoor needs the company's own
+ * review URL (glassdoor.co.in/Reviews/…-E<id>.htm); until it's set the button
+ * shows in development only.
+ */
+const reviewLinks = [
+  {
+    name: "Trustpilot",
+    href: "https://www.trustpilot.com/evaluate/viramtech.com",
+    Icon: SiTrustpilot,
+    color: "#00B67A",
+  },
+  {
+    name: "Glassdoor",
+    href: "",
+    Icon: SiGlassdoor,
+    color: "#0CAA41",
+  },
+].filter((r) => r.href || process.env.NODE_ENV === "development");
 
 // Machine-readable renderings of the site, surfaced so both crawlers and people
 // can find them. All five are generated routes, not static files in /public:
@@ -74,6 +116,79 @@ export function Footer() {
             <p className="mt-5 text-sm leading-relaxed opacity-60">
               Accelerate your business growth with strength-driven technology.
             </p>
+            {shownRecognitions.length > 0 && (
+              <div className="mt-8">
+                <h3 className="font-[family-name:var(--font-jetbrains)] text-[11px] font-semibold uppercase tracking-[0.25em] opacity-50">
+                  Featured &amp; recognized on
+                </h3>
+                {/* Infinite logo loop between hairlines, faded at both ends
+                    (as on startupdeck.in); pauses on hover. */}
+                <div className="mt-4 border-y border-black/5 py-3 [mask-image:linear-gradient(to_right,transparent,#000_15%,#000_85%,transparent)] dark:border-white/10">
+                  <LogoLoop
+                    logos={shownRecognitions.map((r) => ({ node: r.name, title: r.name, href: r.href }))}
+                    speed={30}
+                    logoHeight={44}
+                    gap={12}
+                    pauseOnHover
+                    ariaLabel="Featured and recognized on"
+                    renderItem={(item) => {
+                      const r = shownRecognitions.find((x) => x.name === item.title)!;
+                      return (
+                        <a
+                          href={r.href}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          aria-label={`${r.kicker} ${r.name}`}
+                          className="block rounded-xl border border-black/5 bg-white/60 p-2 transition hover:-translate-y-0.5 hover:border-brand-sky/40 dark:border-white/10 dark:bg-white/[0.03]"
+                        >
+                          {r.image ? (
+                            // Third-party badge art, served by the platform.
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={r.image}
+                              alt={`${r.kicker} ${r.name}`}
+                              width={Number(r.width ?? 200)}
+                              height={Number(r.height ?? 54)}
+                              className="h-11 w-auto"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <span className="flex h-11 flex-col justify-center rounded-lg border border-black/10 bg-white px-3.5 dark:border-white/15 dark:bg-neutral-900">
+                              <span className="text-[9px] font-semibold uppercase tracking-[0.12em] opacity-55">
+                                {r.kicker}
+                              </span>
+                              <span className="text-sm font-bold leading-tight tracking-tight">
+                                {r.name}
+                              </span>
+                            </span>
+                          )}
+                        </a>
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            {reviewLinks.length > 0 && (
+              <div className="mt-4 flex gap-2">
+                {reviewLinks.map(({ name, href, Icon, color }) => (
+                  <a
+                    key={name}
+                    href={href || "#"}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{ borderColor: `${color}66` }}
+                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border bg-neutral-100 px-2 py-1.5 text-[11px] font-medium text-neutral-900 transition hover:-translate-y-0.5 hover:bg-white"
+                  >
+                    Review us on
+                    <span className="flex items-center gap-1 font-semibold">
+                      <Icon size={13} style={{ color }} aria-hidden />
+                      {name}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            )}
             <p className="mt-4 text-sm leading-relaxed opacity-60">
               Mumbai, Maharashtra · India
             </p>
