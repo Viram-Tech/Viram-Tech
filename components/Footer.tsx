@@ -28,6 +28,7 @@ const groups = [
       { label: "For Startups", href: "/for-startups" },
       { label: "Our Work", href: "/work" },
       { label: "Insights", href: "/blog" },
+      { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -83,12 +84,13 @@ const crawlerFiles = [
   { label: "sitemap.xml", href: "/sitemap.xml" },
 ];
 
-export function Footer() {
+// `wide` switches to the careers-page container so the footer lines up with it.
+export function Footer({ wide = false }: { wide?: boolean }) {
   const year = new Date().getFullYear();
 
   return (
     <footer className="border-t border-black/5 dark:border-white/10">
-      <div className="mx-auto max-w-6xl px-6 py-14">
+      <div className={`${wide ? "careers-container" : "mx-auto max-w-6xl px-6"} py-14`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           {/* Brand */}
           <div className="max-w-xs">

@@ -1,0 +1,94 @@
+[
+  {
+    "slug": "ai-engineer",
+    "title": "AI Engineer",
+    "team": "Engineering",
+    "location": "Mumbai · Hybrid",
+    "type": "Full-time",
+    "summary": "Build the AI systems behind our products and services — LLM apps, retrieval and agents — and keep them running for the clients who depend on them.",
+    "responsibilities": [
+      "Design and ship LLM-powered features: RAG pipelines, agents, tool use and workflows",
+      "Own evaluation: test sets, metrics and regression checks before every release",
+      "Take systems to production with sensible latency, cost and monitoring",
+      "Run and improve the AI-powered services we deliver for clients",
+      "Work directly with clients to turn fuzzy problems into measurable ones"
+    ],
+    "requirements": [
+      "2+ years building software that reached real users",
+      "Strong Python or TypeScript",
+      "Hands-on experience with LLM APIs, retrieval or agent frameworks",
+      "Clear written communication"
+    ]
+  },
+  {
+    "slug": "full-stack-engineer",
+    "title": "Full-Stack Engineer",
+    "team": "Engineering",
+    "location": "Mumbai · Hybrid",
+    "type": "Full-time",
+    "summary": "Build the interfaces, APIs and integrations that put our AI products and services in front of enterprise users.",
+    "responsibilities": [
+      "Ship product features end to end across React / Next.js and Node or Python services",
+      "Integrate AI pipelines with client systems, data stores and auth",
+      "Keep things fast, accessible and observable in production"
+    ],
+    "requirements": [
+      "2+ years of professional full-stack work",
+      "Comfortable with TypeScript, React and a backend language of your choice",
+      "Experience with cloud deployment (AWS, GCP or Azure)"
+    ]
+  },
+  {
+    "slug": "ai-solutions-consultant",
+    "title": "AI Solutions Consultant",
+    "team": "Solutions",
+    "location": "Mumbai · On-site",
+    "type": "Full-time",
+    "summary": "Be the bridge between clients and our team — scoping engagements, shaping AI-powered solutions and services, and seeing them through to value.",
+    "responsibilities": [
+      "Run discovery with client stakeholders and map where AI pays off",
+      "Scope pilots and service engagements with clear success criteria and timelines",
+      "Partner with engineering through delivery and handover"
+    ],
+    "requirements": [
+      "3+ years in consulting, solutions engineering or technical product roles",
+      "Working understanding of modern AI capabilities and their limits",
+      "Confident presenting to senior business and technical audiences"
+    ]
+  },
+  {
+    "slug": "ai-research-intern",
+    "title": "AI Research Intern",
+    "team": "Engineering",
+    "location": "Mumbai · On-site",
+    "type": "Internship",
+    "summary": "Six months on a real problem with a mentor — prototyping, benchmarking and writing up what you learn.",
+    "responsibilities": [
+      "Prototype and benchmark approaches for an active client or product problem",
+      "Read papers, reproduce results and report findings clearly"
+    ],
+    "requirements": [
+      "Currently studying or recently graduated in CS, maths or a related field",
+      "Solid Python and ML fundamentals",
+      "A project, notebook or repo you're proud of"
+    ]
+  },
+  {
+    "slug": "full-stack-intern",
+    "title": "Full-Stack Intern",
+    "team": "Engineering",
+    "location": "Mumbai · On-site",
+    "type": "Internship",
+    "summary": "Six months shipping real features with a mentor — from the interface to the API to the database.",
+    "responsibilities": [
+      "Build and ship features across React / Next.js frontends and Node or Python services",
+      "Help connect our AI systems to the apps, dashboards and services clients use",
+      "Write clean, tested code and learn how production systems are run"
+    ],
+    "requirements": [
+      "Currently studying or recently graduated in CS or a related field",
+      "Comfortable with JavaScript / TypeScript and the basics of React",
+      "A project, app or repo you're proud of"
+    ]
+  }
+]

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { products, sectors } from "@/lib/content";
 import { getBlogPosts } from "@/lib/blog";
+import { roles } from "@/lib/careers";
 import { absoluteUrl } from "@/lib/seo";
 
 // Rebuilt hourly so newly published Sanity posts show up without a redeploy.
@@ -20,6 +21,7 @@ const staticRoutes: { path: string; priority: number }[] = [
   { path: "/for-startups", priority: 0.8 },
   { path: "/blog", priority: 0.8 },
   { path: "/work", priority: 0.7 },
+  { path: "/careers", priority: 0.6 },
   { path: "/technology", priority: 0.7 },
   { path: "/technology/architecture", priority: 0.6 },
   { path: "/technology/infrastructure", priority: 0.6 },
@@ -59,6 +61,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl(`/industries/${s.slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...roles.map((r) => ({
+      url: absoluteUrl(`/careers/${r.slug}`),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
     })),
     // A post flagged noIndex stays reachable on /blog but must not be
     // submitted for indexing — advertising it here contradicts its robots tag.

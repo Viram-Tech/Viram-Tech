@@ -9,7 +9,8 @@ const HIDE_FOOTER_ON = ["/work"];
 export function SiteFooter() {
   const pathname = usePathname();
   if (HIDE_FOOTER_ON.includes(pathname)) return null;
-  return <Footer />;
+  const careers = pathname === "/careers" || pathname.startsWith("/careers/");
+  return <Footer wide={careers} />;
 }
 
 export default SiteFooter;

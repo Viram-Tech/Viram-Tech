@@ -24,6 +24,7 @@ import {
   LuMail,
   LuNewspaper,
   LuRocket,
+  LuBriefcase,
 } from "react-icons/lu";
 import { products, sectors, foundation } from "@/lib/content";
 
@@ -122,6 +123,7 @@ const mobileMenus: Record<
         label: "ViramTech for Startups",
         note: "Enterprise-grade AI at startup speed",
       },
+      { href: "/careers", label: "Careers", note: "Build and deliver AI with us" },
     ],
   },
 };
@@ -560,6 +562,25 @@ export function Navbar() {
                     </span>
                     <span className="mt-0.5 block text-xs opacity-55">
                       Enterprise-grade AI at startup speed
+                    </span>
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/careers"
+                  onClick={() => setMenu(null)}
+                  className="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition hover:bg-black/5 dark:hover:bg-white/5"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400">
+                    <LuBriefcase size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-bold tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400">
+                      Careers
+                    </span>
+                    <span className="mt-0.5 block text-xs opacity-55">
+                      Build and deliver AI with us
                     </span>
                   </span>
                 </Link>
