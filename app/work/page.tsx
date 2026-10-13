@@ -1,4 +1,5 @@
-import { HeroParallax, type Project } from "@/components/HeroParallax";
+import { HeroParallax } from "@/components/HeroParallax";
+import { projects } from "@/lib/work";
 import { buildMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 import { graph, breadcrumbSchema } from "@/lib/schema";
@@ -9,46 +10,9 @@ export const metadata = buildMetadata({
   path: "/work",
 });
 
-// ──────────────────────────────────────────────────────────────────────────
-// Projects shown in the Our Work parallax.
-//   link    → the live URL (opens in a new tab)
-//   image   → optional screenshot. Drop a file in /public/work/ and set e.g.
-//             image: "/work/aircalibre.png". If omitted, a branded card shows.
-//   subtitle→ short tag shown on hover
-//
-// Order matters: the top row shows the first three, the bottom row the last
-// three — so projects[0] appears only up top and the last only down below.
-// ──────────────────────────────────────────────────────────────────────────
-const projects: Project[] = [
-  {
-    title: "Shrutsanjeevan",
-    subtitle: "Web platform",
-    link: "https://www.shrutsanjivan.com",
-    image: "/work/shrutsanjeevan.png",
-    gradient: "from-[#597CBD] to-[#14284E]",
-  },
-  {
-    title: "Cabin Zindagi",
-    subtitle: "Web platform",
-    link: "https://cabinzindagi.com",
-    image: "/work/cabin-zindagi.png",
-    gradient: "from-[#597CBD] to-[#2A3E77]",
-  },
-  {
-    title: "Air Matters",
-    subtitle: "Web platform",
-    link: "https://yairmatters.com",
-    image: "/work/yairmatters.png",
-    gradient: "from-[#3F56A4] to-[#14284E]",
-  },
-  {
-    title: "AirCalibre",
-    subtitle: "Web platform",
-    link: "https://aircalibre.com",
-    image: "/work/aircalibre.png",
-    gradient: "from-[#33A5DB] to-[#14284E]",
-  },
-];
+// Projects live in content/work.json (screenshots in public/work/) — add a new
+// one there; see content/README.md. Order matters: the first project sits
+// top-right of the parallax, the last bottom-left.
 
 export default function Work() {
   return (

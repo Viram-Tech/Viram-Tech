@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Shrutsanjeevan",
+    "subtitle": "Web platform",
+    "link": "https://www.shrutsanjivan.com",
+    "image": "/work/shrutsanjeevan.png"
+  },
+  {
+    "title": "Cabin Zindagi",
+    "subtitle": "Web platform",
+    "link": "https://cabinzindagi.com",
+    "image": "/work/cabin-zindagi.png"
+  },
+  {
+    "title": "Air Matters",
+    "subtitle": "Web platform",
+    "link": "https://yairmatters.com",
+    "image": "/work/yairmatters.png"
+  },
+  {
+    "title": "AirCalibre",
+    "subtitle": "Web platform",
+    "link": "https://aircalibre.com",
+    "image": "/work/aircalibre.png"
+  }
+]

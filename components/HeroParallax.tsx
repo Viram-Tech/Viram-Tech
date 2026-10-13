@@ -21,11 +21,11 @@ export type Project = {
 };
 
 export function HeroParallax({ projects }: { projects: Project[] }) {
-  // Top row: just two cards, rendered right-to-left so projects[0] lands
-  // top-right. Bottom row: the remaining projects in reverse, which keeps the
-  // last one (AirCalibre) bottom-left as the rows drift in opposite directions.
-  const firstRow = projects.slice(0, 2);
-  const secondRow = projects.slice(1).reverse();
+  // Two projects per row, in order. Rows alternate: even rows drift one way
+  // and are right-aligned (so projects[0] lands top-right); odd rows drift the
+  // other way with a half-card brick offset, rendered in reverse.
+  const rows: Project[][] = [];
+  for (let i = 0; i < projects.length; i += 2) rows.push(projects.slice(i, i + 2));
 
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -67,7 +67,9 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
   return (
     <div
       ref={ref}
-      className="relative flex flex-col self-auto overflow-hidden pb-16 pt-24 antialiased lg:h-[200vh] lg:pt-40 lg:[perspective:1000px] lg:[transform-style:preserve-3d]"
+      // Two rows fit the base height; each one beyond adds a card (30rem) + gap (3rem).
+      style={{ "--extra-rows": Math.max(0, rows.length - 2) } as React.CSSProperties}
+      className="relative flex flex-col self-auto overflow-hidden pb-16 pt-24 antialiased lg:h-[calc(200vh+var(--extra-rows)*33rem)] lg:pt-40 lg:[perspective:1000px] lg:[transform-style:preserve-3d]"
     >
       <Header />
 
@@ -76,21 +78,25 @@ export function HeroParallax({ projects }: { projects: Project[] }) {
         className="hidden lg:block"
         style={{ rotateX, rotateZ, translateY, opacity }}
       >
-        <motion.div className="mb-12 flex flex-row-reverse space-x-6 space-x-reverse">
-          {firstRow.map((p) => (
-            <ProjectCard project={p} translate={translateX} key={`r1-${p.title}`} />
-          ))}
-        </motion.div>
-        {/* Offset the bottom row by ~half a card so it staggers (brick layout). */}
-        <motion.div className="flex translate-x-[28rem] flex-row space-x-12">
-          {secondRow.map((p, i) => (
-            <ProjectCard
-              project={p}
-              translate={translateXReverse}
-              key={`r2-${i}-${p.title}`}
-            />
-          ))}
-        </motion.div>
+        {rows.map((row, r) =>
+          r % 2 === 0 ? (
+            <motion.div
+              key={`row-${r}`}
+              className={`flex flex-row-reverse space-x-6 space-x-reverse ${r > 0 ? "mt-12" : ""}`}
+            >
+              {row.map((p) => (
+                <ProjectCard project={p} translate={translateX} key={p.title} />
+              ))}
+            </motion.div>
+          ) : (
+            // Offset by ~half a card so it staggers (brick layout).
+            <motion.div key={`row-${r}`} className="mt-12 flex translate-x-[28rem] flex-row space-x-12">
+              {[...row].reverse().map((p) => (
+                <ProjectCard project={p} translate={translateXReverse} key={p.title} />
+              ))}
+            </motion.div>
+          ),
+        )}
       </motion.div>
 
       {/* Mobile / tablet: simple tappable stack */}
