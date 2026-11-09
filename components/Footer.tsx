@@ -37,26 +37,21 @@ const groups = [
 /*
  * "Featured & recognized on" badges, from content/recognitions.json. Without an
  * `image` a text badge is drawn. While the file is empty, placeholders render
- * in development only, so no unearned "Featured on" claim can ship.
+ * (in production too) so the section keeps its place until real ones exist.
  */
-const devPlaceholders: Recognition[] = [
+const placeholders: Recognition[] = [
   { name: "Platform one", href: "#", kicker: "Featured on" },
   { name: "Platform two", href: "#", kicker: "Published on" },
 ];
 
-const shownRecognitions =
-  recognitions.length > 0
-    ? recognitions
-    : process.env.NODE_ENV === "development"
-      ? devPlaceholders
-      : [];
+const shownRecognitions = recognitions.length > 0 ? recognitions : placeholders;
 
 /*
  * "Review us on …" buttons under the badges. Trustpilot's /evaluate/<domain>
  * link opens its review form for viramtech.com (claim the profile at
  * business.trustpilot.com to manage it). Glassdoor needs the company's own
  * review URL (glassdoor.co.in/Reviews/…-E<id>.htm); until it's set the button
- * shows in development only.
+ * shows as a placeholder linking nowhere.
  */
 const reviewLinks = [
   {
@@ -71,7 +66,7 @@ const reviewLinks = [
     Icon: SiGlassdoor,
     color: "#0CAA41",
   },
-].filter((r) => r.href || process.env.NODE_ENV === "development");
+];
 
 // Machine-readable renderings of the site, surfaced so both crawlers and people
 // can find them. All five are generated routes, not static files in /public:
